@@ -503,6 +503,7 @@ body.post .bf{display:none!important}
   document.getElementById('stops').innerHTML=stops.map(function(s,k){return '<li><i>'+(k+1)+'</i><div><b>'+s[0]+'</b><span>'+s[1]+'</span></div></li>'}).join('');
   document.getElementById('bridge').innerHTML='Программа «'+esc(p.prog)+'» — одна из 8 программ клуба KEEB FIT. Внутри я веду тебя по ней 4 недели: план на каждый день, техника, питание и я в чате.';
   document.getElementById('tg').href=window.KF?KF.bot('plan'):'https://t.me/keebfit_bot';
+  if(window.KF&&KF.tg){document.getElementById('tg').style.display='none';KF.sendPlan()}
   document.querySelectorAll('.pg').forEach(function(g){if(g.getAttribute('data-n')===p.prog)g.classList.add('mine')});
   var el=document.getElementById('whyme');
   if(el&&said.length)el.innerHTML=(nm?nm+', т':'Т')+'ы отметила: <b>'+esc(said.join(', '))+'</b>. Норма у тебя теперь есть, упражнения есть на YouTube. Не хватало не информации, а системы и человека рядом, который держит, когда всё летит.';

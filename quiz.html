@@ -284,7 +284,7 @@ function render(){
   main.innerHTML='<div class="k">И да</div><h1>Это всё <span>можно</span></h1><p class="sub">Мы не запрещаем любимые продукты, потому что запреты = срывы.</p><div class="note">Вместо этого ты научишься: есть любимое без чувства вины, не переедать и при этом снижать вес.</div><div class="quote"><p>Именно поэтому результат остаётся с тобой, а не откатывается назад.</p></div>';
   btn('Дальше',true,next);return}
  if(s.t==='notweak'){
-  main.innerHTML='<div class="k">Скорее всего</div><h1>Ты уже <span>пробовала</span></h1><ul class="list"><li>Диеты</li><li>«Начать новую жизнь с понедельника»</li><li>Тренировки через силу</li></ul><p class="sub">И каждый раз заканчивалось одинаково.</p><div class="note"><b>Ты не слабая.</b> Тебе просто не дали систему, которая реально работает в жизни.</div><p class="sub">Мои клиентки. Кто-то занимался со мной раньше, кто-то тренируется сейчас:</p>'+collage();
+  main.innerHTML='<div class="k">Скорее всего</div><h1>Ты уже <span>пробовала</span></h1><ul class="list"><li>Диеты</li><li>«Начать новую жизнь»</li><li>Тренировки через силу</li></ul><p class="sub">И каждый раз заканчивалось одинаково.</p><div class="note">Потому что у тебя <b>нет понятной пошаговой системы действий.</b></div><p class="sub">Именно эту систему я передаю клиенткам, с которыми мы строим идеальные «модельные» фигуры.</p><p class="sub">Мои клиентки. Кто-то занимался со мной раньше, кто-то тренируется сейчас:</p>'+collage();
   btn('Дальше',true,next);return}
  if(s.t==='name'){
   main.innerHTML='<div class="k">'+esc(s.k)+'</div><h1>'+s.q+'</h1><p class="sub">Чтобы план был твоим</p><input class="txt" id="nm" type="text" autocomplete="given-name" placeholder="Имя" value="'+esc(A.name||'')+'">';
@@ -297,6 +297,7 @@ function render(){
  if(s.t==='result'){location.hash='result';showResult();return}
 }
 function showResult(){
+ if(window.KF&&KF.sendPlan)KF.sendPlan();
  var p=null;try{p=JSON.parse(localStorage.getItem('kf-plan')||'null')}catch(e){}
  if(!p)p=window.__kfPlan||null;
  if(!p){i=0;render();return}
@@ -317,7 +318,7 @@ function showResult(){
  var PR=['Песочные часы','Песочные часы 2.0','Талия-струна','Осанка балерины','Целая я','Лёгкость','Сила: низ','Сила: верх'],OB={food:'f',system:'s',motiv:'m',tired:'t',alone:'a',how:'h'};
  var rc=['route',Math.max(0,PR.indexOf(p.prog)),p.kcal,p.prot,{home:'h',gym:'g',both:'b'}[p.place]||'h',p.time||'30',p.kg||0,p.weeks?p.weeks[0]:0,p.weeks?p.weeks[1]:0,(p.obst||[]).map(function(o){return OB[o]||''}).join('')||'x'].join('-');
  foot.innerHTML='<a class="go" href="index.html#'+rc+'">Дальше: как я тебя поведу →</a>'
-  +'<a class="alt" href="'+KF.bot('plan')+'" target="_blank" rel="noopener">Сохранить результат в Telegram</a>'
+  +(KF.tg?'<p class="sub" style="text-align:center;margin-top:10px">✓ План уже отправлен тебе в Telegram</p>':'<a class="alt" href="'+KF.bot('plan')+'" target="_blank" rel="noopener">Сохранить результат в Telegram</a>')
   +'<button class="alt" type="button" id="again">Пройти заново</button>';
  document.getElementById('again').onclick=function(){try{localStorage.removeItem('kf-plan')}catch(e){}hist=[];i=0;history.replaceState(null,'',location.pathname);render()};
 }

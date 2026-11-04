@@ -17,7 +17,16 @@
     var G={lose_s:'s',lose_m:'m',lose_l:'l',tone:'t',start:'n'},P={home:'h',gym:'g',both:'b'},O={food:'f',system:'s',motiv:'m',tired:'t',alone:'a',how:'h'};
     return '_'+(G[q.goal]||'x')+'_'+(P[q.place]||'x')+'_'+(q.kids==='yes'?'y':'n')+'_'+((q.obst||[]).map(function(o){return O[o]||''}).join('')||'x');
   }
-  window.KF={plan:plan,bot:function(tag){return BOT+(tag?'?start='+tag+code():'')},root:ROOT};
+  // she came from the bot: its quiz link carries ?u=<telegram id>.<signature>; keep it so the result goes to her chat by itself
+  var API='https://keebfit-bot-production.up.railway.app/quiz';
+  var um=/[?&]u=(\d{3,15}\.[0-9a-f]{12})(?:&|$)/.exec(location.search);if(um)set('kf-tg',um[1]);
+  var TG=get('kf-tg');
+  function sendPlan(){
+    var c=code();if(!TG||!c)return;
+    var tag='plan'+c;if(get('kf-tg-sent')===tag)return;
+    try{fetch(API,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify({u:TG,code:tag})}).then(function(r){if(r.ok)set('kf-tg-sent',tag)}).catch(function(){})}catch(e){}
+  }
+  window.KF={plan:plan,bot:function(tag){return BOT+(tag?'?start='+tag+code():'')},root:ROOT,tg:!!TG,sendPlan:sendPlan};
   if(STEP==='quiz'||STEP==='site')return;  // the site and the quiz keep one action per screen, no step bar
   function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
   var css='.kfp,.kfp *{box-sizing:border-box}.kfp{position:sticky;top:0;z-index:60;background:#1B1416;color:#F7EFE4;font:600 13px/1.25 Manrope,-apple-system,Arial,sans-serif;padding:8px max(12px,env(safe-area-inset-left,0px)) 9px}'
