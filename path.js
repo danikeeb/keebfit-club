@@ -15,7 +15,10 @@
   function code(){
     var q=get('kf-quiz');if(!q||!get('kf-plan'))return '';
     var G={lose_s:'s',lose_m:'m',lose_l:'l',tone:'t',start:'n'},P={home:'h',gym:'g',both:'b'},O={food:'f',system:'s',motiv:'m',tired:'t',alone:'a',how:'h'};
-    return '_'+(G[q.goal]||'x')+'_'+(P[q.place]||'x')+'_'+(q.kids==='yes'?'y':'n')+'_'+((q.obst||[]).map(function(o){return O[o]||''}).join('')||'x');
+    var p=get('kf-plan'),PR=['Песочные часы','Песочные часы 2.0','Талия-струна','Осанка балерины','Целая я','Лёгкость','Сила: низ','Сила: верх'];
+    // + program index, kcal, protein, minutes per workout, kg to lose: the bot repeats her result (message 5.1)
+    return '_'+(G[q.goal]||'x')+'_'+(P[q.place]||'x')+'_'+(q.kids==='yes'?'y':'n')+'_'+((q.obst||[]).map(function(o){return O[o]||''}).join('')||'x')
+      +'_'+Math.max(0,PR.indexOf(p.prog))+'_'+(p.kcal|0)+'_'+(p.prot|0)+'_'+(parseInt(p.time,10)||30)+'_'+Math.round(p.kg||0);
   }
   // she came from the bot: its quiz link carries ?u=<telegram id>.<signature>; keep it so the result goes to her chat by itself
   var API='https://keebfit-bot-production.up.railway.app/quiz';
