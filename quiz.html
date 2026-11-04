@@ -1,0 +1,328 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Подбор программы · Keeb Fit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Manrope:wght@500;600;700;800&display=swap">
+<style>
+/* Layout: one-question-per-screen quiz in the site's poster style. Progress bar on top, card in the middle, one main button at the bottom. Questions alternate with proof screens (client results, quotes, charts). Ends on a personal plan that saves to the browser and personalises the site. */
+:root{--paper:#F7EFE4;--paper2:#F1E3D3;--berry:#E2385F;--ink:#1B1416;--soft:#FFD9E2;--white:#FFFDF9;--mut:#6B5A5E;--grey:#B9AEA8;
+  --display:'Dela Gothic One','Arial Black',Impact,sans-serif;--body:Manrope,-apple-system,'Segoe UI',Arial,sans-serif;color-scheme:light}
+*{box-sizing:border-box;margin:0}
+[hidden]{display:none!important}
+html,body{min-height:100%}
+body{background:var(--paper);color:var(--ink);font:600 16px/1.45 var(--body);-webkit-font-smoothing:antialiased}
+.wrap{max-width:480px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column;padding-block:calc(14px + env(safe-area-inset-top,0px)) calc(18px + env(safe-area-inset-bottom,0px));padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.top{display:flex;align-items:center;gap:12px;min-height:32px}
+.back{border:0;background:none;font:800 22px/1 var(--body);color:var(--ink);cursor:pointer;padding:4px 6px;visibility:hidden}
+.bar{flex:1;height:8px;border-radius:99px;background:var(--paper2);overflow:hidden;border:2px solid var(--ink)}
+.bar i{display:block;height:100%;width:0;background:var(--berry);transition:width .3s}
+.logo{font:400 15px/1 var(--display)}.logo b{color:var(--berry);font-weight:400}
+main{flex:1;display:flex;flex-direction:column;gap:16px;padding-top:22px}
+.k{font:800 12px/1 var(--body);letter-spacing:.12em;text-transform:uppercase;color:var(--berry)}
+h1{font:400 clamp(25px,7.2vw,33px)/1.06 var(--display);text-transform:uppercase;text-wrap:balance}
+h1 span{color:var(--berry)}
+.sub{color:var(--mut);font-size:15px}
+.opts{display:grid;gap:10px}
+.opt{display:flex;align-items:center;gap:12px;width:100%;text-align:left;border:3px solid var(--ink);border-radius:16px;background:var(--white);padding:13px 16px;font:700 16px/1.3 var(--body);color:var(--ink);cursor:pointer;box-shadow:4px 4px 0 var(--ink)}
+.opt::before{content:"";flex:none;width:20px;height:20px;border:2.5px solid var(--ink);border-radius:50%;background:var(--white)}
+.opt.m::before{border-radius:6px}
+.opt[aria-pressed="true"]{background:var(--soft)}
+.opt[aria-pressed="true"]::before{background:var(--berry);box-shadow:inset 0 0 0 3px var(--white)}
+.opt:focus-visible,.go:focus-visible,.alt:focus-visible{outline:3px solid var(--berry);outline-offset:3px}
+.sl{border:3px solid var(--ink);border-radius:18px;background:var(--white);padding:16px;display:grid;gap:8px}
+.sl .v{display:flex;justify-content:space-between;align-items:baseline}
+.sl .v b{font:400 34px/1 var(--display)}
+.sl .v span{font-weight:800;color:var(--mut)}
+input[type=range]{width:100%;accent-color:var(--berry);height:28px}
+.note{border-radius:14px;background:var(--soft);padding:12px 14px;font-size:15px}
+.note b{color:var(--berry)}
+.txt{width:100%;border:3px solid var(--ink);border-radius:16px;padding:14px 16px;font:700 18px/1.2 var(--body);background:var(--white);color:var(--ink)}
+.shot{border:3px solid var(--ink);border-radius:20px;background:var(--white);overflow:hidden}
+.shot img{display:block;width:100%;max-width:100%;max-height:52vh;object-fit:contain;background:#111;border-bottom:3px solid var(--ink)}
+.shot div{padding:14px 16px;display:grid;gap:6px}
+.shot big{font:400 26px/1 var(--display);color:var(--berry)}
+.quote{border:3px solid var(--ink);border-radius:20px;background:var(--white);padding:18px;display:grid;gap:10px;box-shadow:5px 5px 0 var(--ink)}
+.quote p{font-size:18px;font-weight:700;line-height:1.4}
+.quote span{color:var(--mut);font-size:14px;font-weight:800}
+.state{border:3px solid var(--ink);border-radius:20px;background:var(--white);padding:20px;font:700 20px/1.3 var(--body);box-shadow:5px 5px 0 var(--ink)}
+.foot{display:grid;gap:10px;padding-top:18px}
+.go{display:block;width:100%;border:3px solid var(--ink);border-radius:18px;background:var(--berry);color:var(--white);font:400 18px/1 var(--display);text-transform:uppercase;padding:17px;cursor:pointer;box-shadow:5px 5px 0 var(--ink);text-align:center;text-decoration:none}
+.go:disabled{opacity:.4;cursor:default;box-shadow:none}
+.go.w{background:var(--white);color:var(--ink)}
+.alt{display:block;text-align:center;font-weight:800;color:var(--ink);text-decoration:underline;text-underline-offset:4px;background:none;border:0;cursor:pointer;font-size:15px;padding:6px}
+.load{flex:1;display:grid;place-items:center;text-align:center;gap:14px}
+.spin{width:64px;height:64px;border:6px solid var(--paper2);border-top-color:var(--berry);border-radius:50%;animation:sp 1s linear infinite;margin:0 auto}
+@keyframes sp{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){.spin{animation:none}.bar i{transition:none}}
+.chart{border:3px solid var(--ink);border-radius:20px;background:var(--white);padding:12px}
+.chart svg{display:block;width:100%;height:auto}
+.legend{display:flex;gap:14px;font-size:12px;font-weight:800;color:var(--mut);margin-bottom:6px}
+.legend i{display:inline-block;width:16px;height:3px;vertical-align:middle;margin-right:5px;background:var(--grey)}
+.legend i.b{background:var(--berry)}
+.cmp2{display:grid;gap:8px}
+.cmp2 div{border-radius:14px;padding:10px 14px;font-size:14px}
+.cmp2 .d{background:var(--paper2);color:var(--mut)}
+.cmp2 .k2{background:var(--soft)}
+.cmp2 b{display:block;font-size:15px;color:var(--ink)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips span{border:2px solid var(--ink);border-radius:99px;padding:5px 12px;font-weight:800;font-size:13px;background:var(--white)}
+.chips.p span{background:var(--soft);border-color:var(--berry);color:var(--berry)}
+.list{display:grid;gap:6px;padding-left:20px}
+.collage{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+.collage figure{margin:0;display:grid;gap:3px}
+.collage img{width:100%;aspect-ratio:3/4;object-fit:cover;border:2px solid var(--ink);border-radius:12px;display:block}
+.collage figcaption{font-size:11px;font-weight:800;text-align:center}
+.hero{display:grid;gap:14px}
+.hero img{width:100%;max-width:100%;aspect-ratio:1/1;object-fit:cover;object-position:50% 25%;border:3px solid var(--ink);border-radius:24px;box-shadow:6px 6px 0 var(--berry)}
+.plan{border:3px solid var(--ink);border-radius:22px;background:var(--white);overflow:hidden;box-shadow:6px 6px 0 var(--ink)}
+.plan .row{padding:14px 16px;border-bottom:2px solid var(--paper2);display:grid;gap:3px}
+.plan .row:last-child{border-bottom:0}
+.plan .l{font:800 11px/1 var(--body);letter-spacing:.1em;text-transform:uppercase;color:var(--mut)}
+.plan .big{font:400 22px/1.1 var(--display)}
+.plan .big span{color:var(--berry)}
+.mac{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin-top:6px}
+.mac div{background:var(--paper);border-radius:10px;padding:6px;text-align:center;font-size:12px;color:var(--mut)}
+.mac b{display:block;font:400 16px/1.1 var(--display);color:var(--ink)}
+.help{display:grid;gap:8px}
+.help div{border-left:4px solid var(--berry);padding-left:10px;font-size:15px}
+.help b{display:block}
+.inside{display:grid;gap:6px;padding-left:20px;font-size:15px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><button class="back" id="back" type="button" aria-label="Назад">←</button><div class="bar" aria-hidden="true"><i id="bar"></i></div><span class="logo">KEEB<b>FIT</b></span></div>
+  <main id="main" aria-live="polite"></main>
+  <div class="foot" id="foot"></div>
+</div>
+<script src="path.js" data-root="" data-step="quiz"></script>
+<script>
+(function(){
+var A={focus:[],obst:[],limits:[],sympt:[],feel:[],foodlim:[],crave:[],age:28,h:165,w:62,target:57,name:''};
+try{var sv=JSON.parse(localStorage.getItem('kf-quiz')||'null');if(sv)A=Object.assign(A,sv)}catch(e){}
+function save(){try{localStorage.setItem('kf-quiz',JSON.stringify(A))}catch(e){}}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+function lose(){return /lose/.test(A.goal)}
+function has(k,v){return (A[k]||[]).indexOf(v)>=0}
+
+// client proof from the site: before/after shots and quotes from the "fears" block
+var SHOT={
+ polina:{img:'img/results_7.jpg',big:'−17 см за месяц',who:'Полина · 1 месяц',txt:'Не могла присесть, не потеряв равновесие. Минус 3 кг и минус 17 см суммарно, на 2000 ккал и без голода.'},
+ dora:{img:'img/results_2.jpg',big:'Полное преображение',who:'Дора · 2,5 месяца',txt:'Пришла с диким страхом зала и тренировалась в рашгарде. Талия минус 5 см, бёдра минус 4 см, и совсем другое тело.'},
+ alina:{img:'img/results_alina.jpg',big:'−14 см',who:'Алина · 2 месяца',txt:'Грудь минус 4 см, талия минус 4, бёдра минус 6 и всего минус 4 кг. Ушёл жир, а тело стало плотнее. Начинала с 1700 ккал и 150 г белка, без голода.'},
+ zaituna:{img:'img/results_3.jpg',big:'22 дня',who:'Зайтуна',txt:'Запрос был не похудеть, а качество тела. Минус 3 кг и совершенно другое тело, без голодовок.'}};
+var Q={
+ arina:['Я реально боялась, что стану как мужик. Занималась 4 месяца и стала просто упругой и подтянутой.','Арина, 23 · 3 месяца'],
+ masha:['Работа, ребёнок, муж. Мы нашли 3 тренировки в неделю, и минус 8 кг за 5 месяцев без ущерба для семьи.','Оля, 31 · 5 месяцев'],
+ katya:['Три раза записывалась в зал и три раза бросала. Впервые я дошла до результата.','Катя, 27 · 4 месяца'],
+ nadya:['Ждала, когда буду достаточно в форме. Пришла с 20+ лишними кг, сейчас минус 17.','Надя, 29 · 11 месяцев'],
+ liza:['После двух травм у меня была фобия. Начали мягко, и ни одной травмы за 6 месяцев.','Света, 34 · 6 месяцев'],
+ vika:['Тренировалась в углу и избегала свободных весов. Теперь хожу в зал спокойно и уверенно.','Вика, 25 · 7 месяцев']};
+var GIRLS=[['girl_5','Саша'],['girl_13','Диана'],['girl_7','Наташа'],['girl_8','Лера'],['girl_12','Лиза'],['girl_11','Инна'],['girl_2','Александра'],['girl_10','Диана'],['girl_3','Нина']];
+
+var S=[
+ {t:'intro'},
+ {t:'one',key:'goal',k:'Цель',q:'Какая у тебя <span>цель</span> сейчас?',o:[['lose_s','Мягко похудеть, до 7 кг'],['lose_m','Минус 7–15 кг'],['lose_l','Больше 15 кг'],['tone','Подтянуть тело и сделать его рельефнее'],['start','Пока не понимаю, хочу начать']]},
+ {t:'one',key:'kids',k:'О тебе',q:'Есть ли у тебя <span>дети?</span>',o:[['yes','Да'],['no','Нет']]},
+ {t:'slider',key:'age',k:'О тебе',q:'Сколько тебе <span>лет?</span>',min:16,max:65,u:'лет'},
+ {t:'hw',k:'О тебе',q:'Рост <span>и вес</span>',sub:'Двигай ползунки для точного расчёта'},
+ {t:'target',k:'Цель',q:'Какой вес тебе откликается как <span>«мой идеальный»?</span>',skip:function(){return !lose()}},
+ {t:'diets'},
+ {t:'shot',id:'polina'},
+ {t:'multi',key:'sympt',k:'Самочувствие',q:'Есть ли сейчас что-то <span>из этого?</span>',sub:'Можно выбрать несколько',o:[['swell','Отёки, целлюлит'],['tired','Усталость, нет энергии'],['sleep','Проблемы со сном'],['stress','Стресс, тревожность'],['sweet','Тяга к сладкому'],['none','Ничего из этого']]},
+ {t:'multi',key:'feel',k:'Для себя',q:'Какой ты хочешь <span>себя чувствовать?</span>',sub:'Можно выбрать несколько',o:[['light','Лёгкой'],['confident','Уверенной'],['alive','Живой'],['calm','Спокойной'],['feminine','Женственной'],['energy','Энергичной']]},
+ {t:'thanks'},
+ {t:'forecast'},
+ {t:'one',key:'know',k:'Насколько откликается',q:'«Я знаю, ЧТО делать, но <span>не получается встроить</span> это в жизнь»',state:true,o:[['yes','Да, это про меня'],['some','Скорее да'],['no','Нет, не очень']]},
+ {t:'one',key:'want',k:'Если честно',q:'Тебе сейчас <span>больше хочется:</span>',o:[['conf','Стать увереннее в себе'],['light','Почувствовать лёгкость в теле'],['energy','Вернуть энергию и ресурс'],['mirror','Нравиться себе в зеркале'],['new','Начать новую главу в жизни']]},
+ {t:'notweight'},
+ {t:'shot',id:'alina'},
+ {t:'multi',key:'obst',k:'Честно',q:'Что сейчас <span>мешает</span> прийти к телу мечты?',sub:'Можно выбрать несколько',o:[['food','Срывы в питании'],['system','Нет системы'],['motiv','Не хватает мотивации'],['tired','Постоянная усталость'],['alone','Нет поддержки'],['how','Не понимаю, с чего начать']]},
+ {t:'quoteDyn',pick:function(){return A.kids==='yes'?'masha':(A.goal==='lose_l'?'nadya':'katya')}},
+ {t:'one',key:'place',k:'Формат',q:'Где тебе <span>удобнее</span> тренироваться?',o:[['home','Дома'],['gym','В зале'],['both','И дома, и в зале']]},
+ {t:'one',key:'time',k:'Время',q:'Сколько времени готова <span>уделять в день?</span>',o:[['15','15–20 минут'],['30','30–40 минут'],['60','Около часа']]},
+ {t:'multi',key:'focus',k:'Фокус',q:'Что хочется подтянуть <span>в первую очередь?</span>',sub:'Можно выбрать несколько',o:[['glutes','Ягодицы и ноги'],['belly','Живот и талия'],['arms','Руки, спина, осанка'],['all','Всё тело']]},
+ {t:'multi',key:'limits',k:'Здоровье',q:'Есть ли ограничения <span>для тренировок?</span>',sub:'Можно выбрать несколько',o:[['knees','Боль в коленях'],['back','Боль в спине, пояснице'],['birth','Восстановление после родов'],['veins','Варикоз, тяжесть в ногах'],['none','Ничего из этого']]},
+ {t:'quoteDyn',pick:function(){return has('limits','knees')||has('limits','back')||has('limits','birth')?'liza':(A.place==='gym'||A.place==='both'?'vika':'arina')}},
+ {t:'stmt',key:'s1',q:'«Ем на автомате, с телефоном или под сериал»'},
+ {t:'stmt',key:'s2',q:'«Доедаю, даже если уже не голодна»'},
+ {t:'stmt',key:'s3',q:'«После срыва: ну и ладно, начну потом»'},
+ {t:'goodnews'},
+ {t:'multi',key:'crave',k:'Еда',q:'Чаще всего <span>тянет на:</span>',sub:'Можно выбрать несколько',o:[['sweet','Сладкое'],['salty','Солёное, снеки'],['fried','Жареное, фастфуд'],['flour','Мучное'],['none','Ничего из этого']]},
+ {t:'allowed'},
+ {t:'one',key:'support',k:'Поддержка',q:'Насколько тебе важна <span>поддержка?</span>',o:[['high','Очень важна'],['mid','Иногда нужна'],['low','Справлюсь сама']]},
+ {t:'notweak'},
+ {t:'name',k:'Последний шаг',q:'Как тебя <span>зовут?</span>'},
+ {t:'loading'},
+ {t:'result'}
+];
+var i=0,hist=[],main=document.getElementById('main'),foot=document.getElementById('foot'),back=document.getElementById('back');
+
+function calc(){
+ // body fat is snapped to the calculator's buttons so the quiz and the nutrition page show the same norm
+ var bmi=A.w/Math.pow(A.h/100,2),est=1.2*bmi+0.23*A.age-5.4,bf=[17,21,25,30,35,40,45].reduce(function(x,y){return Math.abs(y-est)<Math.abs(x-est)?y:x});
+ var mif=10*A.w+6.25*A.h-5*A.age-161,lbm=A.w*(1-bf/100),katch=370+21.6*lbm;
+ var act=A.time==='60'?2:1,tdee=(mif+katch)/2*[1.2,1.375,1.55,1.725][act];
+ // a deficit never goes under 1400 kcal or the basal metabolism, and an underweight BMI gets maintenance only
+ var bmr=(mif+katch)/2,kcal=lose()&&bmi>=18.5?Math.min(tdee,Math.max(tdee*0.85,1400,bmr)):tdee,prot=Math.min(150,3*lbm),fat=Math.max(40,Math.min(0.9*A.w,kcal*0.3/9)),carb=Math.max(0,(kcal-prot*4-fat*9)/4);
+ return {bmi:bmi,bf:bf,kcal:Math.round(kcal),prot:Math.round(prot),fat:Math.round(fat),carb:Math.round(carb),act:act}
+}
+// honest forecast: a range at 0.5–1 kg a week, shown as calendar months, never a single date
+var MG=['января','февраля','марта','апреля','мая','июня','июля','августа','сентября','октября','ноября','декабря'];
+function when(weeks){var d=new Date(Date.now()+weeks*7*864e5),day=d.getDate();return (day<=10?'началом':day<=20?'серединой':'концом')+' '+MG[d.getMonth()]}
+function range(){var kg=Math.max(1,A.w-A.target);return {kg:kg,a:Math.ceil(kg),b:Math.ceil(kg/0.5)}}
+function program(){
+ var f=A.focus||[],gym=A.place==='gym';
+ if(has('sympt','swell')&&(A.goal==='tone'||A.goal==='start'))return ['Лёгкость','Утро без отёков: мобильность и тонус на весь день'];
+ if(gym)return f.indexOf('arms')>=0&&f.indexOf('glutes')<0?['Сила: верх','Спина, плечи и осанка в зале, по шагам']:['Сила: низ','Ягодицы в тренажёрах, по шагам'];
+ if(f.length===1&&f[0]==='belly')return ['Талия-струна','Живот и талия без бесконечных скручиваний'];
+ if(f.length===1&&f[0]==='arms')return ['Осанка балерины','Руки, спина, плечи и ровная спина'];
+ if(f.indexOf('glutes')>=0&&f.length<=2)return ['Песочные часы','Ягодицы и ноги: упругая попа и линия бедра'];
+ return ['Целая я','Всё тело за одну тренировку'];
+}
+var HELP={food:['Срывы в питании','Разбор «Сорвалась»: что делать в первые 24 часа, без чувства вины'],system:['Нет системы','Маршрут на 4 недели: каждый день понятно, что делать'],motiv:['Не хватает мотивации','Маленькие победы каждый день и чат, где тебя ждут'],tired:['Постоянная усталость','Мягкий старт и тренировки, которые дают энергию, а не забирают'],how:['Не понимаю, с чего начать','Первая неделя по шагам и режим «Зал» с подсказками'],alone:['Нет поддержки','Закрытый чат со мной и девушками, которые идут тем же путём']};
+var FEEL={light:'Лёгкость',confident:'Уверенность',alive:'Живость',calm:'Спокойствие',feminine:'Женственность',energy:'Энергия'};
+
+function buildPlan(){
+ var c=calc(),p=program(),r=lose()?range():null;
+ var bfo=c.bf;
+ var plan={name:A.name,prog:p[0],progTxt:p[1],place:A.place,kcal:c.kcal,prot:c.prot,fat:c.fat,carb:c.carb,weeks:r?[r.a,r.b]:null,kg:r?r.kg:0,
+  when:r?[when(r.a),when(r.b)]:null,obst:A.obst||[],know:A.know,goal:A.goal,focus:A.focus,feel:A.feel,time:A.time,ts:Date.now()};
+ window.__kfPlan=plan;  // kept in memory too, for viewers where storage is blocked
+ try{localStorage.setItem('kf-plan',JSON.stringify(plan));
+  // pre-fill the nutrition calculator with her data
+  localStorage.setItem('mf-norm',JSON.stringify({sex:'f',age:A.age,h:A.h,w:A.w,bf:bfo,act:c.act,goal:lose()?'lose':'keep',pace:1,method:'palm',ready:true}))}catch(e){}
+ return plan;
+}
+function chart(diet){
+ // weight line from now to the goal; the grey line is the usual diet rollercoaster
+ var w=A.w,t=lose()?A.target:A.w-2,W=320,H=150,P=24,y=function(v){return P+(w+2-v)/((w+2)-(t-2))*(H-2*P)},x=function(f){return P+f*(W-2*P)};
+ var kf='M'+x(0)+' '+y(w);for(var k=1;k<=20;k++){var f=k/20,v=w-(w-t)*(1-Math.pow(1-f,1.6));kf+=' L'+x(f).toFixed(1)+' '+y(v).toFixed(1)}
+ var dp=[[0,w],[.15,w-(w-t)*.55],[.3,w-(w-t)*.15],[.45,w-(w-t)*.6],[.6,w+.5],[.75,w-(w-t)*.45],[.9,w+1],[1,w-(w-t)*.3]];
+ var dl='M'+dp.map(function(p){return x(p[0]).toFixed(1)+' '+y(p[1]).toFixed(1)}).join(' L');
+ return '<div class="chart"><div class="legend">'+(diet?'<span><i></i>Диеты</span>':'')+'<span><i class="b"></i>Keeb Fit</span></div><svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="График веса">'
+  +(diet?'<path d="'+dl+'" fill="none" stroke="#B9AEA8" stroke-width="2.5" stroke-dasharray="5 4"/>':'')
+  +'<path d="'+kf+'" fill="none" stroke="#E2385F" stroke-width="3.5" stroke-linecap="round"/>'
+  +'<circle cx="'+x(0)+'" cy="'+y(w)+'" r="5" fill="#1B1416"/><circle cx="'+x(1)+'" cy="'+y(t)+'" r="6" fill="#E2385F"/>'
+  +'<text x="'+x(0)+'" y="'+(y(w)-10)+'" font-size="12" font-weight="800" fill="#1B1416">'+w+' кг</text>'
+  +'<text x="'+(x(1)-4)+'" y="'+(y(t)-12)+'" font-size="12" font-weight="800" fill="#E2385F" text-anchor="end">'+t+' кг</text>'
+  +'<text x="'+x(0)+'" y="'+(H-4)+'" font-size="11" fill="#6B5A5E">сейчас</text><text x="'+x(1)+'" y="'+(H-4)+'" font-size="11" fill="#6B5A5E" text-anchor="end">'+(lose()?range().b+' нед':'8 нед')+'</text></svg></div>';
+}
+function prog(){var n=S.length-2;document.getElementById('bar').style.width=Math.min(100,Math.round(i/n*100))+'%';back.style.visibility=i>0&&S[i].t!=='result'&&S[i].t!=='loading'?'visible':'hidden'}
+function btn(label,ok,fn){foot.innerHTML='<button class="go" id="nx" type="button"'+(ok?'':' disabled')+'>'+label+'</button>';document.getElementById('nx').onclick=fn}
+function next(){hist.push(i);do{i++}while(S[i].skip&&S[i].skip());render()}
+back.onclick=function(){if(hist.length){i=hist.pop();render()}};
+function shot(id){var s=SHOT[id];return '<div class="shot"><img src="'+s.img+'" alt="'+esc(s.who)+', до и после"><div><big>'+esc(s.big)+'</big><b>'+esc(s.who)+'</b><span class="sub">'+esc(s.txt)+'</span></div></div>'}
+function quote(id){var q=Q[id];return '<div class="quote"><p>«'+esc(q[0])+'»</p><span>'+esc(q[1])+'</span></div>'}
+function collage(){return '<div class="collage">'+GIRLS.map(function(g){return '<figure><img src="girls/'+g[0]+'.jpg" alt="'+g[1]+'" loading="lazy"><figcaption>'+g[1]+'</figcaption></figure>'}).join('')+'</div>'}
+
+function render(){
+ var s=S[i];prog();save();window.scrollTo(0,0);foot.innerHTML='';
+ if(s.t==='intro'){
+  main.innerHTML='<div class="hero"><img src="img/about_5.jpg" alt="Даня в зале"><div class="k">Keeb Fit</div><h1>Твой план <span>начинается здесь</span></h1><p class="sub">Пройди короткую диагностику и получи персональный план: программу, норму питания и честный прогноз.</p><div class="chips"><span>3 минуты</span><span>Питание без запретов</span><span>Тренировки без надрыва</span></div></div>';
+  btn('Начать диагностику',true,next);return}
+ if(s.t==='one'||s.t==='multi'){
+  var multi=s.t==='multi',cur=A[s.key];
+  main.innerHTML='<div class="k">'+esc(s.k)+'</div>'+(s.state?'<div class="state">'+s.q+'</div>':'<h1>'+s.q+'</h1>')+(s.sub?'<p class="sub">'+esc(s.sub)+'</p>':'')
+   +'<div class="opts">'+s.o.map(function(o){var on=multi?(cur||[]).indexOf(o[0])>=0:String(cur)===o[0];return '<button type="button" class="opt'+(multi?' m':'')+'" data-v="'+o[0]+'" aria-pressed="'+on+'">'+esc(o[1])+'</button>'}).join('')+'</div>';
+  main.querySelectorAll('.opt').forEach(function(b){b.onclick=function(){var v=b.dataset.v;
+   if(multi){var a=(A[s.key]||[]).slice(),k=a.indexOf(v);if(k>=0)a.splice(k,1);else{if(v==='none'||v==='all')a=[];a=a.filter(function(x){return x!=='none'&&x!=='all'});a.push(v)}A[s.key]=a;render()}
+   else{A[s.key]=v;save();b.setAttribute('aria-pressed','true');setTimeout(next,180)}}});
+  if(multi)btn('Дальше',(A[s.key]||[]).length>0,next);
+  return}
+ if(s.t==='stmt'){
+  main.innerHTML='<div class="k">Тебе это знакомо?</div><div class="state">'+esc(s.q)+'</div><div class="opts">'+[['yes','Да'],['some','Скорее да, чем нет'],['no','Нет']].map(function(o){return '<button type="button" class="opt" data-v="'+o[0]+'" aria-pressed="'+(A[s.key]===o[0])+'">'+o[1]+'</button>'}).join('')+'</div>';
+  main.querySelectorAll('.opt').forEach(function(b){b.onclick=function(){A[s.key]=b.dataset.v;b.setAttribute('aria-pressed','true');setTimeout(next,180)}});return}
+ if(s.t==='slider'){
+  main.innerHTML='<div class="k">'+esc(s.k)+'</div><h1>'+s.q+'</h1><div class="sl"><div class="v"><b id="sv">'+A[s.key]+'</b><span>'+s.u+'</span></div><input type="range" id="sr" min="'+s.min+'" max="'+s.max+'" value="'+A[s.key]+'" aria-label="'+esc(s.u)+'"></div>';
+  document.getElementById('sr').oninput=function(){A[s.key]=+this.value;document.getElementById('sv').textContent=this.value};
+  btn('Дальше',true,next);return}
+ if(s.t==='hw'){
+  var bmiTxt=function(){var b=A.w/Math.pow(A.h/100,2);document.getElementById('bmi').textContent='Индекс массы тела: '+b.toFixed(1)};
+  main.innerHTML='<div class="k">'+esc(s.k)+'</div><h1>'+s.q+'</h1><p class="sub">'+esc(s.sub)+'</p>'
+   +'<div class="sl"><div class="v"><span>Текущий вес</span><span><b id="wv">'+A.w+'</b> кг</span></div><input type="range" id="wr" min="38" max="150" value="'+A.w+'" aria-label="Вес"></div>'
+   +'<div class="sl"><div class="v"><span>Рост</span><span><b id="hv">'+A.h+'</b> см</span></div><input type="range" id="hr" min="140" max="200" value="'+A.h+'" aria-label="Рост"></div><p class="sub" id="bmi"></p>';
+  document.getElementById('hr').oninput=function(){A.h=+this.value;document.getElementById('hv').textContent=this.value;bmiTxt()};
+  document.getElementById('wr').oninput=function(){A.w=+this.value;document.getElementById('wv').textContent=this.value;bmiTxt()};bmiTxt();
+  btn('Дальше',true,function(){A.target=Math.max(38,A.w-(A.goal==='lose_l'?15:A.goal==='lose_m'?8:4));next()});return}
+ if(s.t==='target'){
+  var draw=function(){var r=range();document.getElementById('tv').textContent=A.target;document.getElementById('tk').textContent='−'+r.kg+' кг от текущего';
+   document.getElementById('tn').innerHTML='В здоровом темпе 0,5–1 кг в неделю это примерно <b>'+r.a+'–'+r.b+' недель</b>: где-то между '+when(r.a)+' и '+when(r.b)+'.'};
+  main.innerHTML='<div class="k">'+esc(s.k)+'</div><h1>'+s.q+'</h1><div class="sl"><div class="v"><b id="tv">'+A.target+'</b><span>кг</span></div><span class="sub" id="tk"></span><input type="range" id="tr" min="'+Math.max(38,A.w-35)+'" max="'+(A.w-1)+'" value="'+A.target+'" aria-label="Желаемый вес"></div><div class="note" id="tn"></div><p class="sub" style="font-size:12px">Результаты индивидуальны и зависят от многих факторов.</p>';
+  document.getElementById('tr').oninput=function(){A.target=+this.value;draw()};draw();
+  btn('Дальше',true,next);return}
+ if(s.t==='diets'){
+  main.innerHTML='<div class="k">Почему не диета</div><h1>Мы не про <span>диеты</span></h1><p class="sub">Сравни, как обычно идёт вес на диете и в системе.</p>'+chart(true)
+   +'<div class="cmp2"><div class="d"><b>Диеты</b>Отказы, срывы, вес возвращается</div><div class="k2"><b>Keeb Fit</b>Система, которая встраивается в жизнь: тело без перегруза и привычки, которые остаются</div></div>';
+  btn('Понятно',true,next);return}
+ if(s.t==='shot'){main.innerHTML='<div class="k">Результаты девушек</div>'+shot(s.id);btn('Дальше',true,next);return}
+ if(s.t==='quoteDyn'){main.innerHTML='<div class="k">Как это было у других</div>'+quote(s.pick());btn('Дальше',true,next);return}
+ if(s.t==='thanks'){
+  var f=(A.feel||[]).map(function(k){return FEEL[k]}).filter(Boolean);
+  main.innerHTML='<div class="k">Спасибо, что делишься</div><h1>Для нас важно не просто <span>«сбросить вес»</span></h1>'
+   +(f.length?'<p class="sub">А чтобы ты чувствовала:</p><div class="chips p">'+f.map(function(x){return '<span>'+esc(x)+'</span>'}).join('')+'</div>':'')
+   +'<div class="note">Сейчас соберём твой план на основе всего, что ты рассказала.</div>'+quote('arina');
+  btn('Дальше',true,next);return}
+ if(s.t==='forecast'){
+  var r=lose()?range():null;
+  main.innerHTML='<div class="k">По нашим расчётам</div>'+(r?'<h1>Ты можешь прийти к <span>'+A.target+' кг</span> за '+r.a+'–'+r.b+' недель</h1>':'<h1>Первые изменения в зеркале через <span>3–4 недели</span></h1>')
+   +chart(false)+'<p class="sub" style="font-size:13px">Реалистичный и здоровый темп, без откатов. Результаты у всех разные, это ориентир.</p>'+shot('zaituna');
+  btn('Дальше',true,next);return}
+ if(s.t==='notweight'){
+  var f2=(A.feel||[]).map(function(k){return FEEL[k]}).filter(Boolean);
+  main.innerHTML='<div class="k">Иногда это не про вес</div><h1>А про моменты, <span>когда ты:</span></h1><ul class="list"><li>Не хочешь смотреть на себя в зеркало</li><li>Откладываешь «начну с понедельника»</li><li>Сравниваешь себя с другими</li><li>Чувствуешь, что можешь больше, но почему-то не делаешь</li></ul>'
+   +'<div class="note"><b>Когда всё рушится, начни с тела.</b> Тело живёт здесь и сейчас: его можно изменить сегодня, даже когда остальное не получается. А теперь представь: ты просыпаешься с лёгкостью, смотришь в зеркало и тебе нравится.</div>'
+   +(f2.length?'<p class="sub">И внутри:</p><div class="chips p">'+f2.map(function(x){return '<span>'+esc(x)+'</span>'}).join('')+'</div>':'');
+  btn('Дальше',true,next);return}
+ if(s.t==='goodnews'){
+  main.innerHTML='<div class="k">Хорошая новость</div><h1>Тебе не придётся <span>полностью менять</span> питание</h1><p class="sub">Мы не убираем привычные продукты, а настраиваем баланс. Ты продолжаешь есть то, что любишь, и при этом худеешь за счёт правильных сочетаний и количества.</p>'+shot('dora');
+  btn('Дальше',true,next);return}
+ if(s.t==='allowed'){
+  main.innerHTML='<div class="k">И да</div><h1>Это всё <span>можно</span></h1><p class="sub">Мы не запрещаем любимые продукты, потому что запреты = срывы.</p><div class="note">Вместо этого ты научишься: есть любимое без чувства вины, не переедать и при этом снижать вес.</div><div class="quote"><p>Именно поэтому результат остаётся с тобой, а не откатывается назад.</p></div>';
+  btn('Дальше',true,next);return}
+ if(s.t==='notweak'){
+  main.innerHTML='<div class="k">Скорее всего</div><h1>Ты уже <span>пробовала</span></h1><ul class="list"><li>Диеты</li><li>«Начать новую жизнь с понедельника»</li><li>Тренировки через силу</li></ul><p class="sub">И каждый раз заканчивалось одинаково.</p><div class="note"><b>Ты не слабая.</b> Тебе просто не дали систему, которая реально работает в жизни.</div><p class="sub">Девушки, которые уже тренируются со мной:</p>'+collage();
+  btn('Дальше',true,next);return}
+ if(s.t==='name'){
+  main.innerHTML='<div class="k">'+esc(s.k)+'</div><h1>'+s.q+'</h1><p class="sub">Чтобы план был твоим</p><input class="txt" id="nm" type="text" autocomplete="given-name" placeholder="Имя" value="'+esc(A.name||'')+'">';
+  var nm=document.getElementById('nm');nm.oninput=function(){A.name=nm.value.trim().slice(0,30)};
+  btn('Собрать мой план',true,function(){A.name=nm.value.trim().slice(0,30);next()});return}
+ if(s.t==='loading'){
+  main.innerHTML='<div class="load"><div><div class="spin"></div><p style="margin-top:16px;font-weight:800" id="lt">Считаю твою норму…</p></div></div>';
+  var L=['Считаю твою норму…','Подбираю программу…','Учитываю, что тебе мешает…','Адаптирую под твою жизнь…'];var n=0;
+  var t=setInterval(function(){n++;if(n<L.length)document.getElementById('lt').textContent=L[n];else{clearInterval(t);buildPlan();next()}},850);return}
+ if(s.t==='result'){location.hash='result';showResult();return}
+}
+function showResult(){
+ var p=null;try{p=JSON.parse(localStorage.getItem('kf-plan')||'null')}catch(e){}
+ if(!p)p=window.__kfPlan||null;
+ if(!p){i=0;render();return}
+ document.getElementById('bar').style.width='100%';back.style.visibility='hidden';
+ var where={home:'Дома',gym:'В зале',both:'Дома и в зале'}[p.place]||'Дома';
+ var helps=(p.obst||[]).filter(function(o){return HELP[o]}).slice(0,3);
+ var f=(p.feel||[]).map(function(k){return FEEL[k]}).filter(Boolean);
+ main.innerHTML='<div class="k">Keeb Fit</div><h1>'+(p.name?esc(p.name)+', твой':'Твой')+' персональный <span>план готов</span></h1>'
+  +'<div class="plan">'
+   +'<div class="row"><span class="l">Основная цель</span><b>'+(p.weeks?'Минус '+p.kg+' кг за '+p.weeks[0]+'–'+p.weeks[1]+' недель, примерно между '+p.when[0]+' и '+p.when[1]:'Подтянутое тело: первые изменения через 3–4 недели')+'</b></div>'
+   +(f.length?'<div class="row"><span class="l">Твоё состояние</span><b>'+esc(f.join(', '))+'</b></div>':'')
+   +'<div class="row"><span class="l">Программа</span><span class="big"><span>'+esc(p.prog)+'</span></span><span class="sub">'+esc(p.progTxt)+'</span></div>'
+   +'<div class="row"><span class="l">Тренировки</span><b>'+where+', '+(p.time==='15'?'4 раза в неделю по 15–20 минут':p.time==='60'?'3 раза в неделю по часу':'3–4 раза в неделю по 30–40 минут')+'. Мягкий старт и постепенный рост нагрузки.</b></div>'
+   +'<div class="row"><span class="l">Твоя норма в день</span><span class="big">'+p.kcal+' ккал</span><div class="mac"><div><b>'+p.prot+' г</b>белки</div><div><b>'+p.fat+' г</b>жиры</div><div><b>'+p.carb+' г</b>углеводы</div></div></div>'
+   +(helps.length?'<div class="row"><span class="l">Что поможет именно тебе</span><div class="help">'+helps.map(function(o){return '<div><b>'+HELP[o][0]+'</b>'+HELP[o][1]+'</div>'}).join('')+'</div></div>':'')
+   +'<div class="row"><span class="l">Дальше</span><b>Программа «'+esc(p.prog)+'» — одна из 8 программ клуба KEEB FIT. Внутри я веду тебя по ней 4 недели: план на каждый день, техника, питание и я в чате.</b></div>'
+  +'</div>';
+ var PR=['Песочные часы','Песочные часы 2.0','Талия-струна','Осанка балерины','Целая я','Лёгкость','Сила: низ','Сила: верх'],OB={food:'f',system:'s',motiv:'m',tired:'t',alone:'a',how:'h'};
+ var rc=['route',Math.max(0,PR.indexOf(p.prog)),p.kcal,p.prot,{home:'h',gym:'g',both:'b'}[p.place]||'h',p.time||'30',p.kg||0,p.weeks?p.weeks[0]:0,p.weeks?p.weeks[1]:0,(p.obst||[]).map(function(o){return OB[o]||''}).join('')||'x'].join('-');
+ foot.innerHTML='<a class="go" href="index.html#'+rc+'">Дальше: как я тебя поведу →</a>'
+  +'<a class="alt" href="'+KF.bot('plan')+'" target="_blank" rel="noopener">Сохранить результат в Telegram</a>'
+  +'<button class="alt" type="button" id="again">Пройти заново</button>';
+ document.getElementById('again').onclick=function(){try{localStorage.removeItem('kf-plan')}catch(e){}hist=[];i=0;history.replaceState(null,'',location.pathname);render()};
+}
+if(/result/.test(location.hash))showResult();else render();
+})();
+</script>
+</body>
+</html>

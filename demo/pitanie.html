@@ -1,0 +1,199 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head><body><a href="../index.html#inside" style="display:block;position:sticky;top:0;z-index:50;background:#1B1416;color:#F7EFE4;font:700 15px -apple-system,sans-serif;text-align:center;padding:12px 16px;text-decoration:none">← Вернуться на сайт</a>
+<style>
+html.embed,html.embed body{background:#fff!important}
+html.embed .head,html.embed .rail,html.embed .hint{display:none!important}
+html.embed .in{padding:20px!important;max-width:none}
+html.embed .stage{margin:0!important;display:flex!important;justify-content:center}html.embed .device{width:330px!important}
+</style>
+<script>if(/embed/.test(location.hash))document.documentElement.classList.add('embed')</script>
+<title>Keeb Fit · Питание</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: Apple-style light demo — headline, live iPhone running the nutrition module (norm calculator, palm tracker, weekly report), explanation rail beside it. Always light, Муся pink accent. */
+:root{
+  --bg:#FFFFFF; --bg2:#FAF8F9; --ink:#1D1D1F; --muted:#6E6E73; --line:#EFEAEC; --accent:#0071E3; --accent2:#3EA1FF; --soft:#FFF4F7;
+  --p:#0071E3; --c:#F2A541; --fa:#8E6CEF; --v:#34B36B; --w:#3BA6E8;
+  --f:-apple-system,BlinkMacSystemFont,"SF Pro Display","Inter Tight","Helvetica Neue",Arial,sans-serif; color-scheme:light;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f);font-size:17px;line-height:1.47;letter-spacing:-.01em;-webkit-font-smoothing:antialiased}
+.in{max-width:1024px;margin:0 auto;padding-block:64px 72px;padding-left:max(22px,env(safe-area-inset-left,0px));padding-right:max(22px,env(safe-area-inset-right,0px))}
+.head{text-align:center;display:flex;flex-direction:column;align-items:center;gap:14px}
+.kicker{margin:0;font-size:19px;font-weight:600;color:var(--accent)}
+h1{margin:0;font-size:clamp(42px,8.5vw,84px);font-weight:700;letter-spacing:-.04em;line-height:1.03;text-wrap:balance}
+.grad{background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.sub{margin:0;font-size:clamp(18px,2.4vw,22px);color:var(--muted);max-width:38ch;font-weight:500}
+.stage{display:grid;grid-template-columns:auto 1fr;gap:56px;align-items:center;margin-top:56px}
+.rail{display:flex;flex-direction:column;gap:12px;min-width:0}
+.r{background:var(--bg2);border-radius:20px;padding:18px 20px}
+.r b{display:block;font-size:17px;letter-spacing:-.02em}
+.r span{color:var(--muted);font-size:15px}
+.hint{color:var(--muted);font-size:14px;text-align:center;margin-top:14px}
+.device{width:330px;max-width:100%;aspect-ratio:9/19.3;border-radius:52px;background:#111;padding:11px;box-shadow:0 0 0 2px #2b2b2e,0 40px 80px -30px rgba(0,0,0,.35)}
+.screen{width:100%;height:100%;border-radius:42px;overflow:hidden;background:#F7F5F6;position:relative;display:flex;flex-direction:column}
+.island{position:absolute;top:11px;left:50%;transform:translateX(-50%);width:96px;height:28px;border-radius:16px;background:#000;z-index:2}
+.sb{display:flex;justify-content:space-between;padding:15px 26px 0;font-size:12px;font-weight:600;height:44px;flex:none}
+#app{flex:1;overflow-y:auto;padding:6px 14px 10px;display:flex;flex-direction:column;gap:10px;font-size:13px;min-height:0;scrollbar-width:none}
+#app::-webkit-scrollbar{display:none}
+.tabs{flex:none;display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line);background:#fff;padding:6px 8px 14px}
+.tabs button{border:0;background:none;font:inherit;font-size:10px;color:var(--muted);display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;padding:4px}
+.tabs button span{font-size:18px}
+.tabs button[aria-selected="true"]{color:var(--accent);font-weight:600}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.card{background:#fff;border-radius:16px;padding:12px;display:flex;flex-direction:column;gap:8px}
+.ttl{font-size:20px;font-weight:700;letter-spacing:-.03em;margin:0}
+.lbl{font-size:11px;font-weight:600;color:var(--muted)}
+.seg{display:grid;gap:4px;background:#EFEDEE;border-radius:10px;padding:3px}
+.seg button{border:0;background:none;border-radius:8px;padding:7px 2px;font-size:12px}
+.seg button[aria-pressed="true"]{background:#fff;font-weight:600;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+.fld{display:flex;flex-direction:column;gap:3px}
+.fld input,.fld select{border:1px solid var(--line);border-radius:10px;padding:8px;font:inherit;font-size:14px;background:#fff;width:100%;min-width:0}
+.bf{display:grid;grid-template-columns:repeat(4,1fr);gap:4px}
+.bf button{border:1px solid var(--line);background:#fff;border-radius:8px;padding:6px 0;font-size:11px}
+.bf button[aria-pressed="true"]{border-color:var(--accent);color:var(--accent);font-weight:600;background:var(--soft)}
+.go{border:0;border-radius:14px;padding:12px;font-weight:700;font-size:14px;background:linear-gradient(90deg,var(--accent),var(--accent2));color:#fff}
+.big{font-size:38px;font-weight:700;letter-spacing:-.04em;line-height:1}
+.macros{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.macros div{border-radius:12px;padding:8px;background:var(--bg2)}
+.macros b{display:block;font-size:17px;letter-spacing:-.02em}
+.macros span{font-size:10px;color:var(--muted)}
+.palms{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;text-align:center}
+.palms div{background:var(--bg2);border-radius:12px;padding:8px 2px}
+.palms b{display:block;font-size:18px}
+.palms span{font-size:9px;color:var(--muted)}
+.note{font-size:10px;color:var(--muted);line-height:1.4}
+.row{display:flex;flex-direction:column;gap:5px}
+.rh{display:flex;justify-content:space-between;align-items:baseline}
+.rh b{font-size:13px}
+.rh span{font-size:11px;color:var(--muted)}
+.dots{display:flex;flex-wrap:wrap;gap:6px}
+.dot{width:30px;height:30px;border-radius:50%;border:2px dashed #D9D3D6;background:#fff;display:grid;place-items:center;font-size:13px;padding:0}
+.dot.on{border-style:solid;color:#fff}
+.sum{display:flex;align-items:center;gap:12px}
+.ringw{width:64px;height:64px;position:relative;flex:none}
+.ringw svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ringw div{position:absolute;inset:0;display:grid;place-items:center;font-weight:700;font-size:15px}
+.week{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;align-items:end;height:110px}
+.col{display:flex;flex-direction:column;align-items:center;gap:4px;height:100%;justify-content:flex-end}
+.col i{display:block;width:100%;border-radius:6px 6px 3px 3px;background:linear-gradient(180deg,var(--accent2),var(--accent))}
+.col span{font-size:9px;color:var(--muted)}
+.tag{font-size:10px;background:#FFF0D6;color:#8A5A00;border-radius:6px;padding:2px 6px;align-self:flex-start}
+.tip{background:var(--soft);border-radius:14px;padding:10px;font-size:12px}
+.mini{border:0;background:none;color:var(--accent);font-size:12px;font-weight:600;padding:0;align-self:flex-start}
+@media (max-width:820px){.stage{grid-template-columns:1fr;gap:36px}.dv{order:-1;display:flex;flex-direction:column;align-items:center}}
+</style>
+
+<main class="in">
+  <div class="head">
+    <p class="kicker">Keeb Fit · раздел «Питание»</p>
+    <h1>Еда без <span class="grad">страха.</span></h1>
+    <p class="sub">Норма по полу, возрасту, активности и цели. Дальше на выбор: считать КБЖУ или просто ладонями.</p>
+  </div>
+  <div class="stage">
+    <div class="dv">
+      <div class="device"><div class="screen"><div class="island"></div><div class="sb"><span>9:41</span><span>●●●</span></div>
+        <div id="app"></div>
+        <nav class="tabs" role="tablist" id="tabs">
+          <button role="tab" data-t="norm"><span>🎯</span>Моя норма</button>
+          <button role="tab" data-t="today"><span>🖐</span>Сегодня</button>
+          <button role="tab" data-t="week"><span>📊</span>Неделя</button>
+        </nav>
+      </div></div>
+      <p class="hint">Живой прототип: заполни норму и отмечай ладони</p>
+    </div>
+    <div class="rail">
+      <div class="r"><b>1 · Моя норма</b><span>Пол, возраст, рост, вес, процент жира, активность и цель. Считаем как среднее формул Миффлина и Кетча–МакАрдла.</span></div>
+      <div class="r"><b>2 · КБЖУ или ладони</b><span>Белок 3 г на кг сухой массы (не больше 150 г), жиры 0,9 г на кг веса (от 40 г, не больше 30% калорий), остальное углеводы. Или та же норма в ладонях: без весов и приложений.</span></div>
+      <div class="r"><b>3 · Ладони за день</b><span>Поела — нажала. 5 секунд. Вечером видно, чего не хватило. Плюс вода.</span></div>
+      <div class="r"><b>4 · Неделя</b><span>Итог по дням и подсказка. Тот же отчёт бот присылает в воскресенье, а Даня видит его к средовому разбору.</span></div>
+    </div>
+  </div>
+</main>
+
+<script>
+(function(){
+var app=document.getElementById('app'),tabs=document.getElementById('tabs');
+var S={sex:'f',age:26,h:169,w:52,bf:21,act:2,goal:'lose',pace:1,method:'palm',ready:false};
+var D={p:0,c:0,f:0,v:0,w:0};
+try{var s=JSON.parse(localStorage.getItem('mf-norm')||'null');if(s)S=Object.assign(S,s,{});var d=JSON.parse(localStorage.getItem('mf-day')||'null');if(d)D=d}catch(e){}
+function save(){try{localStorage.setItem('mf-norm',JSON.stringify(S));localStorage.setItem('mf-day',JSON.stringify(D))}catch(e){}}
+var ACT=[['Сидячая',1.2,'офис, мало шагов'],['Лёгкая',1.375,'1–3 тренировки'],['Средняя',1.55,'3–5 тренировок'],['Высокая',1.725,'6–7 тренировок'],['Очень высокая',1.9,'спорт + физ. работа']];
+var GOALS={lose:{n:'Похудение',paces:[['Мягко',-.10],['Оптимально',-.15],['Быстро',-.20]]},keep:{n:'Поддержание',paces:[['—',0]]},gain:{n:'Набор',paces:[['Микро',.05],['Оптимально',.10],['Быстро',.15]]}};
+var PALMS={lose:{p:5,f:4,c:4,v:5},keep:{p:5,f:5,c:6,v:4},gain:{p:6,f:5,c:8,v:4}};
+function clamp(x,a,b){return Math.max(a,Math.min(b,x))}
+function palms(){var c=calc();return {p:clamp(Math.round(c.prot/25),3,8),c:clamp(Math.round(c.carb/25),2,12),f:clamp(Math.round(c.fat/10),3,8),v:S.goal==='lose'?5:4}}
+var LIM={age:[14,80,'Возраст от 14 до 80'],h:[140,210,'Рост от 140 до 210 см'],w:[35,200,'Вес от 35 до 200 кг']};
+var BF={f:[17,21,25,30,35,40,45],m:[10,14,18,22,26,30,35]};
+function calc(){
+ var mif=10*S.w+6.25*S.h-5*S.age+(S.sex==='m'?5:-161);
+ var bf=S.bf/100,lbm=S.w*(1-bf),katch=370+21.6*lbm;
+ var bmr=(mif+katch)/2,tdee=bmr*ACT[S.act][1];
+ var g=GOALS[S.goal],pace=g.paces[Math.min(S.pace,g.paces.length-1)][1];
+ // same floor as the quiz: a deficit stays at or above 1400 kcal and the basal metabolism, none when BMI is under 18.5
+ var bmi=S.w/Math.pow(S.h/100,2),kcal=pace<0?(bmi<18.5?tdee:Math.min(tdee,Math.max(tdee*(1+pace),1400,bmr))):tdee*(1+pace),prot=Math.min(150,3*lbm),fat=Math.max(40,Math.min(0.9*S.w,kcal*.30/9)),carb=Math.max(0,(kcal-prot*4-fat*9)/4);
+ return {mif:mif,katch:katch,bmr:bmr,tdee:tdee,kcal:kcal,prot:prot,fat:fat,carb:carb,lbm:lbm};
+}
+function r(x){return Math.round(x)}
+function pressed(a,b){return a===b?' aria-pressed="true"':' aria-pressed="false"'}
+function res(){var el=document.getElementById('res');if(!el)return;
+ var c=calc(),h='<div class="lbl">Твоя норма в день</div><div class="big grad">'+r(c.kcal)+' ккал</div><div class="macros"><div><b>'+r(c.prot)+' г</b><span>белки</span></div><div><b>'+r(c.fat)+' г</b><span>жиры</span></div><div><b>'+r(c.carb)+' г</b><span>углеводы</span></div></div><div class="note">Базовый обмен '+r(c.bmr)+' ккал (Миффлин '+r(c.mif)+' и Кетч–МакАрдл '+r(c.katch)+') × активность '+ACT[S.act][1]+'. Белок 3 г на кг сухой массы, не больше 150 г ('+r(c.lbm)+' кг), жиры 0,9 г на кг веса.</div><div class="tip" style="font-size:11px"><b>Что такое сухая масса?</b> Это всё, что в тебе не жир: мышцы, кости, органы, вода. Считать её не нужно, мы посчитали сами: вес '+S.w+' кг − '+S.bf+'% жира = '+r(c.lbm)+' кг.</div>';
+ h+='<div class="lbl">Как будешь следить</div><div class="seg" style="grid-template-columns:1fr 1fr"><button data-k="method" data-v="palm"'+pressed(S.method,'palm')+'>Ладонями 🖐</button><button data-k="method" data-v="kbju"'+pressed(S.method,'kbju')+'>Считать КБЖУ</button></div>';
+ var P=palms();
+ h+=S.method==='palm'?'<div class="palms"><div><b>'+P.p+'</b><span>🖐 ладоней белка</span></div><div><b>'+P.c+'</b><span>✊ горстей углеводов</span></div><div><b>'+P.f+'</b><span>👍 пальцев жиров</span></div><div><b>'+P.v+'</b><span>👊 кулаков овощей</span></div></div><div class="note">Без весов и приложений. Порции меряешь своей рукой: ладонь мяса или рыбы около 25 г белка, горсть крупы около 25 г углеводов, палец масла или орехов около 10 г жиров.</div>':'<div class="note">КБЖУ считаешь в любом приложении (например, FatSecret), а сюда отмечаешь итог дня. Подходит тем, кто уже считал.</div>';
+ el.innerHTML=h;
+ el.querySelectorAll('[data-k]').forEach(function(b){b.onclick=function(){S[b.dataset.k]=b.dataset.v;save();res()}});
+}
+function norm(){
+ var h='<p class="ttl">Моя норма</p>';
+ h+='<div class="card"><div class="lbl">Пол</div><div class="seg" style="grid-template-columns:1fr 1fr"><button data-k="sex" data-v="f"'+pressed(S.sex,'f')+'>Женский</button><button data-k="sex" data-v="m"'+pressed(S.sex,'m')+'>Мужской</button></div>';
+ h+='<div class="grid3"><label class="fld"><span class="lbl">Возраст</span><input id="age" type="number" inputmode="numeric" value="'+S.age+'"></label><label class="fld"><span class="lbl">Рост, см</span><input id="h" type="number" inputmode="numeric" value="'+S.h+'"></label><label class="fld"><span class="lbl">Вес, кг</span><input id="w" type="number" inputmode="decimal" value="'+S.w+'"></label></div>';
+ h+='<div class="note" id="er" style="color:#FF3B30;min-height:0"></div><div class="lbl">Процент жира, на глаз</div><div class="bf">'+BF[S.sex].map(function(v){return '<button data-k="bf" data-v="'+v+'"'+pressed(S.bf,v)+'>'+v+'%</button>'}).join('')+'</div><div class="note">Не знаешь точно — выбери на глаз, этого достаточно</div></div>';
+ h+='<div class="card"><div class="lbl">Активность</div><div class="seg" style="grid-template-columns:repeat(5,1fr)">'+ACT.map(function(a,i){return '<button data-k="act" data-v="'+i+'"'+pressed(S.act,i)+' title="'+a[2]+'">'+(i+1)+'</button>'}).join('')+'</div><div class="note">'+ACT[S.act][0]+': '+ACT[S.act][2]+'</div>';
+ h+='<div class="lbl">Цель</div><div class="seg" style="grid-template-columns:repeat(3,1fr)">'+Object.keys(GOALS).map(function(k){return '<button data-k="goal" data-v="'+k+'"'+pressed(S.goal,k)+'>'+GOALS[k].n+'</button>'}).join('')+'</div>';
+ var g=GOALS[S.goal];if(g.paces.length>1)h+='<div class="lbl">Темп</div><div class="seg" style="grid-template-columns:repeat(3,1fr)">'+g.paces.map(function(p,i){return '<button data-k="pace" data-v="'+i+'"'+pressed(S.pace,i)+'>'+p[0]+' '+(p[1]>0?'+':'')+r(p[1]*100)+'%</button>'}).join('')+'</div>';
+ h+='</div>';
+ h+='<div class="card" id="res"></div>';
+ h+='<div class="card"><button class="go" id="ok">Сохранить норму</button></div>';
+ h+='<div class="note" style="text-align:center">Не медицинская рекомендация. При РПП, диабете, беременности сначала к врачу.</div>';
+ app.innerHTML=h;res();
+ app.querySelectorAll('#app>.card:not(#res) [data-k]').forEach(function(b){b.onclick=function(){var k=b.dataset.k,v=b.dataset.v;S[k]=(k==='bf'||k==='act'||k==='pace')?+v:v;if(k==='sex')S.bf=v==='f'?21:14;if(k==='goal')S.pace=1;save();var y=app.scrollTop;norm();app.scrollTop=y}});
+ ['age','h','w'].forEach(function(k){var el=document.getElementById(k);el.oninput=function(){var v=parseFloat(String(el.value).replace(',','.')),L=LIM[k],er=document.getElementById('er');if(v>=L[0]&&v<=L[1]){S[k]=v;save();res();el.style.borderColor='';er.textContent=''}else{el.style.borderColor='#FF3B30';er.textContent=L[2]}}});
+ document.getElementById('ok').onclick=function(){S.ready=true;save();show('today')};
+}
+var ROWS=[['p','🖐','Белок','ладони',function(P){return P.p},'var(--p)'],['c','✊','Углеводы','горсти',function(P){return P.c},'var(--c)'],['f','👍','Жиры','пальцы',function(P){return P.f},'var(--fa)'],['v','👊','Овощи','кулаки',function(P){return P.v},'var(--v)'],['w','💧','Вода','стаканы',function(){return 8},'var(--w)']];
+function today(){
+ var P=palms(),tot=0,got=0;
+ ROWS.forEach(function(x){var n=x[4](P);tot+=n;got+=Math.min(D[x[0]],n)});
+ var pct=tot?got/tot:0,C=2*Math.PI*26;
+ var h='<p class="ttl">Сегодня</p>';
+ if(!S.ready)h+='<div class="tip">Сначала посчитай норму во вкладке «Моя норма». Пока стоит пример для цели «Похудение».</div>';
+ h+='<div class="card"><div class="sum"><div class="ringw"><svg viewBox="0 0 60 60"><circle cx="30" cy="30" r="26" fill="none" stroke="#F1ECEE" stroke-width="7"/><circle cx="30" cy="30" r="26" fill="none" stroke="#0071E3" stroke-width="7" stroke-linecap="round" stroke-dasharray="'+(C*pct)+' '+C+'"/></svg><div>'+r(pct*100)+'%</div></div><div><b style="font-size:15px">'+(pct>=1?'Норма закрыта 🎉':pct>.6?'Почти! Осталось чуть-чуть':'Отмечай, когда поела')+'</b><div class="note">Нажми на кружок — порция засчитана. Ещё раз — снять.</div></div></div></div>';
+ ROWS.forEach(function(x){var n=x[4](P);h+='<div class="card row"><div class="rh"><b>'+x[1]+' '+x[2]+'</b><span>'+Math.min(D[x[0]],n)+' из '+n+' '+x[3]+'</span></div><div class="dots">'+Array.from({length:n},function(_,i){var on=i<D[x[0]];return '<button class="dot'+(on?' on':'')+'" data-r="'+x[0]+'" data-i="'+i+'" aria-label="'+x[2]+' '+(i+1)+'" style="'+(on?'background:'+x[5]+';border-color:'+x[5]:'')+'">'+(on?'✓':'')+'</button>'}).join('')+'</div></div>'});
+ var miss=ROWS.filter(function(x){return x[0]!=='w'&&D[x[0]]<x[4](P)}).map(function(x){return x[2].toLowerCase()});
+ h+='<div class="tip">'+(miss.length?'Не хватает: '+miss.join(', ')+'. '+(D.p<P.p?'Белок — самое важное, особенно если «почти не ем, а вес стоит».':''):'Всё по норме. Так держать!')+'</div>';
+ h+='<button class="mini" id="rst">Начать новый день</button>';
+ app.innerHTML=h;
+ app.querySelectorAll('.dot').forEach(function(b){b.onclick=function(){var k=b.dataset.r,i=+b.dataset.i;D[k]=(i<D[k])?i:i+1;save();var y=app.scrollTop;today();app.scrollTop=y}});
+ document.getElementById('rst').onclick=function(){D={p:0,c:0,f:0,v:0,w:0};save();today()};
+}
+function week(){
+ var EX=[72,85,60,100,90,45,0],days=['Пн','Вт','Ср','Чт','Пт','Сб','Вс'];
+ var P=palms(),tot=0,got=0;ROWS.forEach(function(x){var n=x[4](P);tot+=n;got+=Math.min(D[x[0]],n)});EX[6]=r(got/tot*100);
+ var h='<p class="ttl">Неделя</p><span class="tag">Пн–Сб — пример, Вс — твой сегодняшний день</span>';
+ h+='<div class="card"><div class="lbl">Норма выполнена, % по дням</div><div class="week">'+EX.map(function(v,i){return '<div class="col"><i style="height:'+Math.max(4,v)+'%;'+(v>=100?'background:var(--v)':'')+'"></i><span>'+days[i]+'</span></div>'}).join('')+'</div></div>';
+ h+='<div class="card"><div class="lbl">Итог недели</div><div class="macros"><div><b>4 из 7</b><span>дней белок в норме</span></div><div><b>1</b><span>день норма закрыта</span></div><div><b>6 из 8</b><span>стаканов воды в среднем</span></div></div></div>';
+ h+='<div class="tip"><b>Подсказка от Дани:</b> белок проседает к выходным. Попробуй добавить яйца или творог на завтрак в субботу и воскресенье.</div>';
+ h+='<div class="card"><div class="lbl">Куда уходит отчёт</div><div class="note">В воскресенье бот присылает этот итог тебе, а Даня видит его к средовому разбору питания в чате. Можно приложить фото тарелки.</div></div>';
+ app.innerHTML=h;
+}
+function show(t){tabs.querySelectorAll('button').forEach(function(b){b.setAttribute('aria-selected',b.dataset.t===t?'true':'false')});app.scrollTop=0;(t==='norm'?norm:t==='today'?today:week)()}
+tabs.querySelectorAll('button').forEach(function(b){b.onclick=function(){show(b.dataset.t)}});
+if(/today/.test(location.hash)){S.ready=true;D={p:3,c:2,f:3,v:2,w:5};show('today')}else if(/week/.test(location.hash)){show('week')}else show('norm');
+})();
+</script>
+<script src="../path.js" data-root="../" data-step="food"></script>
+</body></html>

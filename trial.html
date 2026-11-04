@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Бесплатная тренировка · Keeb Fit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Manrope:wght@500;600;700;800&display=swap">
+<style>
+/* Layout: free trial workout. Path bar on top, title, three choices (now / later in Telegram / skip to gym), then the video that plays its parts in a row, then "how was it". */
+:root{--paper:#F7EFE4;--paper2:#F1E3D3;--berry:#E2385F;--ink:#1B1416;--soft:#FFD9E2;--white:#FFFDF9;--mut:#6B5A5E;
+  --display:'Dela Gothic One','Arial Black',Impact,sans-serif;--body:Manrope,-apple-system,'Segoe UI',Arial,sans-serif;color-scheme:light}
+*{box-sizing:border-box;margin:0}
+[hidden]{display:none!important}
+body{background:var(--paper);color:var(--ink);font:600 16px/1.45 var(--body);-webkit-font-smoothing:antialiased}
+.wrap{max-width:640px;margin:0 auto;padding-block:22px 30px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:grid;gap:18px}
+.k{font:800 12px/1 var(--body);letter-spacing:.12em;text-transform:uppercase;color:var(--berry)}
+h1{font:400 clamp(28px,8vw,44px)/1 var(--display);text-transform:uppercase;text-wrap:balance}
+h1 span{color:var(--berry)}
+.sub{color:var(--mut)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips span{border:2px solid var(--ink);border-radius:99px;padding:5px 12px;font-weight:800;font-size:13px;background:var(--white)}
+.go{display:block;width:100%;border:3px solid var(--ink);border-radius:18px;background:var(--berry);color:var(--white);font:400 18px/1 var(--display);text-transform:uppercase;padding:17px;cursor:pointer;box-shadow:5px 5px 0 var(--ink);text-align:center;text-decoration:none}
+.go.w{background:var(--white);color:var(--ink)}
+.go:focus-visible,.alt:focus-visible,.fb button:focus-visible{outline:3px solid var(--berry);outline-offset:3px}
+.alt{display:block;text-align:center;font-weight:800;color:var(--ink);text-decoration:underline;text-underline-offset:4px;padding:4px}
+.choose{display:grid;gap:12px}
+.player{border:3px solid var(--ink);border-radius:22px;overflow:hidden;background:var(--ink);box-shadow:6px 6px 0 var(--berry)}
+.player video{display:block;width:100%;max-width:100%;aspect-ratio:16/9;background:#000}
+.pinfo{display:flex;justify-content:space-between;color:var(--paper);font-size:13px;padding:8px 12px}
+.box{border:3px solid var(--ink);border-radius:20px;background:var(--white);padding:16px;display:grid;gap:10px}
+.box b{font:400 20px/1.1 var(--display);text-transform:uppercase}
+.fb{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.fb button{border:3px solid var(--ink);border-radius:14px;background:var(--white);padding:12px 4px;font:800 15px/1.2 var(--body);cursor:pointer;color:var(--ink)}
+.fb button[aria-pressed="true"]{background:var(--soft)}
+.later{background:var(--soft);border-radius:16px;padding:14px;font-size:15px}
+</style>
+<script src="vfix.js"></script>
+</head>
+<body>
+<div class="wrap">
+  <div><div class="k">Бесплатно · шаг 1</div><h1 style="margin-top:8px">Утро <span>без отёков</span></h1></div>
+  <p class="sub">40 минут: мобильность, растяжка и лёгкость в теле. Нужен только коврик. Перед каждым упражнением я объясняю технику, потом делаем вместе. Повторяй за видео, таймер и подсказки уже на экране.</p>
+  <div class="chips"><span>40 минут</span><span>Коврик</span><span>Любой уровень</span></div>
+
+  <div class="choose" id="choose">
+    <button class="go" type="button" id="now">Начать сейчас</button>
+    <a class="go w" id="later" href="#" target="_blank" rel="noopener">Сделаю позже, пришли в Telegram</a>
+    <a class="alt" href="demo/zal.html">Мне не про дом, покажи зал →</a>
+  </div>
+  <div class="later" id="laterMsg" hidden>Тренировка придёт тебе в Telegram, чтобы не потерялась. А пока посмотри, как выглядят тренировки в зале.</div>
+
+  <div class="player" id="player" hidden>
+    <video id="v" playsinline controls preload="none" poster="trial/poster.jpg"></video>
+    <div class="pinfo"><span id="pp">Часть 1 из 17</span><span>Видео идёт подряд, части переключаются сами</span></div>
+  </div>
+
+  <div class="box" id="done" hidden>
+    <b>Как ощущения?</b>
+    <div class="fb"><button type="button" data-f="easy">Легко</button><button type="button" data-f="ok">Нормально</button><button type="button" data-f="hard">Тяжело</button></div>
+    <p class="sub" id="fbt"></p>
+  </div>
+</div>
+<script src="path.js" data-root="" data-step="trial"></script>
+<script>
+(function(){
+  var N=17,k=0,v=document.getElementById('v');
+  document.getElementById('later').href=KF.bot('trial');
+  function load(n,play){k=n;v.src='trial/part_'+('0'+n).slice(-2)+'.mp4';document.getElementById('pp').textContent='Часть '+(n+1)+' из '+N;if(n+1<N&&window.VFIX)VFIX.prefetch('trial/part_'+('0'+(n+1)).slice(-2)+'.mp4');if(play){var p=v.play();if(p&&p.catch)p.catch(function(){})}}
+  document.getElementById('now').onclick=function(){
+    document.getElementById('player').hidden=false;document.getElementById('done').hidden=false;
+    load(0,true);document.getElementById('player').scrollIntoView({behavior:'smooth',block:'center'});if(KF.showNext)KF.showNext()};
+  // the workout is split into parts of about 2 minutes; play them one after another
+  v.addEventListener('ended',function(){if(k<N-1)load(k+1,true);else document.getElementById('done').scrollIntoView({behavior:'smooth'})});
+  document.getElementById('later').addEventListener('click',function(){document.getElementById('laterMsg').hidden=false});
+  var T={easy:'Отлично! Значит, можно сразу брать программу посложнее. В клубе есть маршрут с прогрессией.',ok:'Так и должно быть. Через 2 недели регулярных тренировок станет заметно легче.',hard:'Это нормально для первого раза. В клубе начинаем мягко и я подскажу, как упростить упражнения.'};
+  document.querySelectorAll('.fb button').forEach(function(b){b.onclick=function(){document.querySelectorAll('.fb button').forEach(function(x){x.setAttribute('aria-pressed',x===b)});document.getElementById('fbt').textContent=T[b.dataset.f];if(KF.showNext)KF.showNext();try{localStorage.setItem('kf-trial',b.dataset.f)}catch(e){}}});
+})();
+</script>
+</body>
+</html>
