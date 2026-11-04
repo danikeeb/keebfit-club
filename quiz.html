@@ -91,7 +91,7 @@ input[type=range]{width:100%;accent-color:var(--berry);height:28px}
 .help b{display:block}
 .inside{display:grid;gap:6px;padding-left:20px;font-size:15px}
 </style>
-</head>
+<style>.collage a.ig{color:inherit;text-decoration:none;display:block}.collage a.ig figcaption span{display:block;font-weight:500;font-size:11px;opacity:.6;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.ighint{font-size:12px;opacity:.6;text-align:center;margin:8px 0 0}</style></head>
 <body>
 <div class="wrap">
   <div class="top"><button class="back" id="back" type="button" aria-label="Назад">←</button><div class="bar" aria-hidden="true"><i id="bar"></i></div><span class="logo">KEEB<b>FIT</b></span></div>
@@ -121,7 +121,7 @@ var Q={
  nadya:['Ждала, когда буду достаточно в форме. Пришла с 20+ лишними кг, сейчас минус 17.','Надя, 29 · 11 месяцев'],
  liza:['После двух травм у меня была фобия. Начали мягко, и ни одной травмы за 6 месяцев.','Света, 34 · 6 месяцев'],
  vika:['Тренировалась в углу и избегала свободных весов. Теперь хожу в зал спокойно и уверенно.','Вика, 25 · 7 месяцев']};
-var GIRLS=[['girl_5','Саша'],['girl_13','Диана'],['girl_7','Наташа'],['girl_8','Лера'],['girl_12','Лиза'],['girl_11','Инна'],['girl_2','Александра'],['girl_10','Диана'],['girl_3','Нина']];
+var GIRLS=[['girl_5','Саша','raleks__'],['girl_13','Диана','dianatrel'],['girl_7','Наташа','natashhine'],['girl_8','Лера','polonaamy'],['girl_12','Лиза','liza_kostina'],['girl_11','Инна','innaaa.k_'],['girl_2','Александра','painkiller_404'],['girl_10','Диана','diana.sajin'],['girl_3','Нина','nina13nina']];
 
 var S=[
  {t:'intro'},
@@ -217,7 +217,7 @@ function next(){hist.push(i);do{i++}while(S[i].skip&&S[i].skip());render()}
 back.onclick=function(){if(hist.length){i=hist.pop();render()}};
 function shot(id){var s=SHOT[id];return '<div class="shot"><img src="'+s.img+'" alt="'+esc(s.who)+', до и после"><div><big>'+esc(s.big)+'</big><b>'+esc(s.who)+'</b><span class="sub">'+esc(s.txt)+'</span></div></div>'}
 function quote(id){var q=Q[id];return '<div class="quote"><p>«'+esc(q[0])+'»</p><span>'+esc(q[1])+'</span></div>'}
-function collage(){return '<div class="collage">'+GIRLS.map(function(g){return '<figure><img src="girls/'+g[0]+'.jpg" alt="'+g[1]+'" loading="lazy"><figcaption>'+g[1]+'</figcaption></figure>'}).join('')+'</div>'}
+function collage(){return '<div class="collage">'+GIRLS.map(function(g){return '<a class="ig" href="https://www.instagram.com/'+g[2]+'" target="_blank" rel="noopener"><figure><img src="girls/'+g[0]+'.jpg" alt="'+g[1]+'" loading="lazy"><figcaption>'+g[1]+'<span>@'+g[2]+'</span></figcaption></figure></a>'}).join('')+'</div><p class="ighint">Нажми на фото, чтобы открыть её Instagram</p>'}
 
 function render(){
  var s=S[i];prog();save();window.scrollTo(0,0);foot.innerHTML='';
