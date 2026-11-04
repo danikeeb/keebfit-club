@@ -284,7 +284,7 @@ function render(){
   main.innerHTML='<div class="k">И да</div><h1>Это всё <span>можно</span></h1><p class="sub">Мы не запрещаем любимые продукты, потому что запреты = срывы.</p><div class="note">Вместо этого ты научишься: есть любимое без чувства вины, не переедать и при этом снижать вес.</div><div class="quote"><p>Именно поэтому результат остаётся с тобой, а не откатывается назад.</p></div>';
   btn('Дальше',true,next);return}
  if(s.t==='notweak'){
-  main.innerHTML='<div class="k">Скорее всего</div><h1>Ты уже <span>пробовала</span></h1><ul class="list"><li>Диеты</li><li>«Начать новую жизнь с понедельника»</li><li>Тренировки через силу</li></ul><p class="sub">И каждый раз заканчивалось одинаково.</p><div class="note"><b>Ты не слабая.</b> Тебе просто не дали систему, которая реально работает в жизни.</div><p class="sub">Девушки, которые уже тренируются со мной:</p>'+collage();
+  main.innerHTML='<div class="k">Скорее всего</div><h1>Ты уже <span>пробовала</span></h1><ul class="list"><li>Диеты</li><li>«Начать новую жизнь с понедельника»</li><li>Тренировки через силу</li></ul><p class="sub">И каждый раз заканчивалось одинаково.</p><div class="note"><b>Ты не слабая.</b> Тебе просто не дали систему, которая реально работает в жизни.</div><p class="sub">Мои клиентки. Кто-то занимался со мной раньше, кто-то тренируется сейчас:</p>'+collage();
   btn('Дальше',true,next);return}
  if(s.t==='name'){
   main.innerHTML='<div class="k">'+esc(s.k)+'</div><h1>'+s.q+'</h1><p class="sub">Чтобы план был твоим</p><input class="txt" id="nm" type="text" autocomplete="given-name" placeholder="Имя" value="'+esc(A.name||'')+'">';
