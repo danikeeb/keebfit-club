@@ -52,7 +52,7 @@ h1 span{color:var(--berry)}
 
   <div class="player" id="player" hidden>
     <video id="v" playsinline controls preload="none" poster="trial/poster.jpg"></video>
-    <div class="pinfo"><span id="pp">Часть 1 из 17</span><span>Видео идёт подряд, части переключаются сами</span></div>
+    <div class="pinfo"><span id="pp">Часть 1 из 16</span><span>Видео идёт подряд, части переключаются сами</span></div>
   </div>
 
   <div class="box" id="done" hidden>
@@ -64,7 +64,7 @@ h1 span{color:var(--berry)}
 <script src="path.js" data-root="" data-step="trial"></script>
 <script>
 (function(){
-  var N=17,k=0,v=document.getElementById('v');
+  var N=16,k=0,v=document.getElementById('v');
   document.getElementById('later').href=KF.bot('trial');
   function load(n,play){k=n;v.src='trial/part_'+('0'+n).slice(-2)+'.mp4';document.getElementById('pp').textContent='Часть '+(n+1)+' из '+N;if(n+1<N&&window.VFIX)VFIX.prefetch('trial/part_'+('0'+(n+1)).slice(-2)+'.mp4');if(play){var p=v.play();if(p&&p.catch)p.catch(function(){})}}
   document.getElementById('now').onclick=function(){
