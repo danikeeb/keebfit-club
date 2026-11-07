@@ -64,7 +64,7 @@ h1 span{color:var(--berry)}
 <script src="path.js" data-root="" data-step="trial"></script>
 <script>
 (function(){
-  var N=16,k=0,v=document.getElementById('v');
+  var N=15,k=0,v=document.getElementById('v');
   document.getElementById('later').href=KF.bot('trial');
   function load(n,play){k=n;v.src='trial/part_'+('0'+n).slice(-2)+'.mp4';document.getElementById('pp').textContent='Часть '+(n+1)+' из '+N;if(n+1<N&&window.VFIX)VFIX.prefetch('trial/part_'+('0'+(n+1)).slice(-2)+'.mp4');if(play){var p=v.play();if(p&&p.catch)p.catch(function(){})}}
   document.getElementById('now').onclick=function(){
