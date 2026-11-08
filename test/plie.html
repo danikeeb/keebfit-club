@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Плие-присед · Keeb Fit</title>
+<style>
+/* Layout: one exercise as it will look in the club — player on top, then sets chips, 3 phases, steps, key points, errors, card. Mobile first. */
+:root{--bg:#F5F5F7;--tile:#FFFFFF;--ink:#1D1D1F;--muted:#6E6E73;--hair:#E3E3E8;--accent:#0071E3;--good:#1E8E3E;--bad:#C93C3C;--badbg:#FCEDED;
+--f:-apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Arial,sans-serif}
+@media (prefers-color-scheme:dark){:root{--bg:#000;--tile:#161617;--ink:#F5F5F7;--muted:#A1A1A6;--hair:#2C2C2E;--accent:#2D8CFF;--good:#4CC26B;--bad:#FF6B6B;--badbg:#2A1414;color-scheme:dark}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.47 var(--f);-webkit-font-smoothing:antialiased}
+.in{max-width:720px;margin:0 auto;padding-block:16px 60px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.top{font-size:13px;color:var(--muted);display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
+h1{font-size:clamp(28px,7vw,40px);letter-spacing:-.03em;line-height:1.08;margin:6px 0 4px;text-wrap:balance}
+.sub{color:var(--muted);margin:0}
+.player{margin-top:16px;border-radius:18px;overflow:hidden;background:#000;aspect-ratio:16/9;position:relative}
+.player iframe,.player video{position:absolute;inset:0;width:100%;height:100%;border:0;display:block}
+.meta{font-size:13px;color:var(--muted);margin-top:8px;min-height:1.4em}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.chip{background:var(--tile);border:1px solid var(--hair);border-radius:12px;padding:6px 12px;font-size:15px}
+.chip.a{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600}
+h2{font-size:13px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin:30px 0 10px}
+.ph{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.ph figure{margin:0;background:var(--tile);border-radius:14px;overflow:hidden;border:1px solid var(--hair)}
+.ph img{width:100%;aspect-ratio:4/5;object-fit:cover;display:block}
+.ph figcaption{font-size:13px;padding:8px 10px;line-height:1.3}
+.ph b{display:block;font-size:12px;color:var(--accent)}
+.card{background:var(--tile);border-radius:18px;padding:16px 18px;border:1px solid var(--hair)}
+ol,ul{margin:0;padding-left:22px;display:grid;gap:8px}
+.err{display:grid;gap:10px}
+.err div{background:var(--tile);border:1px solid var(--hair);border-radius:16px;padding:12px 14px}
+.err b{color:var(--bad);display:block;font-size:16px}
+.err span{color:var(--ink);font-size:15px}
+.loop{display:grid;grid-template-columns:minmax(0,180px) minmax(0,1fr);gap:14px;align-items:center}
+.loop video{width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:14px;background:#111}
+.two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.small{font-size:14px;color:var(--muted)}
+.src{font-size:13px;color:var(--muted);margin-top:24px}
+.src a{color:var(--accent)}
+@media (max-width:480px){.loop,.two{grid-template-columns:minmax(0,1fr)}.loop video{max-width:220px}}
+</style>
+</head>
+<body>
+<div class="in">
+  <div class="top"><span>Низ A · упражнение 1 из 6</span><span>Тестовая страница</span></div>
+  <h1>Плие-присед с гантелью</h1>
+  <p class="sub">Ягодицы и внутренняя поверхность бедра</p>
+
+  <div class="player" id="player"></div>
+  <div class="meta" id="meta"></div>
+
+  <div class="chips"><span class="chip a">4 × 12–15</span><span class="chip">Отдых 1:30</span><span class="chip">Гантель 10–14 кг</span><span class="chip">Выдох, когда встаёшь</span></div>
+
+  <h2>Три положения</h2>
+  <div class="ph">
+    <figure><img src="../c/ex/1278_start.jpg" alt="Старт"><figcaption><b>Старт</b>Ноги шире плеч, носки 45°</figcaption></figure>
+    <figure><img src="../c/ex/1278_mid.jpg" alt="Середина"><figcaption><b>Середина</b>Таз назад, корпус чуть вперёд</figcaption></figure>
+    <figure><img src="../c/ex/1278_end.jpg" alt="Низ"><figcaption><b>Низ</b>До параллели, не ниже</figcaption></figure>
+  </div>
+
+  <h2>Как делать</h2>
+  <div class="card"><ol>
+    <li>Ноги шире плеч, носки развёрнуты на 45°, колени смотрят туда же, куда носки.</li>
+    <li>Начни с того, что отводишь таз назад и сгибаешь колени. Корпус чуть вперёд.</li>
+    <li>Опустись до параллели и встань с выдохом, не выпрямляя ноги до конца.</li>
+  </ol></div>
+
+  <h2>Главное</h2>
+  <div class="card"><ul>
+    <li>Весь подход на полусогнутых ногах, наверху не выпрямляйся полностью.</li>
+    <li>Ниже параллели не уходи.</li>
+    <li>Таз немного подкручен, поясница без сильного прогиба.</li>
+    <li>Шея продолжает позвоночник, голову не запрокидывай.</li>
+    <li>Разворачивай носки ровно настолько, насколько колени могут идти за ними.</li>
+  </ul></div>
+
+  <h2>Частые ошибки</h2>
+  <div class="err">
+    <div><b>Колени заваливаются внутрь</b><span>Колени всё время смотрят по носкам.</span></div>
+    <div><b>Прогиб в пояснице</b><span>Подкрути таз немного вперёд.</span></div>
+    <div><b>Запрокидываешь голову</b><span>Взгляд вперёд, шея продолжает спину.</span></div>
+    <div><b>Носки развёрнуты сильнее, чем идут колени</b><span>Колено крутится. Уменьши разворот стоп.</span></div>
+  </div>
+
+  <h2>Что должна чувствовать</h2>
+  <div class="loop">
+    <video src="../c/loop/1278.mp4" poster="../c/loop/1278.jpg" autoplay muted loop playsinline></video>
+    <div class="card"><ul>
+      <li>Ягодицы и внутреннюю поверхность бедра.</li>
+      <li>Горят только бёдра спереди? Отводи таз назад сильнее.</li>
+    </ul></div>
+  </div>
+
+  <h2>Если гантели нет или место занято</h2>
+  <div class="two">
+    <div class="card"><b>Гоблет-присед</b><p class="small" style="margin:4px 0 0">Видео скоро</p></div>
+    <div class="card"><b>Плие с рюкзаком или бутылкой воды</b><p class="small" style="margin:4px 0 0">Если занимаешься дома</p></div>
+  </div>
+
+  <p class="src">Техника со слов Дани из видео. Дополнения по <a href="https://exrx.net/Kinesiology/Squats" target="_blank" rel="noopener">ExRx</a> и ACE.</p>
+</div>
+<script>
+// Kinescope video id: the part after kinescope.io/ in the video's share link. Empty = show the current site video.
+var KS='';
+(function(){
+  var p=document.getElementById('player'),m=document.getElementById('meta'),t0=performance.now();
+  function took(){return ((performance.now()-t0)/1000).toFixed(1)+' с'}
+  if(KS){
+    var f=document.createElement('iframe');
+    f.src='https://kinescope.io/embed/'+KS;
+    f.allow='autoplay; fullscreen; picture-in-picture; encrypted-media; gyroscope; accelerometer; clipboard-write';
+    f.setAttribute('allowfullscreen','');
+    f.onload=function(){m.textContent='Плеер Kinescope загрузился за '+took()+'. Качество выбирается само, вручную через ⚙ в плеере.'};
+    p.appendChild(f);
+  }else{
+    var v=document.createElement('video');
+    v.src='../c/v/1278.mp4';v.poster='../c/ex/1278_cover.jpg';v.controls=true;v.playsInline=true;v.preload='metadata';
+    v.addEventListener('loadeddata',function(){m.textContent='Сейчас здесь видео с сайта (не Kinescope), первый кадр за '+took()+'.'});
+    p.appendChild(v);
+  }
+})();
+</script>
+</body>
+</html>
