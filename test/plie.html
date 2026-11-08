@@ -38,8 +38,29 @@ ol,ul{margin:0;padding-left:22px;display:grid;gap:8px}
 .loop video{width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:14px;background:#111}
 .two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
 .small{font-size:14px;color:var(--muted)}
-.src{font-size:13px;color:var(--muted);margin-top:24px}
-.src a{color:var(--accent)}
+.work{background:var(--tile);border:1px solid var(--hair);border-radius:20px;padding:16px;margin-top:16px;display:grid;gap:14px}
+.wrow{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.step{display:flex;align-items:center;gap:6px}
+.step button{width:44px;height:44px;border-radius:12px;border:1px solid var(--hair);background:var(--bg);color:var(--ink);font-size:22px;cursor:pointer}
+.step output{min-width:78px;text-align:center;font-size:24px;font-weight:700;font-variant-numeric:tabular-nums}
+.sets{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.sets div{border-radius:12px;text-align:center;padding:10px 4px;font-size:14px;background:var(--bg);color:var(--muted);border:1px solid var(--hair)}
+.sets .d{background:#E6F4EA;color:var(--good);border-color:transparent;font-weight:600}
+.sets .n{border-color:var(--accent);color:var(--accent);font-weight:600}
+.btn{border:0;border-radius:14px;padding:15px;font:700 17px var(--f);cursor:pointer;width:100%}
+.btn.g{background:var(--accent);color:#fff}
+.btn.s{background:var(--bg);color:var(--ink);border:1px solid var(--hair)}
+.two2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.timer{display:grid;justify-items:center;gap:6px;padding:6px 0}
+.ring{position:relative;width:170px;height:170px}
+.ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring div{position:absolute;inset:0;display:grid;place-items:center;font-size:40px;font-weight:700;font-variant-numeric:tabular-nums}
+.busy{display:grid;gap:8px}
+.busy button{text-align:left;border:1px solid var(--hair);background:var(--bg);color:var(--ink);border-radius:12px;padding:12px 14px;font:600 16px var(--f);cursor:pointer}
+.busy small{display:block;font-weight:400;color:var(--muted);font-size:13px}
+.ok{text-align:center;display:grid;gap:6px;justify-items:center;padding:8px 0}
+.ok b{font-size:22px}
+@media (prefers-color-scheme:dark){.sets .d{background:#0F2A17}}
 @media (max-width:480px){.loop,.two{grid-template-columns:minmax(0,1fr)}.loop video{max-width:220px}}
 </style>
 </head>
@@ -53,6 +74,9 @@ ol,ul{margin:0;padding-left:22px;display:grid;gap:8px}
   <div class="meta" id="meta"></div>
 
   <div class="chips"><span class="chip a">4 × 12–15</span><span class="chip">Отдых 1:30</span><span class="chip">Гантель 10–14 кг</span><span class="chip">Выдох, когда встаёшь</span></div>
+
+  <h2>Тренировка</h2>
+  <div class="work" id="work"></div>
 
   <h2>Три положения</h2>
   <div class="ph">
@@ -99,8 +123,6 @@ ol,ul{margin:0;padding-left:22px;display:grid;gap:8px}
     <div class="card"><b>Гоблет-присед</b><p class="small" style="margin:4px 0 0">Видео скоро</p></div>
     <div class="card"><b>Плие с рюкзаком или бутылкой воды</b><p class="small" style="margin:4px 0 0">Если занимаешься дома</p></div>
   </div>
-
-  <p class="src">Техника со слов Дани из видео. Дополнения по <a href="https://exrx.net/Kinesiology/Squats" target="_blank" rel="noopener">ExRx</a> и ACE.</p>
 </div>
 <script>
 // Kinescope video id: the part after kinescope.io/ in the video's share link. Empty = show the current site video.
@@ -121,6 +143,38 @@ var KS='91RytbS2yeEWeMfXoV8b3J';
     v.addEventListener('loadeddata',function(){m.textContent='Сейчас здесь видео с сайта (не Kinescope), первый кадр за '+took()+'.'});
     p.appendChild(v);
   }
+})();
+
+// Working block: weight, 4 sets, rest timer, "busy" replacements. Progress kept in this browser only.
+(function(){
+  var W=document.getElementById('work'),SETS=4,REST=90,K='kf-test-plie';
+  var st={w:12,last:12,done:[]};try{var x=JSON.parse(localStorage.getItem(K)||'null');if(x)st=x}catch(e){}
+  function save(){try{localStorage.setItem(K,JSON.stringify(st))}catch(e){}}
+  var tm=null,end=0;function stop(){if(tm){clearInterval(tm);tm=null}}
+  function sets(){return '<div class="sets">'+Array.from({length:SETS},function(_,k){var d=st.done[k];return '<div class="'+(d!=null?'d':k===st.done.length?'n':'')+'">'+(d!=null?'✓ '+d+' кг':'Подход '+(k+1))+'</div>'}).join('')+'</div>'}
+  function main(){stop();
+    if(st.done.length>=SETS){W.innerHTML='<div class="ok"><b>✓ Упражнение сделано</b><span class="small">'+st.done.join(' · ')+' кг. В следующий раз начнёшь с '+st.w+' кг.</span></div>'+sets()+'<button class="btn g" id="nx">Дальше: Разведение ног</button><button class="btn s" id="rs">Пройти заново</button>';
+      document.getElementById('nx').onclick=function(){W.insertAdjacentHTML('beforeend','<p class="small" style="margin:0;text-align:center">В клубе здесь откроется следующее упражнение.</p>');this.disabled=true};
+      document.getElementById('rs').onclick=function(){st.last=st.w;st.done=[];save();main()};return}
+    W.innerHTML='<div class="wrow"><div><b>Вес</b><div class="small">В прошлый раз '+st.last+' кг</div></div><div class="step"><button id="wm" aria-label="Меньше">−</button><output id="wv">'+st.w+' кг</output><button id="wp" aria-label="Больше">+</button></div></div>'
+      +sets()+'<button class="btn g" id="dn">Подход '+(st.done.length+1)+' сделан</button><div class="two2"><button class="btn s" id="bz">⇄ Занято</button><button class="btn s" id="lt">Сделаю позже</button></div><div id="bx"></div>';
+    document.getElementById('wm').onclick=function(){st.w=Math.max(0,st.w-2);save();main()};
+    document.getElementById('wp').onclick=function(){st.w+=2;save();main()};
+    document.getElementById('dn').onclick=function(){st.done.push(st.w);save();if(st.done.length<SETS)rest();else main()};
+    document.getElementById('lt').onclick=function(){document.getElementById('bx').innerHTML='<p class="small" style="margin:0">Упражнение переедет в конец тренировки, вернёшься к нему, когда освободится место.</p>'};
+    document.getElementById('bz').onclick=function(){var bx=document.getElementById('bx');
+      bx.innerHTML='<div class="busy"><span class="small">Замени на:</span><button data-a="Гоблет-присед">Гоблет-присед<small>Та же гантель, ноги на ширине плеч</small></button><button data-a="Плие с гирей">Плие с гирей<small>Если гантели заняты</small></button></div>';
+      bx.querySelectorAll('button').forEach(function(b){b.onclick=function(){bx.innerHTML='<p class="small" style="margin:0">Замена: <b>'+b.dataset.a+'</b>. В клубе здесь откроется видео и техника замены, подходы и вес сохранятся.</p>'}})};
+  }
+  function rest(){stop();var tot=REST;end=Date.now()+tot*1000;
+    function draw(){var left=Math.max(0,Math.ceil((end-Date.now())/1000)),C=2*Math.PI*45,fr=left/tot;
+      W.innerHTML='<div class="timer"><div class="small"><b>ОТДЫХ</b> · подход '+st.done.length+' из '+SETS+' сделан</div><div class="ring"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="45" fill="none" stroke="var(--hair)" stroke-width="7"/><circle cx="50" cy="50" r="45" fill="none" stroke="var(--good)" stroke-width="7" stroke-linecap="round" stroke-dasharray="'+(C*fr)+' '+C+'"/></svg><div>'+Math.floor(left/60)+':'+('0'+left%60).slice(-2)+'</div></div><div class="small">В конце звук и вибрация</div></div>'+sets()+'<div class="two2"><button class="btn s" id="p15">+15 сек</button><button class="btn g" id="go">Готова раньше</button></div>';
+      document.getElementById('p15').onclick=function(){end+=15000;tot+=15;draw()};document.getElementById('go').onclick=main;
+      if(left<=0){stop();try{navigator.vibrate&&navigator.vibrate([200,100,200])}catch(e){}beep();main()}}
+    draw();tm=setInterval(draw,500);
+  }
+  function beep(){try{var a=new (window.AudioContext||window.webkitAudioContext)(),o=a.createOscillator();o.frequency.value=880;o.connect(a.destination);o.start();o.stop(a.currentTime+.3)}catch(e){}}
+  main();
 })();
 </script>
 </body>
