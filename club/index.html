@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Keeb Fit · Кабинет</title>
+<style>
+/* Layout: member cabinet (test). Home = workouts + machine how-to + library; workout = exercise list; exercise = player, working block, technique. Hash routes: #home, #w0, #w0-2. */
+:root{--bg:#F5F5F7;--tile:#FFFFFF;--ink:#1D1D1F;--muted:#6E6E73;--hair:#E3E3E8;--accent:#0071E3;--good:#1E8E3E;--goodbg:#E6F4EA;--bad:#C93C3C;
+--f:-apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Arial,sans-serif}
+@media (prefers-color-scheme:dark){:root{--bg:#000;--tile:#161617;--ink:#F5F5F7;--muted:#A1A1A6;--hair:#2C2C2E;--accent:#2D8CFF;--good:#4CC26B;--goodbg:#0F2A17;--bad:#FF6B6B;color-scheme:dark}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.47 var(--f);-webkit-font-smoothing:antialiased}
+.in{max-width:720px;margin:0 auto;padding-block:14px 70px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+a{color:var(--accent);text-decoration:none}
+button{font:inherit;color:inherit;cursor:pointer}
+.bar{display:flex;justify-content:space-between;align-items:center;font-size:15px;color:var(--muted);min-height:32px}
+.bar a,.bar button{background:none;border:0;color:var(--accent);font-weight:600;padding:4px 0}
+h1{font-size:clamp(28px,7vw,40px);letter-spacing:-.03em;line-height:1.08;margin:6px 0 4px;text-wrap:balance}
+h2{font-size:13px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin:30px 0 10px}
+.sub{color:var(--muted);margin:0}
+.small{font-size:14px;color:var(--muted)}
+.tile{background:var(--tile);border:1px solid var(--hair);border-radius:20px;padding:16px}
+.wcard{display:grid;grid-template-columns:96px minmax(0,1fr);gap:14px;align-items:center;margin-top:10px;color:var(--ink)}
+.wcard img{width:96px;height:96px;border-radius:14px;object-fit:cover}
+.wcard b{font-size:20px;letter-spacing:-.02em;display:block}
+.prog{height:6px;border-radius:3px;background:var(--hair);margin-top:8px;overflow:hidden}.prog i{display:block;height:100%;background:var(--good)}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.vt{background:var(--tile);border:1px solid var(--hair);border-radius:16px;overflow:hidden;text-align:left;padding:0;color:var(--ink)}
+.vt img{width:100%;aspect-ratio:16/10;object-fit:cover;display:block;background:#111}
+.vt span{display:block;padding:9px 11px;font-size:14px;font-weight:600;line-height:1.3}
+.li{display:flex;gap:12px;align-items:center;background:var(--tile);border:1px solid var(--hair);border-radius:16px;padding:10px;margin-top:8px;width:100%;text-align:left;color:var(--ink)}
+.li img{width:60px;height:60px;border-radius:12px;object-fit:cover;flex:none}
+.li b{display:block;font-size:16px}
+.li .ck{margin-left:auto;color:var(--good);font-weight:700}
+.player{margin-top:14px;border-radius:18px;overflow:hidden;background:#000;aspect-ratio:16/9;position:relative}
+.player iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.chip{background:var(--tile);border:1px solid var(--hair);border-radius:12px;padding:6px 12px;font-size:15px}
+.chip.a{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600}
+.work{display:grid;gap:14px;margin-top:14px}
+.wrow{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.step{display:flex;align-items:center;gap:6px}
+.step button{width:44px;height:44px;border-radius:12px;border:1px solid var(--hair);background:var(--bg);font-size:22px}
+.step output{min-width:84px;text-align:center;font-size:24px;font-weight:700;font-variant-numeric:tabular-nums}
+.sets{display:grid;grid-template-columns:repeat(auto-fit,minmax(70px,1fr));gap:8px}
+.sets div{border-radius:12px;text-align:center;padding:10px 4px;font-size:14px;background:var(--bg);color:var(--muted);border:1px solid var(--hair)}
+.sets .d{background:var(--goodbg);color:var(--good);border-color:transparent;font-weight:600}
+.sets .n{border-color:var(--accent);color:var(--accent);font-weight:600}
+.btn{border:0;border-radius:14px;padding:15px;font:700 17px var(--f);width:100%;display:block;text-align:center}
+.btn.g{background:var(--accent);color:#fff}
+.btn.s{background:var(--bg);color:var(--ink);border:1px solid var(--hair)}
+.two{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.two .btn{font-size:14px;padding:12px 6px}
+.timer{display:grid;justify-items:center;gap:6px}
+.ring{position:relative;width:170px;height:170px}.ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring div{position:absolute;inset:0;display:grid;place-items:center;font-size:40px;font-weight:700;font-variant-numeric:tabular-nums}
+.opt{display:grid;gap:8px}
+.opt button{text-align:left;border:1px solid var(--hair);background:var(--bg);border-radius:12px;padding:12px 14px;font-weight:600;font-size:16px}
+.opt small{display:block;font-weight:400;color:var(--muted);font-size:13px}
+.ph{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.ph figure{margin:0;background:var(--tile);border-radius:14px;overflow:hidden;border:1px solid var(--hair)}
+.ph img{width:100%;aspect-ratio:4/5;object-fit:cover;display:block}
+.ph figcaption{font-size:13px;padding:8px 10px;line-height:1.3}.ph b{display:block;font-size:12px;color:var(--accent)}
+ol,ul{margin:0;padding-left:22px;display:grid;gap:8px}
+.err{display:grid;gap:10px}.err div{background:var(--tile);border:1px solid var(--hair);border-radius:16px;padding:12px 14px}
+.err b{color:var(--bad);display:block}.err span{font-size:15px}
+.loop{display:grid;grid-template-columns:minmax(0,170px) minmax(0,1fr);gap:14px;align-items:center}
+.loop video{width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:14px;background:#111}
+.nav2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:26px}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:20;display:grid;place-items:center;padding:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+.modal .box{width:100%;max-width:520px;background:var(--tile);border-radius:20px;overflow:hidden}
+.modal .pv{position:relative;background:#000}
+.modal iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.modal .cap{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 16px}
+.modal .cap button{background:none;border:0;color:var(--accent);font-weight:700}
+.done{text-align:center;display:grid;gap:8px;justify-items:center;padding:30px 0}
+.done b{font-size:26px}
+.tabbar{position:fixed;left:0;right:0;bottom:0;z-index:10;display:grid;grid-template-columns:repeat(4,1fr);background:var(--tile);border-top:1px solid var(--hair);padding:6px max(8px,env(safe-area-inset-right,0px)) calc(6px + env(safe-area-inset-bottom,0px)) max(8px,env(safe-area-inset-left,0px))}
+.tabbar a{display:grid;justify-items:center;gap:1px;font-size:11px;color:var(--muted);padding:4px 0}
+.tabbar a i{font-style:normal;font-size:20px;line-height:1}
+.tabbar a.on{color:var(--accent);font-weight:600}
+.in{padding-bottom:110px}
+.week{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.week a{background:var(--tile);border:1px solid var(--hair);border-radius:16px;padding:12px;color:var(--ink);display:grid;gap:2px}
+.week a span{font-size:13px;color:var(--muted)}.week a i{font-style:normal;color:var(--good);font-weight:700;min-height:1.2em}
+.week a.d{background:var(--goodbg);border-color:transparent}
+.wcard.soon{opacity:.6}
+.ph0{width:96px;height:96px;border-radius:14px;background:linear-gradient(135deg,var(--hair),var(--bg))}
+@media (max-width:480px){.loop{grid-template-columns:minmax(0,1fr)}.loop video{max-width:220px}}
+</style>
+</head>
+<body>
+<div class="in" id="app"></div>
+<div class="modal" id="modal" hidden></div>
+<script src="../c/cards.js"></script>
+<script src="ks.js"></script>
+<script>
+(function(){
+var C='../c/',app=document.getElementById('app'),modal=document.getElementById('modal');
+var META={
+'1278':{eq:'Гантель 10–14 кг',w:12,step:2,alt:[['Гоблет-присед'],['Плие с гирей']]},
+'1274':{eq:'Тренажёр для разведения',w:35,step:5,setup:['m11'],alt:[['Отведение в кроссовере'],['Разведение с резинкой сидя']]},
+'1273':{eq:'Тренажёр для ягодичного моста',w:40,step:5,alt:[['Мост на скамье','m14'],['Мост на одной ноге','m14']]},
+'1275':{eq:'Тренажёр для сведения',w:30,step:5,setup:['m12'],alt:[['Сведение в кроссовере'],['Сведение с мячом лёжа']]},
+'1277':{eq:'Две гантели 8–12 кг',w:10,step:2,alt:[['Гиперэкстензия на ягодицы','m10'],['Румынская тяга со штангой']]},
+'1272':{eq:'Две гантели 4–8 кг',w:6,step:1,alt:[['Выпады в Смите'],['Сплит-присед']]},
+'1385':{eq:'Верхний блок',w:30,step:5,setup:['m02','m03'],alt:[['Вертикальная тяга в хаммере','m15'],['Подтягивания в гравитроне','m06']]},
+'1381':{eq:'Нижний блок',w:30,step:5,setup:['m08','m04'],alt:[['Горизонтальная тяга в хаммере','m16'],['Тяга гантели в наклоне']]},
+'1372':{eq:'Наклонная скамья, гантели 6–10 кг',w:8,step:1,alt:[['Жим в тренажёре на грудь','m01'],['Отжимания от скамьи']]},
+'1374':{eq:'Скамья, гантели 4–8 кг',w:6,step:1,alt:[['Жим в тренажёре на плечи'],['Жим резинки сидя']]},
+'1377':{eq:'Гантель 2–4 кг',w:3,step:1,alt:[['Махи в кроссовере'],['Махи с резинкой']]},
+'1378':{eq:'Скамья, гантели 2–4 кг',w:3,step:1,alt:[['Обратная «бабочка» в тренажёре'],['Разведение резинки']]},
+'1391':{eq:'Блок с прямой рукоятью',w:15,step:2.5,setup:['m04','m05','m03'],alt:[['Брусья в гравитроне','m17'],['Французский жим с гантелью']]},
+'1384':{eq:'Скамья для гиперэкстензии',w:0,step:0,setup:['m09'],alt:[['Гиперэкстензия на ягодицы','m10'],['«Птица-собака»']]}};
+var W=[{n:'Низ A',d:'Ягодицы и ноги',ids:['1278','1274','1273','1275','1277','1272'],t:'~50 мин'},{n:'Верх A',d:'Спина, плечи, руки',ids:['1385','1381','1372','1374','1377','1378','1391','1384'],t:'~55 мин'}];
+var HOW=['m02','m03','m04','m05'],LIB=['m01','m06','m17','m07','m13','m08','m09','m10','m11','m12','m14','m15','m16'];
+var BY={};CARDS.forEach(function(c){BY[c.id]=c});
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+function T(l){return esc(Array.isArray(l)?l[0]:l)}
+function nm(id){var c=BY[id];return c.name.join(' ').replace('- ','')}
+function ks(k){return (window.KS||{})[k]}
+function emb(k){return 'https://kinescope.io/embed/'+ks(k)}
+var ST={};try{ST=JSON.parse(localStorage.getItem('kf-club')||'{}')}catch(e){}
+function save(){try{localStorage.setItem('kf-club',JSON.stringify(ST))}catch(e){}}
+function ex(id){var m=META[id];if(!ST[id])ST[id]={w:m.w,last:m.w,done:[]};return ST[id]}
+function nsets(id){return parseInt(BY[id].chips[0])||4}
+function rest(id){return parseInt((BY[id].chips[2]||'').replace(/\D/g,''))||90}
+function wfmt(id,v){return META[id].step?v+' кг':'без веса'}
+var tm=null;function stop(){if(tm){clearInterval(tm);tm=null}}
+
+function play(k,title){
+  if(!ks(k)){modal.hidden=false;modal.innerHTML='<div class="box"><div class="cap"><b>'+esc(title)+'</b><button id="mx">Закрыть</button></div><p class="small" style="padding:0 16px 16px;margin:0">Видео для этого ещё нет, снимем.</p></div>'}
+  else{var v=(window.KSV||{})[k],ar=v==='v'?'9/16':'16/9';
+    modal.hidden=false;modal.innerHTML='<div class="box" style="max-width:'+(v==='v'?'380px':'720px')+'"><div class="pv" style="aspect-ratio:'+ar+';max-height:75vh"><iframe src="'+emb(k)+'?autoplay=1" allow="autoplay; fullscreen; picture-in-picture; encrypted-media" allowfullscreen></iframe></div><div class="cap"><b>'+esc(title)+'</b><button id="mx">Закрыть</button></div></div>'}
+  document.getElementById('mx').onclick=function(){modal.hidden=true;modal.innerHTML=''};
+}
+modal.addEventListener('click',function(e){if(e.target===modal){modal.hidden=true;modal.innerHTML=''}});
+function vtile(k){return '<button class="vt" data-k="'+k+'"><img src="th/'+k+'.jpg" alt="" loading="lazy"><span>'+esc((window.KSN||{})[k]||k)+'</span></button>'}
+function bindTiles(){app.querySelectorAll('.vt').forEach(function(b){b.onclick=function(){play(b.dataset.k,b.querySelector('span').textContent)}})}
+
+var PROG=[
+ {k:'light',n:'Лёгкость',where:'Дома · коврик',d:'Утро без отёков. Мобильность и тонус на весь день',ready:'video',vid:'light',img:'th/light.jpg'},
+ {k:'w0',n:'Сила: низ',where:'Зал',d:'Ягодицы в тренажёрах, по шагам',ready:'gym',w:0},
+ {k:'w1',n:'Сила: верх',where:'Зал',d:'Спина, плечи и осанка в зале',ready:'gym',w:1},
+ {n:'Песочные часы',where:'Дома · резинка',d:'Ягодицы и ноги. Упругая попа и линия бедра'},
+ {n:'Песочные часы 2.0',where:'Дома · резинка + гантель',d:'Сложнее, когда первая станет лёгкой'},
+ {n:'Талия-струна',where:'Дома · коврик',d:'Живот и талия без бесконечных скручиваний'},
+ {n:'Осанка балерины',where:'Дома · гантели',d:'Руки, спина, плечи. Ровная спина и руки без стеснения'},
+ {n:'Целая я',where:'Дома · коврик',d:'Всё тело за одну тренировку'}];
+var WEEK=[['Пн','w0'],['Ср','light'],['Пт','w1']];
+function tabs(cur){return '<nav class="tabbar">'+[['home','Сегодня','◉'],['train','Тренировки','▤'],['food','Питание','◔'],['chat','Чат','✉']].map(function(t){return '<a href="#'+t[0]+'"'+(t[0]===cur?' class="on"':'')+'><i>'+t[2]+'</i>'+t[1]+'</a>'}).join('')+'</nav>'}
+function wdone(k){var w=W[k];return w.ids.filter(function(id){return ex(id).done.length>=nsets(id)}).length}
+function pcard(p){var href=p.ready==='gym'?'#w'+p.w:p.ready==='video'?'#light':'';var img=p.ready==='gym'?C+'ex/'+W[p.w].ids[0]+'_mid.jpg':p.img||'';
+  var st=p.ready==='gym'?(wdone(p.w)?'Сделано '+wdone(p.w)+' из '+W[p.w].ids.length:W[p.w].ids.length+' упражнений · '+W[p.w].t):p.ready==='video'?'Видео 37 мин':'Откроется скоро';
+  return '<'+(href?'a href="'+href+'"':'div')+' class="tile wcard'+(href?'':' soon')+'">'+(img?'<img src="'+img+'" alt="" onerror="this.style.visibility=\'hidden\'">':'<div class="ph0"></div>')+'<div><span class="small">'+p.where+'</span><b>'+p.n+'</b><span class="small">'+p.d+'</span><div class="small" style="margin-top:4px;color:'+(href?'var(--accent)':'var(--muted)')+'">'+st+'</div></div></'+(href?'a':'div')+'>'}
+function home(){stop();var day=new Date().getDay(),wk=ST.week||1,next=WEEK.find(function(x){return ['Вс','Пн','Вт','Ср','Чт','Пт','Сб'].indexOf(x[0])>=day})||WEEK[0];
+  var p=PROG.find(function(x){return x.k===next[1]});
+  var h='<div class="bar"><b style="color:var(--ink)">KEEB<span style="color:#D9365A">FIT</span></b><span class="small">Неделя '+wk+' из 4</span></div><h1>Привет! 👋</h1><p class="sub">Твой маршрут: 3 тренировки в неделю. Следующая ближайшая:</p>';
+  h+='<h2>Следующая · '+next[0]+'</h2>'+pcard(p);
+  h+='<h2>Неделя '+wk+'</h2><div class="week">'+WEEK.map(function(x){var q=PROG.find(function(y){return y.k===x[1]}),dn=q.ready==='gym'&&wdone(q.w)===W[q.w].ids.length||(q.k==='light'&&ST.lightDone);return '<a href="'+(q.ready==='gym'?'#w'+q.w:'#light')+'" class="'+(dn?'d':'')+'"><b>'+x[0]+'</b><span>'+q.n+'</span><i>'+(dn?'✓':'')+'</i></a>'}).join('')+'</div>';
+  h+='<h2>Задание недели</h2><div class="tile"><b>3 тренировки и белок в каждом приёме пищи</b><p class="small" style="margin:6px 0 0">Отчитайся в чате после каждой тренировки. В пятницу разбор техники.</p></div>';
+  h+='<h2>Питание сегодня</h2><a class="tile wcard" href="#food" style="grid-template-columns:1fr"><div><b>Норма и ладони</b><span class="small">Посчитай норму один раз, дальше отмечай ладони за день и воду.</span></div></a>';
+  app.innerHTML=h+tabs('home');
+}
+function train(){stop();
+  var h='<div class="bar"><span>Тренировки</span></div><h1>Все программы</h1><p class="sub">8 программ: 6 дома и 2 в зале.</p>';
+  h+='<h2>Готовы</h2>'+PROG.filter(function(p){return p.ready}).map(pcard).join('');
+  h+='<h2>Скоро</h2>'+PROG.filter(function(p){return !p.ready}).map(pcard).join('');
+  h+='<h2>Как пользоваться тренажёрами</h2><div class="grid">'+HOW.map(vtile).join('')+'</div>';
+  h+='<h2>Замены и другие тренажёры</h2><div class="grid">'+LIB.map(vtile).join('')+'</div>';
+  h+='<p style="margin-top:26px"><button class="btn s" id="rs" style="font-size:14px">Сбросить мой прогресс</button></p>';
+  app.innerHTML=h+tabs('train');bindTiles();
+  document.getElementById('rs').onclick=function(){ST={};save();train()};
+}
+function light(){stop();
+  var h='<div class="bar"><a href="#train">‹ Тренировки</a><span>37 мин</span></div><h1>Лёгкость</h1><p class="sub">Утро без отёков. Поставь телефон и повторяй: я объясняю каждое упражнение, дальше «3, 2, 1» и таймер.</p>';
+  h+='<div class="player">'+(ks('light')?'<iframe src="'+emb('light')+'" allow="autoplay; fullscreen; picture-in-picture; encrypted-media" allowfullscreen></iframe>':'<p class="small" style="color:#aaa;padding:20px">Видео загружается в плеер. Пока можно открыть <a href="../trial.html">версию с сайта</a>.</p>')+'</div>';
+  h+='<div class="chips"><span class="chip a">23 упражнения</span><span class="chip">Коврик</span><span class="chip">Можно на паузу</span></div>';
+  h+='<button class="btn g" id="ld" style="margin-top:18px">'+(ST.lightDone?'✓ Тренировка сделана':'Я закончила тренировку')+'</button>';
+  app.innerHTML=h+tabs('train');
+  document.getElementById('ld').onclick=function(){ST.lightDone=true;save();light()};
+}
+function food(){stop();
+  app.innerHTML='<div class="bar"><span>Питание</span></div><h1>Питание</h1><p class="sub">Норма калорий и БЖУ под тебя, ладони вместо весов, трекер дня и воды, итог недели.</p>'
+   +'<a class="btn g" style="margin-top:18px" href="../demo/pitanie.html">Открыть питание</a>'
+   +'<h2>Гиды</h2>'+['Сладкое без вины','Как не сорваться в гостях','Сорвалась: что делать дальше'].map(function(g){return '<div class="tile" style="margin-top:8px"><b>'+g+'</b><div class="small">Откроется скоро</div></div>'}).join('')+tabs('food');
+}
+function chat(){stop();
+  app.innerHTML='<div class="bar"><span>Чат</span></div><h1>Закрытый чат</h1><p class="sub">Со мной и девочками, по темам.</p>'
+   +'<a class="btn g" style="margin-top:18px" href="https://t.me/keebfit_bot" target="_blank" rel="noopener">Открыть чат в Telegram</a>'
+   +'<h2>Неделя в чате</h2><div class="tile"><ul><li><b>Понедельник</b> · задание недели</li><li><b>Среда</b> · разбор ошибок в питании</li><li><b>Четверг</b> · «Голова»: мышление, срывы, мотивация</li><li><b>Пятница</b> · разбор техники</li><li><b>Эфир</b> каждую неделю, записи остаются в чате</li></ul></div>'
+   +'<p class="small" style="margin-top:14px">В тесте кнопка ведёт в бота. После запуска здесь будет ссылка на чат.</p>'+tabs('chat');
+}
+function wpage(k){stop();var w=W[k];
+  var h='<div class="bar"><a href="#train">‹ Тренировки</a><span>'+w.t+'</span></div><h1>'+w.n+'</h1><p class="sub">'+w.d+'. Можно в любом порядке.</p>';
+  w.ids.forEach(function(id,j){var s=ex(id),n=nsets(id),dn=s.done.length>=n;
+    h+='<a class="li" href="#w'+k+'-'+j+'"><img src="'+C+'ex/'+id+'_start.jpg?v=2" alt=""><div><b>'+(j+1)+'. '+esc(nm(id))+'</b><span class="small">'+esc(BY[id].chips[0])+' · '+esc(META[id].eq)+'</span></div>'+(dn?'<span class="ck">✓</span>':s.done.length?'<span class="small" style="margin-left:auto">'+s.done.length+'/'+n+'</span>':'')+'</a>'});
+  h+='<a class="btn g" style="margin-top:18px" href="#w'+k+'-'+firstOpen(k)+'">'+(w.ids.some(function(id){return ex(id).done.length})?'Продолжить':'Начать тренировку')+'</a>';
+  app.innerHTML=h;
+}
+function firstOpen(k){var ids=W[k].ids;for(var j=0;j<ids.length;j++)if(ex(ids[j]).done.length<nsets(ids[j]))return j;return 0}
+
+function epage(k,j){stop();var w=W[k],id=w.ids[j],c=BY[id],m=META[id];
+  var h='<div class="bar"><a href="#w'+k+'">‹ '+w.n+'</a><span>'+(j+1)+' из '+w.ids.length+'</span></div><h1>'+esc(nm(id))+'</h1><p class="sub">'+esc(c.chips[1]||'')+'</p>';
+  h+='<div class="player">'+(ks(id)?'<iframe src="'+emb(id)+'" allow="autoplay; fullscreen; picture-in-picture; encrypted-media" allowfullscreen></iframe>':'<p class="small" style="color:#aaa;padding:20px">Видео загружается</p>')+'</div>';
+  h+='<div class="chips"><span class="chip a">'+esc(c.chips[0])+'</span><span class="chip">Отдых '+Math.floor(rest(id)/60)+':'+('0'+rest(id)%60).slice(-2)+'</span><span class="chip">'+esc(m.eq)+'</span>'+(c.breath?'<span class="chip">'+T(c.breath)+'</span>':'')+'</div>';
+  h+='<div class="tile work" id="work"></div>';
+  h+='<h2>Три положения</h2><div class="ph">'+['start','mid','end'].map(function(p,q){return '<figure><img src="'+C+'ex/'+id+'_'+p+'.jpg?v=2" alt="" loading="lazy"><figcaption><b>'+['Старт','Середина','Финиш'][q]+'</b>'+esc(c.pos[q][1])+'</figcaption></figure>'}).join('')+'</div>';
+  h+='<h2>Как делать</h2><div class="tile"><ol>'+c.steps.map(function(l){return '<li>'+T(l)+'</li>'}).join('')+'</ol></div>';
+  var key=(c.key||[]).concat(c.setup||[]);
+  if(key.length)h+='<h2>Главное</h2><div class="tile"><ul>'+key.map(function(l){return '<li>'+T(l)+'</li>'}).join('')+'</ul></div>';
+  if(c.err&&c.err.length)h+='<h2>Частые ошибки</h2><div class="err">'+c.err.map(function(e){return '<div><b>'+esc(e[0])+'</b><span>'+esc(e[1])+'</span></div>'}).join('')+'</div>';
+  h+='<h2>Что должна чувствовать</h2><div class="loop"><video src="'+C+'loop/'+id+'.mp4" poster="'+C+'loop/'+id+'.jpg" autoplay muted loop playsinline></video><div class="tile"><ul>'+(c.feel||c.works||[]).map(function(l){return '<li>'+T(l)+'</li>'}).join('')+'</ul></div></div>';
+  h+='<div class="nav2"><a class="btn s" href="'+(j>0?'#w'+k+'-'+(j-1):'#w'+k)+'">‹ Назад</a><a class="btn s" href="'+(j<w.ids.length-1?'#w'+k+'-'+(j+1):'#w'+k)+'">'+(j<w.ids.length-1?'Дальше ›':'К списку')+'</a></div>';
+  app.innerHTML=h;window.scrollTo(0,0);work(k,j);
+}
+function work(k,j){stop();var w=W[k],id=w.ids[j],m=META[id],s=ex(id),N=nsets(id),box=document.getElementById('work');
+  function sets(){return '<div class="sets">'+Array.from({length:N},function(_,q){var d=s.done[q];return '<div class="'+(d!=null?'d':q===s.done.length?'n':'')+'">'+(d!=null?'✓ '+(m.step?d+' кг':''):'Подход '+(q+1))+'</div>'}).join('')+'</div>'}
+  if(s.done.length>=N){var nx=j<w.ids.length-1;
+    box.innerHTML='<div style="text-align:center"><b style="font-size:20px">✓ Упражнение сделано</b><div class="small">'+(m.step?s.done.join(' · ')+' кг':'Все подходы')+'</div></div>'+sets()+'<a class="btn g" href="'+(nx?'#w'+k+'-'+(j+1):'#done'+k)+'">'+(nx?'Дальше: '+esc(nm(w.ids[j+1])):'Завершить тренировку')+'</a><button class="btn s" id="again">Сделать заново</button>';
+    document.getElementById('again').onclick=function(){s.last=s.w;s.done=[];save();work(k,j)};return}
+  box.innerHTML=(m.step?'<div class="wrow"><div><b>Вес</b><div class="small">В прошлый раз '+wfmt(id,s.last)+'</div></div><div class="step"><button id="wm" aria-label="Меньше">−</button><output>'+wfmt(id,s.w)+'</output><button id="wp" aria-label="Больше">+</button></div></div>':'')
+    +sets()+'<button class="btn g" id="dn">Подход '+(s.done.length+1)+' сделан</button><div class="two"><button class="btn s" id="bz">⇄ Занято</button>'+(m.setup?'<button class="btn s" id="cf">⚙ Настроить</button>':'<button class="btn s" disabled style="opacity:.4">⚙ Настроить</button>')+'<button class="btn s" id="lt">Позже</button></div><div id="bx"></div>';
+  if(m.step){document.getElementById('wm').onclick=function(){s.w=Math.max(0,+(s.w-m.step).toFixed(1));save();work(k,j)};document.getElementById('wp').onclick=function(){s.w=+(s.w+m.step).toFixed(1);save();work(k,j)}}
+  document.getElementById('dn').onclick=function(){s.done.push(s.w);save();if(s.done.length<N)timer(k,j);else work(k,j)};
+  document.getElementById('lt').onclick=function(){var nx=w.ids.findIndex(function(x,q){return q!==j&&ex(x).done.length<nsets(x)});document.getElementById('bx').innerHTML='<p class="small" style="margin:0">Вернёшься к нему в конце. '+(nx>=0?'<a href="#w'+k+'-'+nx+'">Перейти к «'+esc(nm(w.ids[nx]))+'» ›</a>':'')+'</p>'};
+  document.getElementById('bz').onclick=function(){var bx=document.getElementById('bx');
+    bx.innerHTML='<div class="opt"><span class="small">Замени на:</span>'+m.alt.map(function(a,q){return '<button data-q="'+q+'">'+esc(a[0])+'<small>'+(a[1]&&ks(a[1])?'▶ Смотреть технику':'Видео скоро')+'</small></button>'}).join('')+'</div>';
+    bx.querySelectorAll('button').forEach(function(b){b.onclick=function(){var a=m.alt[+b.dataset.q];play(a[1]||'',a[0])}})};
+  var cf=document.getElementById('cf');if(cf)cf.onclick=function(){var bx=document.getElementById('bx');
+    bx.innerHTML='<div class="opt"><span class="small">Как настроить:</span>'+m.setup.map(function(x){return '<button data-k="'+x+'">'+esc((window.KSN||{})[x]||x)+'<small>▶ Смотреть</small></button>'}).join('')+'</div>';
+    bx.querySelectorAll('button').forEach(function(b){b.onclick=function(){play(b.dataset.k,b.firstChild.textContent)}})};
+}
+function timer(k,j){stop();var id=W[k].ids[j],s=ex(id),N=nsets(id),tot=rest(id),end=Date.now()+tot*1000,box=document.getElementById('work');
+  function draw(){var left=Math.max(0,Math.ceil((end-Date.now())/1000)),Cc=2*Math.PI*45;
+    box.innerHTML='<div class="timer"><div class="small"><b>ОТДЫХ</b> · подход '+s.done.length+' из '+N+' сделан</div><div class="ring"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="45" fill="none" stroke="var(--hair)" stroke-width="7"/><circle cx="50" cy="50" r="45" fill="none" stroke="var(--good)" stroke-width="7" stroke-linecap="round" stroke-dasharray="'+(Cc*left/tot)+' '+Cc+'"/></svg><div>'+Math.floor(left/60)+':'+('0'+left%60).slice(-2)+'</div></div><div class="small">В конце звук и вибрация</div></div><div class="two" style="grid-template-columns:1fr 1fr"><button class="btn s" id="p15">+15 сек</button><button class="btn g" id="go">Готова раньше</button></div>';
+    document.getElementById('p15').onclick=function(){end+=15000;tot+=15;draw()};document.getElementById('go').onclick=function(){work(k,j)};
+    if(left<=0){stop();try{navigator.vibrate&&navigator.vibrate([200,100,200])}catch(e){}try{var a=new (window.AudioContext||window.webkitAudioContext)(),o=a.createOscillator();o.frequency.value=880;o.connect(a.destination);o.start();o.stop(a.currentTime+.3)}catch(e){}work(k,j)}}
+  draw();tm=setInterval(draw,500);
+}
+function fin(k){stop();var w=W[k],tot=0;w.ids.forEach(function(id){ex(id).done.forEach(function(v){tot+=v*(parseInt((BY[id].chips[0].split('×')[1]||'12'))||12)})});
+  app.innerHTML='<div class="done"><div style="font-size:54px">🏆</div><b>'+w.n+' сделана</b><span class="small">Веса сохранены. В следующий раз начнёшь с них.</span><a class="btn g" href="#home" style="max-width:320px">На главную</a></div>';
+}
+function route(){var h=location.hash.slice(1)||'home',m;
+  if((m=/^w(\d)-(\d+)$/.exec(h))&&W[m[1]]&&W[m[1]].ids[m[2]])epage(+m[1],+m[2]);
+  else if((m=/^w(\d)$/.exec(h))&&W[m[1]])wpage(+m[1]);
+  else if((m=/^done(\d)$/.exec(h))&&W[m[1]])fin(+m[1]);
+  else if(h==='train')train();else if(h==='light')light();else if(h==='food')food();else if(h==='chat')chat();
+  else home();
+  modal.hidden=true;modal.innerHTML='';
+}
+window.addEventListener('hashchange',route);route();
+})();
+</script>
+</body>
+</html>
