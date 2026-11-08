@@ -96,7 +96,8 @@ ol,ul{margin:0;padding-left:22px;display:grid;gap:8px}
 <div class="in" id="app"></div>
 <div class="modal" id="modal" hidden></div>
 <script src="../c/cards.js"></script>
-<script src="ks.js?v=32"></script>
+<script src="ks.js?v=33"></script>
+<script src="extra.js?v=1"></script>
 <script>
 (function(){
 var C='../c/',app=document.getElementById('app'),modal=document.getElementById('modal');
@@ -132,7 +133,7 @@ function wfmt(id,v){return META[id].step?v+' кг':'без веса'}
 var tm=null;function stop(){if(tm){clearInterval(tm);tm=null}}
 
 function play(k,title){
-  if(!ks(k)){modal.hidden=false;modal.innerHTML='<div class="box"><div class="cap"><b>'+esc(title)+'</b><button id="mx">Закрыть</button></div><p class="small" style="padding:0 16px 16px;margin:0">Видео для этого ещё нет, снимем.</p></div>'}
+  if(!ks(k)){modal.hidden=false;modal.innerHTML='<div class="box"><div class="cap"><b>'+esc(title)+'</b><button id="mx">Закрыть</button></div>'+((window.ALT_TXT||{})[title]?'<ol style="padding:0 16px 8px 38px;margin:0">'+ALT_TXT[title].map(function(l){return '<li>'+esc(l)+'</li>'}).join('')+'</ol><p class="small" style="padding:0 16px 16px;margin:0">Видео снимем скоро.</p>':'<p class="small" style="padding:0 16px 16px;margin:0">Видео для этого ещё нет, снимем.</p>')+'</div>'}
   else{var v=(window.KSV||{})[k],ar=v==='v'?'9/16':'16/9';
     modal.hidden=false;modal.innerHTML='<div class="box" style="max-width:'+(v==='v'?'380px':'720px')+'"><div class="pv" style="aspect-ratio:'+ar+';max-height:75vh"><iframe src="'+emb(k)+'?autoplay=1" allow="autoplay; fullscreen; picture-in-picture; encrypted-media" allowfullscreen></iframe></div><div class="cap"><b>'+esc(title)+'</b><button id="mx">Закрыть</button></div></div>'}
   document.getElementById('mx').onclick=function(){modal.hidden=true;modal.innerHTML=''};
@@ -143,19 +144,31 @@ function bindTiles(){app.querySelectorAll('.vt').forEach(function(b){b.onclick=f
 
 var PROG=[
  {k:'light',n:'Лёгкость',where:'Дома · коврик',d:'Утро без отёков. Мобильность и тонус на весь день',ready:'video',vid:'light',img:'th/light.jpg'},
- {k:'w0',n:'Сила: низ',where:'Зал',d:'Ягодицы в тренажёрах, по шагам',ready:'gym',w:0},
- {k:'w1',n:'Сила: верх',where:'Зал',d:'Спина, плечи и осанка в зале',ready:'gym',w:1},
+ {k:'w0',n:'Сила: низ A',where:'Зал',d:'Ягодицы в тренажёрах, по шагам',ready:'gym',w:0},
+ {k:'w1',n:'Сила: верх A',where:'Зал',d:'Спина, плечи и осанка в зале',ready:'gym',w:1},
  {n:'Песочные часы',where:'Дома · резинка',d:'Ягодицы и ноги. Упругая попа и линия бедра'},
  {n:'Песочные часы 2.0',where:'Дома · резинка + гантель',d:'Сложнее, когда первая станет лёгкой'},
  {n:'Талия-струна',where:'Дома · коврик',d:'Живот и талия без бесконечных скручиваний'},
  {n:'Осанка балерины',where:'Дома · гантели',d:'Руки, спина, плечи. Ровная спина и руки без стеснения'},
  {n:'Целая я',where:'Дома · коврик',d:'Всё тело за одну тренировку'}];
+KF_EXTRA(CARDS,META,W,PROG);CARDS.forEach(function(c){BY[c.id]=c});
+function im(id,p){var c=BY[id];return c.lite?'th/'+c.vid+'.jpg':C+'ex/'+(c.src||id)+'_'+p+'.jpg?v=2'}
 var WEEK=[['Пн','w0'],['Ср','light'],['Пт','w1']];
 function tabs(cur){return '<nav class="tabbar">'+[['home','Сегодня','◉'],['train','Тренировки','▤'],['food','Питание','◔'],['chat','Чат','✉']].map(function(t){return '<a href="#'+t[0]+'"'+(t[0]===cur?' class="on"':'')+'><i>'+t[2]+'</i>'+t[1]+'</a>'}).join('')+'</nav>'}
 function wdone(k){var w=W[k];return w.ids.filter(function(id){return ex(id).done.length>=nsets(id)}).length}
-function pcard(p){var href=p.ready==='gym'?'#w'+p.w:p.ready==='video'?'#light':'';var img=p.ready==='gym'?C+'ex/'+W[p.w].ids[0]+'_mid.jpg':p.img||'';
-  var st=p.ready==='gym'?(wdone(p.w)?'Сделано '+wdone(p.w)+' из '+W[p.w].ids.length:W[p.w].ids.length+' упражнений · '+W[p.w].t):p.ready==='video'?'Видео 37 мин':'Откроется скоро';
-  return '<'+(href?'a href="'+href+'"':'div')+' class="tile wcard'+(href?'':' soon')+'">'+(img?'<img src="'+img+'" alt="" onerror="this.style.visibility=\'hidden\'">':'<div class="ph0"></div>')+'<div><span class="small">'+p.where+'</span><b>'+p.n+'</b><span class="small">'+p.d+'</span><div class="small" style="margin-top:4px;color:'+(href?'var(--accent)':'var(--muted)')+'">'+st+'</div></div></'+(href?'a':'div')+'>'}
+function pcard(p){var href=p.ready==='gym'?'#w'+p.w:p.ready==='video'?'#light':'#p'+PROG.indexOf(p);var img=p.ready==='gym'?im(W[p.w].ids[0],'mid'):p.img||'';
+  var st=p.ready==='gym'?(wdone(p.w)?'Сделано '+wdone(p.w)+' из '+W[p.w].ids.length:W[p.w].ids.length+' упражнений · '+W[p.w].t):p.ready==='video'?'Видео 37 мин':'Откроется скоро · подробнее ›';
+  return '<a href="'+href+'" class="tile wcard'+(p.ready?'':' soon')+'">'+(img?'<img src="'+img+'" alt="" onerror="this.style.visibility=\'hidden\'">':'<div class="ph0"></div>')+'<div><span class="small">'+p.where+'</span><b>'+p.n+'</b><span class="small">'+p.d+'</span><div class="small" style="margin-top:4px;color:'+(p.ready?'var(--accent)':'var(--muted)')+'">'+st+'</div></div></a>'}
+function pinfo(i){stop();var p=PROG[i],f=(window.PROG_INFO||{})[p.n]||{};
+  app.innerHTML='<div class="bar"><a href="#train">‹ Тренировки</a><span>Скоро</span></div><h1>'+esc(p.n)+'</h1><p class="sub">'+esc(p.d)+'</p>'
+   +'<div class="chips"><span class="chip a">'+esc(p.where)+'</span>'+(f.inv?'<span class="chip">'+esc(f.inv)+'</span>':'')+'</div>'
+   +(f.len?'<h2>Формат</h2><div class="tile">'+esc(f.len)+'</div>':'')+(f.who?'<h2>Для кого</h2><div class="tile">'+esc(f.who)+'</div>':'')
+   +(f.gives?'<h2>Что даёт</h2><div class="tile"><ul>'+f.gives.map(function(g){return '<li>'+esc(g)+'</li>'}).join('')+'</ul></div>':'')
+   +'<div class="tile" style="margin-top:18px;background:var(--goodbg);border-color:transparent"><b>Откроется скоро</b><div class="small">Мы напишем в чате, когда программа появится в кабинете.</div></div>'+tabs('train');window.scrollTo(0,0)}
+function guide(i){stop();var g=(window.GUIDES||[])[i];if(!g)return food();
+  app.innerHTML='<div class="bar"><a href="#food">‹ Питание</a><span>Гид</span></div><h1>'+esc(g.t)+'</h1><p class="sub">'+esc(g.s)+'</p>'
+   +g.b.map(function(x,q){return '<div class="tile" style="margin-top:10px"><b>'+(q+1)+'. '+esc(x[0])+'</b><div style="margin-top:4px">'+esc(x[1])+'</div></div>'}).join('')
+   +'<a class="btn s" style="margin-top:22px" href="#food">‹ Все гиды</a>'+tabs('food');window.scrollTo(0,0)}
 function home(){stop();var day=new Date().getDay(),wk=ST.week||1,next=WEEK.find(function(x){return ['Вс','Пн','Вт','Ср','Чт','Пт','Сб'].indexOf(x[0])>=day})||WEEK[0];
   var p=PROG.find(function(x){return x.k===next[1]});
   var h='<div class="bar"><b style="color:var(--ink)">KEEB<span style="color:#D9365A">FIT</span></b><span class="small">Неделя '+wk+' из 4</span></div><h1>Привет! 👋</h1><p class="sub">Твой маршрут: 3 тренировки в неделю. Следующая ближайшая:</p>';
@@ -166,7 +179,7 @@ function home(){stop();var day=new Date().getDay(),wk=ST.week||1,next=WEEK.find(
   app.innerHTML=h+tabs('home');
 }
 function train(){stop();
-  var h='<div class="bar"><span>Тренировки</span></div><h1>Все программы</h1><p class="sub">8 программ: 6 дома и 2 в зале.</p>';
+  var h='<div class="bar"><span>Тренировки</span></div><h1>Все программы</h1><p class="sub">8 программ: 6 дома и 2 в зале. В зале по два варианта, A и B: чередуй их по неделям.</p>';
   h+='<h2>Готовы</h2>'+PROG.filter(function(p){return p.ready}).map(pcard).join('');
   h+='<h2>Скоро</h2>'+PROG.filter(function(p){return !p.ready}).map(pcard).join('');
   h+='<h2>Как пользоваться тренажёрами</h2><div class="grid">'+HOW.map(vtile).join('')+'</div>';
@@ -186,7 +199,7 @@ function light(){stop();
 function food(){stop();
   app.innerHTML='<div class="bar"><span>Питание</span></div><h1>Питание</h1><p class="sub">Норма калорий и БЖУ под тебя, ладони вместо весов, трекер дня и воды, итог недели.</p>'
    +'<a class="btn g" style="margin-top:18px" href="../demo/pitanie.html">Открыть питание</a>'
-   +'<h2>Гиды</h2>'+['Сладкое без вины','Как не сорваться в гостях','Сорвалась: что делать дальше'].map(function(g){return '<div class="tile" style="margin-top:8px"><b>'+g+'</b><div class="small">Откроется скоро</div></div>'}).join('')+tabs('food');
+   +'<h2>Гиды</h2>'+(window.GUIDES||[]).map(function(g,i){return '<a class="tile wcard" href="#g'+i+'" style="grid-template-columns:1fr;margin-top:8px"><div><b>'+esc(g.t)+'</b><span class="small">'+esc(g.s)+'</span></div></a>'}).join('')+tabs('food');
 }
 function chat(){stop();
   app.innerHTML='<div class="bar"><span>Чат</span></div><h1>Закрытый чат</h1><p class="sub">Со мной и девочками, по темам.</p>'
@@ -197,7 +210,7 @@ function chat(){stop();
 function wpage(k){stop();var w=W[k];
   var h='<div class="bar"><a href="#train">‹ Тренировки</a><span>'+w.t+'</span></div><h1>'+w.n+'</h1><p class="sub">'+w.d+'. Можно в любом порядке.</p>';
   w.ids.forEach(function(id,j){var s=ex(id),n=nsets(id),dn=s.done.length>=n;
-    h+='<a class="li" href="#w'+k+'-'+j+'"><img src="'+C+'ex/'+id+'_start.jpg?v=2" alt=""><div><b>'+(j+1)+'. '+esc(nm(id))+'</b><span class="small">'+esc(BY[id].chips[0])+' · '+esc(META[id].eq)+'</span></div>'+(dn?'<span class="ck">✓</span>':s.done.length?'<span class="small" style="margin-left:auto">'+s.done.length+'/'+n+'</span>':'')+'</a>'});
+    h+='<a class="li" href="#w'+k+'-'+j+'"><img src="'+im(id,'start')+'" alt=""><div><b>'+(j+1)+'. '+esc(nm(id))+'</b><span class="small">'+esc(BY[id].chips[0])+' · '+esc(META[id].eq)+'</span></div>'+(dn?'<span class="ck">✓</span>':s.done.length?'<span class="small" style="margin-left:auto">'+s.done.length+'/'+n+'</span>':'')+'</a>'});
   h+='<a class="btn g" style="margin-top:18px" href="#w'+k+'-'+firstOpen(k)+'">'+(w.ids.some(function(id){return ex(id).done.length})?'Продолжить':'Начать тренировку')+'</a>';
   app.innerHTML=h;
 }
@@ -208,12 +221,12 @@ function epage(k,j){stop();var w=W[k],id=w.ids[j],c=BY[id],m=META[id];
   h+='<div class="player">'+(ks(id)?'<iframe src="'+emb(id)+'" allow="autoplay; fullscreen; picture-in-picture; encrypted-media" allowfullscreen></iframe>':'<p class="small" style="color:#aaa;padding:20px">Видео загружается</p>')+'</div>';
   h+='<div class="chips"><span class="chip a">'+esc(c.chips[0])+'</span><span class="chip">Отдых '+Math.floor(rest(id)/60)+':'+('0'+rest(id)%60).slice(-2)+'</span><span class="chip">'+esc(m.eq)+'</span>'+(c.breath?'<span class="chip">'+T(c.breath)+'</span>':'')+'</div>';
   h+='<div class="tile work" id="work"></div>';
-  h+='<h2>Три положения</h2><div class="ph">'+['start','mid','end'].map(function(p,q){return '<figure><img src="'+C+'ex/'+id+'_'+p+'.jpg?v=2" alt="" loading="lazy"><figcaption><b>'+['Старт','Середина','Финиш'][q]+'</b>'+esc(c.pos[q][1])+'</figcaption></figure>'}).join('')+'</div>';
+  if(!c.lite)h+='<h2>Три положения</h2><div class="ph">'+['start','mid','end'].map(function(p,q){return '<figure><img src="'+im(id,p)+'" alt="" loading="lazy"><figcaption><b>'+['Старт','Середина','Финиш'][q]+'</b>'+esc(c.pos[q][1])+'</figcaption></figure>'}).join('')+'</div>';
   h+='<h2>Как делать</h2><div class="tile"><ol>'+c.steps.map(function(l){return '<li>'+T(l)+'</li>'}).join('')+'</ol></div>';
   var key=(c.key||[]).concat(c.setup||[]);
   if(key.length)h+='<h2>Главное</h2><div class="tile"><ul>'+key.map(function(l){return '<li>'+T(l)+'</li>'}).join('')+'</ul></div>';
   if(c.err&&c.err.length)h+='<h2>Частые ошибки</h2><div class="err">'+c.err.map(function(e){return '<div><b>'+esc(e[0])+'</b><span>'+esc(e[1])+'</span></div>'}).join('')+'</div>';
-  h+='<h2>Что должна чувствовать</h2><div class="loop"><video src="'+C+'loop/'+id+'.mp4" poster="'+C+'loop/'+id+'.jpg" autoplay muted loop playsinline></video><div class="tile"><ul>'+(c.feel||c.works||[]).map(function(l){return '<li>'+T(l)+'</li>'}).join('')+'</ul></div></div>';
+  var sid=c.src||id;h+='<h2>Что должна чувствовать</h2>'+(c.lite?'<div class="tile">':'<div class="loop"><video src="'+C+'loop/'+sid+'.mp4" poster="'+C+'loop/'+sid+'.jpg" autoplay muted loop playsinline></video><div class="tile">')+'<ul>'+(c.feel||c.works||[]).map(function(l){return '<li>'+T(l)+'</li>'}).join('')+'</ul></div>'+(c.lite?'':'</div>');
   h+='<div class="nav2"><a class="btn s" href="'+(j>0?'#w'+k+'-'+(j-1):'#w'+k)+'">‹ Назад</a><a class="btn s" href="'+(j<w.ids.length-1?'#w'+k+'-'+(j+1):'#w'+k)+'">'+(j<w.ids.length-1?'Дальше ›':'К списку')+'</a></div>';
   app.innerHTML=h;window.scrollTo(0,0);work(k,j);
 }
@@ -228,7 +241,7 @@ function work(k,j){stop();var w=W[k],id=w.ids[j],m=META[id],s=ex(id),N=nsets(id)
   document.getElementById('dn').onclick=function(){s.done.push(s.w);save();if(s.done.length<N)timer(k,j);else work(k,j)};
   document.getElementById('lt').onclick=function(){var nx=w.ids.findIndex(function(x,q){return q!==j&&ex(x).done.length<nsets(x)});document.getElementById('bx').innerHTML='<p class="small" style="margin:0">Вернёшься к нему в конце. '+(nx>=0?'<a href="#w'+k+'-'+nx+'">Перейти к «'+esc(nm(w.ids[nx]))+'» ›</a>':'')+'</p>'};
   document.getElementById('bz').onclick=function(){var bx=document.getElementById('bx');
-    bx.innerHTML='<div class="opt"><span class="small">Замени на:</span>'+m.alt.map(function(a,q){return '<button data-q="'+q+'">'+esc(a[0])+'<small>'+(a[1]&&ks(a[1])?'▶ Смотреть технику':'Видео скоро')+'</small></button>'}).join('')+'</div>';
+    bx.innerHTML='<div class="opt"><span class="small">Замени на:</span>'+m.alt.map(function(a,q){return '<button data-q="'+q+'">'+esc(a[0])+'<small>'+(a[1]&&ks(a[1])?'▶ Смотреть технику':(window.ALT_TXT||{})[a[0]]?'Как делать ›':'Видео скоро')+'</small></button>'}).join('')+'</div>';
     bx.querySelectorAll('button').forEach(function(b){b.onclick=function(){var a=m.alt[+b.dataset.q];play(a[1]||'',a[0])}})};
   var cf=document.getElementById('cf');if(cf)cf.onclick=function(){var bx=document.getElementById('bx');
     bx.innerHTML='<div class="opt"><span class="small">Как настроить:</span>'+m.setup.map(function(x){return '<button data-k="'+x+'">'+esc((window.KSN||{})[x]||x)+'<small>▶ Смотреть</small></button>'}).join('')+'</div>';
@@ -248,6 +261,8 @@ function route(){var h=location.hash.slice(1)||'home',m;
   if((m=/^w(\d)-(\d+)$/.exec(h))&&W[m[1]]&&W[m[1]].ids[m[2]])epage(+m[1],+m[2]);
   else if((m=/^w(\d)$/.exec(h))&&W[m[1]])wpage(+m[1]);
   else if((m=/^done(\d)$/.exec(h))&&W[m[1]])fin(+m[1]);
+  else if((m=/^p(\d+)$/.exec(h))&&PROG[m[1]]&&!PROG[m[1]].ready)pinfo(+m[1]);
+  else if((m=/^g(\d+)$/.exec(h)))guide(+m[1]);
   else if(h==='train')train();else if(h==='light')light();else if(h==='food')food();else if(h==='chat')chat();
   else home();
   modal.hidden=true;modal.innerHTML='';
