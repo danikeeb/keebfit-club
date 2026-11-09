@@ -40,6 +40,8 @@ h2{font-size:13px;text-transform:uppercase;letter-spacing:.07em;color:var(--mute
 .chip{background:var(--tile);border:1px solid var(--hair);border-radius:12px;padding:6px 12px;font-size:15px}
 .chip.a{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600}
 .work{display:grid;gap:14px;margin-top:14px}
+.hint{background:var(--goodbg);border-radius:14px;padding:12px 14px;display:grid;gap:8px;margin-bottom:12px}.hint b{color:var(--good)}.hint span{font-size:15px}
+.calm{margin:6px 0 0}.chips .chip{cursor:pointer;color:var(--ink)}.chip.a{background:var(--accent);color:#fff;border-color:var(--accent)}
 .wrow{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
 .step{display:flex;align-items:center;gap:6px}
 .step button{width:44px;height:44px;border-radius:12px;border:1px solid var(--hair);background:var(--bg);font-size:22px}
@@ -129,7 +131,29 @@ function save(){try{localStorage.setItem('kf-club',JSON.stringify(ST))}catch(e){
 function ex(id){var m=META[id];if(!ST[id])ST[id]={w:m.w,last:m.w,done:[]};return ST[id]}
 function nsets(id){return parseInt(BY[id].chips[0])||4}
 function rest(id){return parseInt((BY[id].chips[2]||'').replace(/\D/g,''))||90}
-function wfmt(id,v){return META[id].step?v+' кг':'без веса'}
+function kg(v){return String(v).replace('.',',')}
+function wfmt(id,v){return META[id].step?kg(v)+' кг':'без веса'}
+// Weight steps from the girl's own gym (screen #gym). kind: db = dumbbells, mach = machine/block, grav = gravitron (more weight = easier).
+function gym(){var g=ST.gym||{};return {lo:g.lo||1,hi:g.hi||2,st:g.st||5}}
+function kind(id){var e=META[id].eq||'';return /Гравитрон/i.test(e)?'grav':/гантел/i.test(e)?'db':'mach'}
+function r1(v){return +(+v).toFixed(1)}
+function stepUp(id,w){var g=gym(),t=kind(id);if(t==='db')return w<10?Math.min(10,r1(w+g.lo)):r1(w+g.hi);return r1(w+g.st)}
+function stepDn(id,w){var g=gym(),t=kind(id);if(t==='db')return Math.max(0,w<=10?r1(w-g.lo):Math.max(10,r1(w-g.hi)));return Math.max(0,r1(w-g.st))}
+function nextW(id,w){return kind(id)==='grav'?stepDn(id,w):stepUp(id,w)}
+var CALM='Вес растёт медленно. Сначала чистая техника, потом килограммы.';
+function hint(id,s){var m=META[id];if((s.streak||0)<2)return '';
+  if(!m.step)return '<div class="hint"><b>Стало легко?</b><span>Не спеши усложнять. Делай медленнее и задержись на 2 секунды в самой трудной точке.</span></div>';
+  var nw=nextW(id,s.lastFull),g=kind(id)==='grav';if(nw===s.lastFull)return '';
+  return '<div class="hint"><b>Можно попробовать '+kg(nw)+' кг</b><span>Ты две тренировки подряд сделала все подходы с '+kg(s.lastFull)+' кг. Если ты уверена в технике, делаешь медленно и без рывков, попробуй следующую ступень'+(g?': в гравитроне это меньше противовеса':'')+'. Появился рывок или сбилась техника, возвращайся к '+kg(s.lastFull)+' кг. Это нормально.</span>'
+   +'<div class="two" style="grid-template-columns:1fr 1fr"><button class="btn s" id="hy">Попробую '+kg(nw)+' кг</button><button class="btn s" id="hn">Останусь на '+kg(s.lastFull)+' кг</button></div><a class="small" href="#gym">Другие шаги веса в твоём зале? Настрой ›</a></div>'}
+function gymPage(){stop();var g=gym();
+  function row(key,t,opts,cur){return '<h2>'+t+'</h2><div class="chips">'+opts.map(function(o){return '<button class="chip'+(o===cur?' a':'')+'" data-k="'+key+'" data-v="'+o+'">'+String(o).replace('.',',')+' кг</button>'}).join('')+'</div>'}
+  app.innerHTML='<div class="bar"><a href="javascript:history.back()">‹ Назад</a><span>Мой зал</span></div><h1>Шаги веса в твоём зале</h1><p class="sub">В разных залах гантели и тренажёры идут разными шагами. Отметь, как у тебя, и подсказки будут предлагать только тот вес, который реально есть.</p>'
+   +row('lo','Гантели до 10 кг идут через',[0.5,1,2],g.lo)+row('hi','Гантели от 10 кг идут через',[1,2,2.5],g.hi)+row('st','Шаг веса в тренажёрах',[2.5,5,10],g.st)
+   +'<p class="small" style="margin-top:10px">Есть плашка +2,5 кг на тренажёре? Выбирай 2,5. Как её поставить, есть в ролике «Плашка +2,5 кг».</p>'
+   +'<div class="tile" style="margin-top:18px"><b>Не гонись за весами</b><div class="small">Прибавляй только когда все подходы получаются медленно, без рывков и с чистой техникой две тренировки подряд. Вес никуда не убежит.</div></div>'+tabs('train');
+  app.querySelectorAll('[data-k]').forEach(function(b){b.onclick=function(){ST.gym=ST.gym||{};ST.gym[b.dataset.k]=+b.dataset.v;save();gymPage()}});window.scrollTo(0,0)}
+
 var tm=null;function stop(){if(tm){clearInterval(tm);tm=null}}
 
 function play(k,title){
@@ -184,6 +208,7 @@ function train(){stop();
   h+='<h2>Скоро</h2>'+PROG.filter(function(p){return !p.ready}).map(pcard).join('');
   h+='<h2>Как пользоваться тренажёрами</h2><div class="grid">'+HOW.map(vtile).join('')+'</div>';
   h+='<h2>Замены и другие тренажёры</h2><div class="grid">'+LIB.map(vtile).join('')+'</div>';
+  h+='<h2>Мой зал</h2><a class="tile wcard" href="#gym" style="grid-template-columns:1fr"><div><b>Шаги веса в моём зале</b><span class="small">Какие гантели и шаг тренажёров есть у тебя, чтобы подсказки предлагали реальный вес</span></div></a>';
   h+='<p style="margin-top:26px"><button class="btn s" id="rs" style="font-size:14px">Сбросить мой прогресс</button></p>';
   app.innerHTML=h+tabs('train');bindTiles();
   document.getElementById('rs').onclick=function(){ST={};save();train()};
@@ -231,14 +256,17 @@ function epage(k,j){stop();var w=W[k],id=w.ids[j],c=BY[id],m=META[id];
   app.innerHTML=h;window.scrollTo(0,0);work(k,j);
 }
 function work(k,j){stop();var w=W[k],id=w.ids[j],m=META[id],s=ex(id),N=nsets(id),box=document.getElementById('work');
-  function sets(){return '<div class="sets">'+Array.from({length:N},function(_,q){var d=s.done[q];return '<div class="'+(d!=null?'d':q===s.done.length?'n':'')+'">'+(d!=null?'✓ '+(m.step?d+' кг':''):'Подход '+(q+1))+'</div>'}).join('')+'</div>'}
+  function sets(){return '<div class="sets">'+Array.from({length:N},function(_,q){var d=s.done[q];return '<div class="'+(d!=null?'d':q===s.done.length?'n':'')+'">'+(d!=null?'✓ '+(m.step?kg(d)+' кг':''):'Подход '+(q+1))+'</div>'}).join('')+'</div>'}
   if(s.done.length>=N){var nx=j<w.ids.length-1;
-    box.innerHTML='<div style="text-align:center"><b style="font-size:20px">✓ Упражнение сделано</b><div class="small">'+(m.step?s.done.join(' · ')+' кг':'Все подходы')+'</div></div>'+sets()+'<a class="btn g" href="'+(nx?'#w'+k+'-'+(j+1):'#done'+k)+'">'+(nx?'Дальше: '+esc(nm(w.ids[j+1])):'Завершить тренировку')+'</a><button class="btn s" id="again">Сделать заново</button>';
+    box.innerHTML='<div style="text-align:center"><b style="font-size:20px">✓ Упражнение сделано</b><div class="small">'+(m.step?s.done.map(kg).join(' · ')+' кг':'Все подходы')+'</div></div>'+sets()+((s.streak||0)>=2?'<p class="small" style="margin:0">В следующий раз появится подсказка про вес.</p>':'')+'<a class="btn g" href="'+(nx?'#w'+k+'-'+(j+1):'#done'+k)+'">'+(nx?'Дальше: '+esc(nm(w.ids[j+1])):'Завершить тренировку')+'</a><button class="btn s" id="again">Сделать заново</button>';
     document.getElementById('again').onclick=function(){s.last=s.w;s.done=[];save();work(k,j)};return}
-  box.innerHTML=(m.step?'<div class="wrow"><div><b>Вес</b><div class="small">В прошлый раз '+wfmt(id,s.last)+'</div></div><div class="step"><button id="wm" aria-label="Меньше">−</button><output>'+wfmt(id,s.w)+'</output><button id="wp" aria-label="Больше">+</button></div></div>':'')
+  box.innerHTML=(s.done.length?'':hint(id,s))+(m.step?'<div class="wrow"><div><b>Вес</b><div class="small">В прошлый раз '+wfmt(id,s.last)+'</div></div><div class="step"><button id="wm" aria-label="Меньше">−</button><output>'+wfmt(id,s.w)+'</output><button id="wp" aria-label="Больше">+</button></div></div><p class="small calm">'+CALM+' <a href="#gym">Шаги в моём зале</a></p>':'')
     +sets()+'<button class="btn g" id="dn">Подход '+(s.done.length+1)+' сделан</button><div class="two"><button class="btn s" id="bz">⇄ Занято</button>'+(m.setup?'<button class="btn s" id="cf">⚙ Настроить</button>':'<button class="btn s" disabled style="opacity:.4">⚙ Настроить</button>')+'<button class="btn s" id="lt">Позже</button></div><div id="bx"></div>';
-  if(m.step){document.getElementById('wm').onclick=function(){s.w=Math.max(0,+(s.w-m.step).toFixed(1));save();work(k,j)};document.getElementById('wp').onclick=function(){s.w=+(s.w+m.step).toFixed(1);save();work(k,j)}}
-  document.getElementById('dn').onclick=function(){s.done.push(s.w);save();if(s.done.length<N)timer(k,j);else work(k,j)};
+  if(m.step){document.getElementById('wm').onclick=function(){s.w=stepDn(id,s.w);save();work(k,j)};document.getElementById('wp').onclick=function(){s.w=stepUp(id,s.w);save();work(k,j)}}
+  var hy=document.getElementById('hy');if(hy){hy.onclick=function(){s.w=nextW(id,s.lastFull);s.hintSeen=1;save();work(k,j)};document.getElementById('hn').onclick=function(){s.w=s.lastFull;s.streak=0;save();work(k,j)}}
+  document.getElementById('dn').onclick=function(){s.done.push(s.w);
+    if(s.done.length>=N){var same=s.done.every(function(v){return v===s.done[0]});s.streak=same?(s.lastFull===s.done[0]?(s.streak||0)+1:1):0;s.lastFull=s.done[0]}
+    save();if(s.done.length<N)timer(k,j);else work(k,j)};
   document.getElementById('lt').onclick=function(){var nx=w.ids.findIndex(function(x,q){return q!==j&&ex(x).done.length<nsets(x)});document.getElementById('bx').innerHTML='<p class="small" style="margin:0">Вернёшься к нему в конце. '+(nx>=0?'<a href="#w'+k+'-'+nx+'">Перейти к «'+esc(nm(w.ids[nx]))+'» ›</a>':'')+'</p>'};
   document.getElementById('bz').onclick=function(){var bx=document.getElementById('bx');
     bx.innerHTML='<div class="opt"><span class="small">Замени на:</span>'+m.alt.map(function(a,q){return '<button data-q="'+q+'">'+esc(a[0])+'<small>'+(a[1]&&ks(a[1])?'▶ Смотреть технику':(window.ALT_TXT||{})[a[0]]?'Как делать ›':'Видео скоро')+'</small></button>'}).join('')+'</div>';
@@ -263,6 +291,7 @@ function route(){var h=location.hash.slice(1)||'home',m;
   else if((m=/^done(\d)$/.exec(h))&&W[m[1]])fin(+m[1]);
   else if((m=/^p(\d+)$/.exec(h))&&PROG[m[1]]&&!PROG[m[1]].ready)pinfo(+m[1]);
   else if((m=/^g(\d+)$/.exec(h)))guide(+m[1]);
+  else if(h==='gym')gymPage();
   else if(h==='train')train();else if(h==='light')light();else if(h==='food')food();else if(h==='chat')chat();
   else home();
   modal.hidden=true;modal.innerHTML='';
