@@ -162,7 +162,7 @@ function logPage(){stop();var L=logIds(),days={};
   if(!L.length){app.innerHTML=h+'<div class="tile" style="margin-top:18px"><b>Пока пусто</b><div class="small">Здесь появятся твои веса после первой тренировки в зале. Отмечай подходы кнопкой «Подход сделан», дальше всё запишется само.</div></div>'+tabs('train');return}
   h+='<div class="chips"><span class="chip a">Тренировок: '+Object.keys(days).length+'</span><span class="chip">Упражнений: '+L.length+'</span></div>';
   L.forEach(function(x){var id=x[0],m=META[id],H=ST[id].hist,g=kind(id)==='grav',top=H.map(function(e){return g?Math.min.apply(0,e.w):Math.max.apply(0,e.w)}),f=top[0],l=top[top.length-1],dlt=r1(l-f);
-    var ch=!m.step?'':(dlt===0?'Вес держишь стабильно':(g?(dlt<0?'Противовес меньше на '+kg(-dlt)+' кг':'Противовес больше на '+kg(dlt)+' кг'):(dlt>0?'+'+kg(dlt)+' кг':'−'+kg(-dlt)+' кг'))+' с '+dfmt(H[0].d));
+    var ch=!m.step||H.length<2?'':(dlt===0?'Вес держишь стабильно':(g?(dlt<0?'Противовес меньше на '+kg(-dlt)+' кг':'Противовес больше на '+kg(dlt)+' кг'):(dlt>0?'+'+kg(dlt)+' кг':'−'+kg(-dlt)+' кг'))+' с '+dfmt(H[0].d));
     h+='<div class="tile logx"><div class="lh"><div><b>'+esc(nm(id))+'</b><span class="small">'+esc(x[1])+(g?' · в гравитроне меньше противовес = ты сильнее':'')+'</span></div><output>'+(m.step?kg(l)+' кг':pl(H.length,'тренировка','тренировки','тренировок'))+'</output></div>'
       +(m.step?spark(top.slice(-12),g):'')+(ch?'<div class="small" style="color:var(--good);font-weight:600">'+ch+'</div>':'')
       +'<ul class="lg">'+H.slice(-4).reverse().map(function(e){return '<li><span>'+dfmt(e.d)+'</span>'+(m.step?e.w.map(kg).join(' · ')+' кг':pl(e.w.length,'подход','подхода','подходов'))+'</li>'}).join('')+'</ul></div>'});
