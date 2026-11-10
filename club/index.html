@@ -48,6 +48,10 @@ h2{font-size:13px;text-transform:uppercase;letter-spacing:.07em;color:var(--mute
 .bform{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}.bform label{display:grid;gap:4px;font-size:14px;color:var(--muted)}.bform input{font:600 18px var(--f);padding:10px 12px;border:1px solid var(--hair);border-radius:12px;background:var(--bg);color:var(--ink);width:100%}
 details.tile summary{cursor:pointer}
 .chl{display:grid;gap:6px}.chl button{display:grid;grid-template-columns:28px minmax(0,1fr) auto;gap:10px;align-items:center;text-align:left;background:var(--tile);border:1px solid var(--hair);border-radius:12px;padding:10px 12px;color:var(--ink);font-size:15px}.chl button i{font-style:normal;color:var(--muted);font-size:13px}.chl button small{color:var(--muted)}.chl button.on{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
+.hello{display:grid;grid-template-columns:76px minmax(0,1fr);gap:14px;align-items:center;margin-top:8px}.hello img{width:76px;height:76px;border-radius:50%;object-fit:cover}.hello h1{margin:2px 0 0}
+.wd{background:var(--tile);border:1px solid var(--hair);border-radius:16px;padding:12px;display:grid;gap:2px}.wd span{font-size:13px;color:var(--muted)}.wd i{font-style:normal;font-size:12px;color:var(--accent);font-weight:600}
+.inside{list-style:none;padding:0;display:grid;gap:12px}.inside b{display:block}.inside span{font-size:14px;color:var(--muted)}
+.wstep i{font-style:normal;flex:none;width:30px;height:30px;border-radius:50%;background:var(--accent);color:#fff;display:grid;place-items:center;font-weight:700}
 .wrow{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
 .step{display:flex;align-items:center;gap:6px}
 .step button{width:44px;height:44px;border-radius:12px;border:1px solid var(--hair);background:var(--bg);font-size:22px}
@@ -256,6 +260,21 @@ function guide(i){stop();var g=(window.GUIDES||[])[i];if(!g)return food();
   app.innerHTML='<div class="bar"><a href="#food">‹ Питание</a><span>Гид</span></div><h1>'+esc(g.t)+'</h1><p class="sub">'+esc(g.s)+'</p>'
    +g.b.map(function(x,q){return '<div class="tile" style="margin-top:10px"><b>'+(q+1)+'. '+esc(x[0])+'</b><div style="margin-top:4px">'+esc(x[1])+'</div></div>'}).join('')
    +'<a class="btn s" style="margin-top:22px" href="#food">‹ Все гиды</a>'+tabs('food');window.scrollTo(0,0)}
+// First visit after purchase: hello from Dani, the 4-week route, what is inside, first steps. Shown until "Поехали".
+function welcome(){stop();setWeek();
+  var steps=[['#food','Посчитай свою норму питания','Пол, возраст, рост, вес и цель. Займёт минуту'],['#body','Сделай первые замеры','Талия, бёдра, вес. Через месяц будет с чем сравнить'],['#gym','Если ходишь в зал, отметь шаги веса','Какие гантели и тренажёры есть в твоём зале'],['#chat','Зайди в чат и напиши «Привет»','Там я и девочки, задание недели и эфиры']];
+  var h='<div class="hello"><img src="th/dani.jpg" alt="Даня"><div><span class="small">Привет! Это Даня 👋</span><h1>Ты в клубе Keeb&nbsp;Fit</h1></div></div>'
+   +'<p class="sub" style="margin-top:10px">Ты уже сделала самое сложное: решила начать. Дальше я рядом, и каждый день будет понятно, что делать.</p>'
+   +'<h2>Твой маршрут на 4 недели</h2><div class="week">'+WEEK.map(function(x){var q=PROG.find(function(y){return y.k===x[1]});return '<div class="wd"><b>'+x[0]+'</b><span>'+esc(q.n)+'</span><i>'+(q.ready==='gym'?'Зал':'Дома')+'</i></div>'}).join('')+'</div>'
+   +'<p class="small" style="margin:8px 0 0">3 тренировки в неделю. В зале варианты A и B чередуются по неделям, чтобы тело не привыкало.</p>'
+   +'<h2>Что внутри</h2><div class="tile"><ul class="inside"><li><b>Тренировки</b><span>Дома и в зале по шагам: видео, подходы, таймер отдыха, замены, если тренажёр занят</span></li><li><b>Питание</b><span>Твоя норма калорий и БЖУ, ладони вместо весов, гиды на сложные случаи</span></li><li><b>Прогресс</b><span>Дневник весов и замеры: видно, как меняешься</span></li><li><b>Чат</b><span>Я и девочки, задание недели, разборы и эфиры</span></li></ul></div>'
+   +'<h2>С чего начать сегодня</h2>'+steps.map(function(x,i){return '<a class="li wstep" href="'+x[0]+'"><i>'+(i+1)+'</i><div><b>'+x[1]+'</b><span class="small">'+x[2]+'</span></div></a>'}).join('')
+   +'<button class="btn g" id="go" style="margin-top:22px">Поехали</button><p class="small" style="text-align:center;margin-top:10px">Этот экран всегда можно открыть снова с главной</p>';
+  app.innerHTML=h;window.scrollTo(0,0);
+  var ok=function(){ST.welcomed=1;save()};
+  app.querySelectorAll('.wstep').forEach(function(a){a.addEventListener('click',ok)});
+  document.getElementById('go').onclick=function(){ok();location.hash='home';if(location.hash==='#home')home()};
+}
 function home(){stop();setWeek();var day=new Date().getDay(),wk=WK.cw,next=WEEK.find(function(x){return ['Вс','Пн','Вт','Ср','Чт','Пт','Сб'].indexOf(x[0])>=day})||WEEK[0];
   var p=PROG.find(function(x){return x.k===next[1]});
   var h='<div class="bar"><b style="color:var(--ink)">KEEB<span style="color:#D9365A">FIT</span></b><span class="small">'+(WK.cy>1?'Круг '+WK.cy+' · ':'')+'Неделя '+wk+' из 4</span></div><h1>Привет! 👋</h1><p class="sub">Твой маршрут: 3 тренировки в неделю. На этой неделе зал в варианте '+WK.ab+', на следующей '+(WK.ab==='A'?'B':'A')+'. Следующая ближайшая:</p>';
@@ -263,6 +282,7 @@ function home(){stop();setWeek();var day=new Date().getDay(),wk=WK.cw,next=WEEK.
   h+='<h2>Неделя '+wk+' · зал '+WK.ab+'</h2><div class="week">'+WEEK.map(function(x){var q=PROG.find(function(y){return y.k===x[1]}),dn=q.ready==='gym'&&wdone(q.w)===W[q.w].ids.length||(q.k==='light'&&ST.lightDone);return '<a href="'+(q.ready==='gym'?'#w'+q.w:'#light')+'" class="'+(dn?'d':'')+'"><b>'+x[0]+'</b><span>'+q.n+'</span><i>'+(dn?'✓':'')+'</i></a>'}).join('')+'</div>';
   h+=bodyTile();
   h+='<h2>Задание недели</h2><div class="tile"><b>3 тренировки и белок в каждом приёме пищи</b><p class="small" style="margin:6px 0 0">Отчитайся в чате после каждой тренировки. В пятницу разбор техники.</p></div>';
+  h+='<p style="margin-top:20px"><a class="small" href="#welcome">Как устроен клуб ›</a></p>';
   h+='<h2>Питание сегодня</h2><a class="tile wcard" href="#food" style="grid-template-columns:1fr"><div><b>Норма и ладони</b><span class="small">Посчитай норму один раз, дальше отмечай ладони за день и воду.</span></div></a>';
   app.innerHTML=h+tabs('home');
 }
@@ -362,6 +382,8 @@ function route(){var h=location.hash.slice(1)||'home',m;
   else if(h==='log')logPage();
   else if(h==='body')bodyPage();
   else if(h==='train')train();else if(h==='light')light();else if(h==='food')food();else if(h==='chat')chat();
+  else if(h==='welcome')welcome();
+  else if(!ST.welcomed)welcome();
   else home();
   modal.hidden=true;modal.innerHTML='';
 }
