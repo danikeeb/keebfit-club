@@ -47,6 +47,7 @@ h2{font-size:13px;text-transform:uppercase;letter-spacing:.07em;color:var(--mute
 .lg{list-style:none;padding:0;margin:0;display:grid;gap:4px;font-size:15px}.lg li{display:flex;gap:12px}.lg span{color:var(--muted);min-width:52px}
 .bform{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}.bform label{display:grid;gap:4px;font-size:14px;color:var(--muted)}.bform input{font:600 18px var(--f);padding:10px 12px;border:1px solid var(--hair);border-radius:12px;background:var(--bg);color:var(--ink);width:100%}
 details.tile summary{cursor:pointer}
+.chl{display:grid;gap:6px}.chl button{display:grid;grid-template-columns:28px minmax(0,1fr) auto;gap:10px;align-items:center;text-align:left;background:var(--tile);border:1px solid var(--hair);border-radius:12px;padding:10px 12px;color:var(--ink);font-size:15px}.chl button i{font-style:normal;color:var(--muted);font-size:13px}.chl button small{color:var(--muted)}.chl button.on{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
 .wrow{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
 .step{display:flex;align-items:center;gap:6px}
 .step button{width:44px;height:44px;border-radius:12px;border:1px solid var(--hair);background:var(--bg);font-size:22px}
@@ -105,6 +106,7 @@ ol,ul{margin:0;padding-left:22px;display:grid;gap:8px}
 <script src="../c/cards.js"></script>
 <script src="ks.js?v=33"></script>
 <script src="extra.js?v=2"></script>
+<script src="../trial/chapters.js?v=1"></script>
 <script>
 (function(){
 var C='../c/',app=document.getElementById('app'),modal=document.getElementById('modal');
@@ -278,11 +280,13 @@ function train(){stop();
 }
 function light(){stop();
   var h='<div class="bar"><a href="#train">‹ Тренировки</a><span>37 мин</span></div><h1>Лёгкость</h1><p class="sub">Утро без отёков. Поставь телефон и повторяй: я объясняю каждое упражнение, дальше «3, 2, 1» и таймер.</p>';
-  h+='<div class="player">'+(ks('light')?'<iframe src="'+emb('light')+'" allow="autoplay; fullscreen; picture-in-picture; encrypted-media" allowfullscreen></iframe>':'<p class="small" style="color:#aaa;padding:20px">Видео загружается в плеер. Пока можно открыть <a href="../trial.html">версию с сайта</a>.</p>')+'</div>';
+  h+='<div class="player">'+(ks('light')?'<iframe id="lif" src="'+emb('light')+'" allow="autoplay; fullscreen; picture-in-picture; encrypted-media" allowfullscreen></iframe>':'<p class="small" style="color:#aaa;padding:20px">Видео загружается в плеер. Пока можно открыть <a href="../trial.html">версию с сайта</a>.</p>')+'</div>';
   h+='<div class="chips"><span class="chip a">23 упражнения</span><span class="chip">Коврик</span><span class="chip">Можно на паузу</span></div>';
+  var CH=window.TRIAL_CH||[];if(CH.length&&ks('light'))h+='<h2>Части тренировки</h2><p class="small" style="margin:-4px 0 8px">Нажми на часть, и видео перемотается к этому упражнению.</p><div class="chl">'+CH.map(function(c,i){var d=Math.round(c.d);return '<button data-s="'+Math.floor(c.s)+'"><i>'+(i+1)+'</i><span>'+esc(c.t)+'</span><small>'+Math.floor(d/60)+':'+('0'+d%60).slice(-2)+'</small></button>'}).join('')+'</div>';
   h+='<button class="btn g" id="ld" style="margin-top:18px">'+(ST.lightDone?'✓ Тренировка сделана':'Я закончила тренировку')+'</button>';
   app.innerHTML=h+tabs('train');
   document.getElementById('ld').onclick=function(){ST.lightDone=true;save();light()};
+  app.querySelectorAll('.chl button').forEach(function(b){b.onclick=function(){var f=document.getElementById('lif');if(!f)return;f.src=emb('light')+'?t='+b.dataset.s+'&autoplay=1';app.querySelectorAll('.chl button').forEach(function(x){x.classList.toggle('on',x===b)});f.scrollIntoView({behavior:'smooth',block:'center'})}});
 }
 function food(){stop();
   app.innerHTML='<div class="bar"><span>Питание</span></div><h1>Питание</h1><p class="sub">Норма калорий и БЖУ под тебя, ладони вместо весов, трекер дня и воды, итог недели.</p>'
