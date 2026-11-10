@@ -204,5 +204,7 @@ tabs.querySelectorAll('button').forEach(function(b){b.onclick=function(){show(b.
 if(/today/.test(location.hash)){S.ready=true;D={p:3,c:2,f:3,v:2,w:5};show('today')}else if(/week/.test(location.hash)){show('week')}else show('norm');
 })();
 </script>
-<script src="../path.js" data-root="../" data-step="food"></script>
+<script>/* Member mode (?m=1, opened from the cabinet): no funnel bar or "next" button, a back link to the cabinet instead. */
+(function(){if(/[?&]m=1/.test(location.search)){var b=document.createElement('a');b.href='../club/#food';b.textContent='‹ Кабинет';b.setAttribute('style','position:fixed;top:max(10px,env(safe-area-inset-top));left:12px;z-index:50;background:#1D1D1F;color:#fff;font:600 15px -apple-system,BlinkMacSystemFont,Arial,sans-serif;padding:9px 14px;border-radius:999px;text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.25)');document.body.appendChild(b);document.querySelectorAll('a[href]').forEach(function(x){var h=x.getAttribute('href');if(/(^|\/)(index\.html|quiz\.html|trial\.html)/.test(h)&&!/club\//.test(h))x.style.display='none'});return}
+var s=document.createElement('script');s.src='../path.js';s.setAttribute('data-root','../');s.setAttribute('data-step','food');document.body.appendChild(s)})();</script>
 </body></html>

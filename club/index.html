@@ -286,7 +286,7 @@ function light(){stop();
 }
 function food(){stop();
   app.innerHTML='<div class="bar"><span>Питание</span></div><h1>Питание</h1><p class="sub">Норма калорий и БЖУ под тебя, ладони вместо весов, трекер дня и воды, итог недели.</p>'
-   +'<a class="btn g" style="margin-top:18px" href="../demo/pitanie.html">Открыть питание</a>'
+   +'<a class="btn g" style="margin-top:18px" href="../demo/pitanie.html?m=1">Открыть питание</a>'
    +'<h2>Гиды</h2>'+(window.GUIDES||[]).map(function(g,i){return '<a class="tile wcard" href="#g'+i+'" style="grid-template-columns:1fr;margin-top:8px"><div><b>'+esc(g.t)+'</b><span class="small">'+esc(g.s)+'</span></div></a>'}).join('')+tabs('food');
 }
 function chat(){stop();
