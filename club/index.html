@@ -315,9 +315,9 @@ function food(){stop();
 }
 function chat(){stop();
   app.innerHTML='<div class="bar"><span>Чат</span></div><h1>Закрытый чат</h1><p class="sub">Со мной и девочками, по темам.</p>'
-   +'<a class="btn g" style="margin-top:18px" href="https://t.me/keebfit_bot" target="_blank" rel="noopener">Открыть чат в Telegram</a>'
+   +'<a class="btn g" style="margin-top:18px" href="https://t.me/keebfit_bot?start=chat" target="_blank" rel="noopener">Открыть чат в Telegram</a>'
    +'<h2>Неделя в чате</h2><div class="tile"><ul><li><b>Понедельник</b> · задание недели</li><li><b>Среда</b> · разбор ошибок в питании</li><li><b>Четверг</b> · «Голова»: мышление, срывы, мотивация</li><li><b>Пятница</b> · разбор техники</li><li><b>Эфир</b> каждую неделю, записи остаются в чате</li></ul></div>'
-   +'<p class="small" style="margin-top:14px">В тесте кнопка ведёт в бота. После запуска здесь будет ссылка на чат.</p>'+tabs('chat');
+   +'<p class="small" style="margin-top:14px">Кнопка откроет бота: он пришлёт твой личный вход в чат.</p>'+tabs('chat');
 }
 function wpage(k){stop();var w=W[k];
   var h='<div class="bar"><a href="#train">‹ Тренировки</a><span>'+w.t+'</span></div><h1>'+w.n+'</h1><p class="sub">'+w.d+'. Можно в любом порядке.</p>';
