@@ -50,6 +50,7 @@ details.tile summary{cursor:pointer}
 .chl{display:grid;gap:6px}.chl button{display:grid;grid-template-columns:28px minmax(0,1fr) auto;gap:10px;align-items:center;text-align:left;background:var(--tile);border:1px solid var(--hair);border-radius:12px;padding:10px 12px;color:var(--ink);font-size:15px}.chl button i{font-style:normal;color:var(--muted);font-size:13px}.chl button small{color:var(--muted)}.chl button.on{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
 .hello{display:grid;grid-template-columns:76px minmax(0,1fr);gap:14px;align-items:center;margin-top:8px}.hello img{width:76px;height:76px;border-radius:50%;object-fit:cover}.hello h1{margin:2px 0 0}
 .wd{background:var(--tile);border:1px solid var(--hair);border-radius:16px;padding:12px;display:grid;gap:2px}.wd span{font-size:13px;color:var(--muted)}.wd i{font-style:normal;font-size:12px;color:var(--accent);font-weight:600}
+.tn{flex:none;width:28px;height:28px;border-radius:50%;background:var(--accent);color:#fff;font-style:normal;font-weight:700;display:grid;place-items:center;font-size:14px}.tn.ok{background:var(--good)}
 .inside{list-style:none;padding:0;display:grid;gap:12px}.inside b{display:block}.inside span{font-size:14px;color:var(--muted)}
 .wstep i{font-style:normal;flex:none;width:30px;height:30px;border-radius:50%;background:var(--accent);color:#fff;display:grid;place-items:center;font-weight:700}
 .wrow{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
@@ -190,15 +191,16 @@ function bodyTile(){var B=ST.body||[],l=B[B.length-1],t,sub;
 function csvDl(rows,name){var csv='﻿'+rows.map(function(r){return r.map(function(c){return '"'+String(c).replace(/"/g,'""')+'"'}).join(';')}).join('\r\n');
   var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));a.download=name;document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);a.remove()},500)}
 function bodyPage(){stop();var B=ST.body||[],td=iso(new Date()),cur=B.length&&B[B.length-1].d===td?B[B.length-1]:{};
-  var h='<div class="bar"><a href="javascript:history.back()">‹ Назад</a><span>Замеры</span></div><h1>Замеры тела</h1><p class="sub">Раз в неделю, в один и тот же день. Сантиметры честнее весов: вес скачет от воды, а талия показывает, что меняется на самом деле.</p>';
-  h+='<details class="tile" style="margin-top:14px"><summary><b>Как мерить правильно</b></summary><ul style="margin-top:10px"><li>Утром, натощак, после туалета, до тренировки.</li><li>Лента прилегает, но не врезается. Стой ровно, живот не втягивай.</li><li><b>Талия:</b> по пупку.</li><li><b>Бёдра:</b> по самой выступающей точке ягодиц.</li><li><b>Бедро:</b> правая нога, по самой широкой части под ягодицей.</li><li>Фото: в одном месте, при одном свете, спереди, сбоку и сзади. Храни их у себя в телефоне.</li></ul></details>';
+  var h='<div class="bar"><a href="javascript:history.back()">‹ Назад</a><span>Замеры</span></div><h1>Замеры тела</h1><p class="sub">Замеры делаются 1 раз в неделю, в один и тот же день. Анализируй результат по сантиметрам, а не по весам: вес может скакать каждый день, а замеры показывают реальные цифры.</p>';
+  h+='<details class="tile" style="margin-top:14px"><summary><b>Как мерить правильно</b></summary><ol style="margin-top:10px;padding-left:20px"><li>Делай замеры только утром, натощак, после туалета и до тренировки.</li><li>Лента должна прилегать к телу, но не врезаться и не пережимать кожу.</li><li>Встань ровно, не втягивай живот и не отклячивай ягодицы: нам нужны реальные цифры.</li><li><b>Талию</b> измеряй на уровне пупка.</li><li><b>Бёдра:</b> по самой выступающей точке ягодиц.</li><li><b>Бедро:</b> правая нога, по самой широкой части под ягодицей.</li></ol><p style="margin:12px 0 6px"><b>Сделай 4 фото себя сейчас</b>, лучше в белье или облегающей спортивной одежде:</p><ul><li>1 фото анфас;</li><li>2 фото в профиль, с разных сторон;</li><li>1 фото сзади.</li></ul><p class="small" style="margin:8px 0 0">Фото нужны для участия в конкурсе в нашем чате и чтобы ты видела свой личный результат. Снимай в одном месте и при одном свете.</p></details>';
+  h+='<p style="margin:16px 0 0">После того как сделала замеры, внеси их в эту таблицу и сохрани.</p>';
   h+='<div class="tile" style="margin-top:12px"><b>'+(cur.d?'Сегодняшние замеры':'Новые замеры · '+dfmt(td))+'</b><div class="bform">'+BM.map(function(m){return '<label><span>'+m[1]+'</span><input type="text" inputmode="decimal" autocomplete="off" id="b_'+m[0]+'" value="'+(cur[m[0]]!=null?kg(cur[m[0]]):'')+'" placeholder="'+m[2]+'"></label>'}).join('')+'</div><button class="btn g" id="bsave">Сохранить замеры</button><div class="small" id="bmsg" style="margin-top:6px"></div></div>';
   if(B.length){h+='<h2>Как меняется</h2>';BM.forEach(function(m){var v=B.filter(function(e){return e[m[0]]!=null});if(!v.length)return;var vals=v.map(function(e){return e[m[0]]}),f=vals[0],l=vals[vals.length-1],d=r1(l-f);
       h+='<div class="tile logx"><div class="lh"><div><b>'+m[1]+'</b><span class="small">'+pl(v.length,'замер','замера','замеров')+'</span></div><output>'+kg(l)+' '+m[2]+'</output></div>'+spark(vals.slice(-12),true)
         +(v.length>1?'<div class="small" style="color:'+(d<0?'var(--good)':'var(--muted)')+';font-weight:600">'+(d===0?'Без изменений':(d<0?'−':'+')+kg(Math.abs(d))+' '+m[2])+' с '+dfmt(v[0].d)+'</div>':'')+'</div>'});
     h+='<ul class="lg tile" style="margin-top:10px">'+B.slice(-6).reverse().map(function(e){return '<li><span>'+dfmt(e.d)+'</span>'+BM.filter(function(m){return e[m[0]]!=null}).map(function(m){return m[1].toLowerCase()+' '+kg(e[m[0]])}).join(' · ')+'</li>'}).join('')+'</ul>';
     h+='<button class="btn s" id="bcsv" style="margin-top:14px">Скачать замеры таблицей</button>'}
-  h+='<p class="small" style="margin-top:12px">Не расстраивайся из-за одного замера. Смотри на линию за месяц.</p>';
+  h+='<p class="small" style="margin-top:12px">Помни, что ты красотка ❤️</p>';
   app.innerHTML=h+tabs('home');
   document.getElementById('bsave').onclick=function(){var e={d:td},any=false;BM.forEach(function(m){var x=parseFloat(String(document.getElementById('b_'+m[0]).value).replace(',','.'));if(x>0&&x<400){e[m[0]]=r1(x);any=true}});
     if(!any){document.getElementById('bmsg').textContent='Впиши хотя бы одно число.';return}
@@ -277,15 +279,37 @@ function welcome(){stop();setWeek();
 }
 function home(){stop();setWeek();var day=new Date().getDay(),wk=WK.cw,next=WEEK.find(function(x){return ['Вс','Пн','Вт','Ср','Чт','Пт','Сб'].indexOf(x[0])>=day})||WEEK[0];
   var p=PROG.find(function(x){return x.k===next[1]});
-  var h='<div class="bar"><b style="color:var(--ink)">KEEB<span style="color:#D9365A">FIT</span></b><span class="small">'+(WK.cy>1?'Круг '+WK.cy+' · ':'')+'Неделя '+wk+' из 4</span></div><h1>Привет! 👋</h1><p class="sub">Твой маршрут: 3 тренировки в неделю. На этой неделе зал в варианте '+WK.ab+', на следующей '+(WK.ab==='A'?'B':'A')+'. Следующая ближайшая:</p>';
-  h+='<h2>Следующая · '+next[0]+'</h2>'+pcard(p);
-  h+='<h2>Неделя '+wk+' · зал '+WK.ab+'</h2><div class="week">'+WEEK.map(function(x){var q=PROG.find(function(y){return y.k===x[1]}),dn=q.ready==='gym'&&wdone(q.w)===W[q.w].ids.length||(q.k==='light'&&ST.lightDone);return '<a href="'+(q.ready==='gym'?'#w'+q.w:'#light')+'" class="'+(dn?'d':'')+'"><b>'+x[0]+'</b><span>'+q.n+'</span><i>'+(dn?'✓':'')+'</i></a>'}).join('')+'</div>';
-  h+=bodyTile();
-  h+='<h2>Задание недели</h2><div class="tile"><b>3 тренировки и белок в каждом приёме пищи</b><p class="small" style="margin:6px 0 0">Отчитайся в чате после каждой тренировки. В пятницу разбор техники.</p></div>';
+  var h='<div class="bar"><b style="color:var(--ink)">KEEB<span style="color:#D9365A">FIT</span></b><span class="small">'+(WK.cy>1?'Круг '+WK.cy+' · ':'')+'Неделя '+wk+' из 4</span></div>';
+  h+='<div class="hello"><img src="th/dani.jpg" alt="Даня"><div><span class="small">Это Даня 👋</span><h1>Привет, красотка!</h1></div></div>';
+  h+='<p class="sub" style="margin-top:10px">Рад видеть тебя в Keeb Fit. Поздравляю! Ты сделала самое сложное: решила начать менять себя и свою жизнь. Теперь я рядом и буду помогать тебе на этом пути.</p><p class="sub" style="margin-top:8px">Начнём с твоего плана и путеводителя по платформе.</p>';
+  h+='<h2>Твой маршрут на 4 недели</h2><div class="tile"><b>3 тренировки в неделю</b><p class="small" style="margin:6px 0 0">Низ, лёгкость и верх. В зале варианты A и B чередуются по неделям: на этой неделе '+WK.ab+', на следующей '+(WK.ab==='A'?'B':'A')+'.</p><a class="small" href="#rezhim" style="display:inline-block;margin-top:8px;color:var(--accent);font-weight:600">Читать подробнее ›</a></div>';
+  h+='<h2>Твоя следующая тренировка · '+next[0]+'</h2>'+pcard(p);
+  h+='<h2>Расписание тренировок на ближайшую неделю</h2><div class="week">'+WEEK.map(function(x){var q=PROG.find(function(y){return y.k===x[1]}),dn=q.ready==='gym'&&wdone(q.w)===W[q.w].ids.length||(q.k==='light'&&ST.lightDone);return '<a href="'+(q.ready==='gym'?'#w'+q.w:'#light')+'" class="'+(dn?'d':'')+'"><b>'+x[0]+'</b><span>'+q.n+'</span><i>'+(dn?'✓':'')+'</i></a>'}).join('')+'</div>';
+  var B=ST.body||[];
+  var tasks=[
+   ['Посчитай свою норму калорий и БЖУ','От питания зависит 80% результата, поэтому посчитай внимательно.','../demo/pitanie.html?m=1&from=home','Посчитать',!!ST.normDone],
+   [B.length?'Обнови замеры':'Сделай первые замеры','Нам важно отслеживать твой результат. Нажми, чтобы внести свои замеры сейчас.','#body','Внести замеры',B.length&&daysSince(B[B.length-1].d)<7],
+   ['Начни программу своих тренировок','Изучи тренировочный план и упражнения здесь.','#train','К тренировкам',false],
+   ['Изучи и составь свой рацион на неделю','Пора внедрять сбалансированное питание в свою жизнь. Как сделать это быстро? Читай здесь.','#food','К питанию',false]];
+  h+='<h2>Инструкция по платформе</h2><div class="tile"><b>Что ты найдёшь здесь</b><ul class="inside" style="margin-top:8px">'
+   +'<li><b>Полную программу тренировок для зала и дома</b><span>С подробным разбором техники и подходами, которые ты выполняешь вместе со мной по таймеру.</span></li>'
+   +'<li><b>План питания и инструкцию, как составить свой рацион</b><span>Подсчёт твоей нормы КБЖУ и ладони вместо взвешивания продуктов.</span></li>'
+   +'<li><b>Замеры твоего прогресса</b><span>Дневник веса и замеров: ты видишь, как меняешься.</span></li>'
+   +'<li><b>Чат со мной и участницами Keeb Fit</b><span>Поддержка от комьюнити красоток, ответы на твои вопросы, эфиры и разборы лично от меня.</span></li></ul>'
+   +'<a class="btn g" style="margin-top:12px" href="https://t.me/keebfit_bot?start=chat" target="_blank" rel="noopener">Перейти в чат</a></div>';
+  h+='<h2>Твоё задание на сегодня</h2>'+tasks.map(function(t,i){return '<div class="tile task" style="margin-top:8px"><div style="display:flex;gap:10px;align-items:flex-start"><i class="tn'+(t[4]?' ok':'')+'">'+(t[4]?'✓':i+1)+'</i><div style="flex:1"><b>'+t[0]+'</b><p class="small" style="margin:4px 0 10px">'+t[1]+'</p><a class="btn s" style="padding:10px 14px;font-size:15px" href="'+t[2]+'"'+(i===0?' onclick="KF_NORM()"':'')+'>'+t[3]+'</a></div></div></div>'}).join('');
   h+='<p style="margin-top:20px"><a class="small" href="#welcome">Как устроен клуб ›</a></p>';
-  h+='<h2>Питание сегодня</h2><a class="tile wcard" href="#food" style="grid-template-columns:1fr"><div><b>Норма и ладони</b><span class="small">Посчитай норму один раз, дальше отмечай ладони за день и воду.</span></div></a>';
   app.innerHTML=h+tabs('home');
 }
+window.KF_NORM=function(){ST.normDone=1;save()};
+// "Твой режим тренировок": how to alternate the 3 weekly workouts.
+function rezhim(){stop();setWeek();
+  app.innerHTML='<div class="bar"><a href="#home">‹ Сегодня</a><span>Режим</span></div><h1>Твой режим тренировок</h1><p class="sub">3 тренировки в неделю, между ними день отдыха. Мышцы растут не на тренировке, а пока ты восстанавливаешься.</p>'
+   +'<h2>Неделя</h2><div class="tile"><ul class="inside"><li><b>Понедельник · Сила: низ</b><span>Ягодицы и ноги. Самая тяжёлая тренировка недели, ставим её на свежую голову.</span></li><li><b>Среда · Лёгкость</b><span>Мобильность, растяжка и тонус. Снимает отёки и помогает ногам восстановиться после понедельника.</span></li><li><b>Пятница · Сила: верх</b><span>Спина, плечи и осанка.</span></li></ul></div>'
+   +'<h2>Варианты A и B</h2><div class="tile">В зале у низа и верха по два варианта. Чередуй их по неделям: неделя A, потом неделя B. Так мышцы получают новую нагрузку и не привыкают. Сейчас у тебя неделя '+WK.ab+'.</div>'
+   +'<h2>Если день сбился</h2><div class="tile"><ul><li>Дни можно сдвигать: вторник, четверг, суббота тоже подходят. Главное, чтобы между силовыми был день отдыха.</li><li>Не делай низ два дня подряд.</li><li>Пропустила тренировку? Просто сделай её на следующий день и иди дальше по плану. Догонять двумя тренировками за день не нужно.</li><li>Нет возможности дойти до зала? Возьми домашнюю тренировку на ту же часть тела.</li></ul></div>'
+   +'<h2>В дни отдыха</h2><div class="tile">Гуляй: 8–10 тысяч шагов в день. Это лучшее кардио для фигуры, и оно не мешает восстановлению.</div>'
+   +'<a class="btn g" style="margin-top:22px" href="#train">К тренировкам</a>'+tabs('home');window.scrollTo(0,0)}
 function train(){stop();
   var h='<div class="bar"><span>Тренировки</span></div><h1>Все программы</h1><p class="sub">8 программ: 6 дома и 2 в зале. В зале по два варианта, A и B: чередуй их по неделям.</p>';
   h+='<h2>Готовы</h2>'+PROG.filter(function(p){return p.ready}).map(pcard).join('');
@@ -381,6 +405,7 @@ function route(){var h=location.hash.slice(1)||'home',m;
   else if(h==='gym')gymPage();
   else if(h==='log')logPage();
   else if(h==='body')bodyPage();
+  else if(h==='rezhim')rezhim();
   else if(h==='train')train();else if(h==='light')light();else if(h==='food')food();else if(h==='chat')chat();
   else if(h==='welcome')welcome();
   else if(!ST.welcomed)welcome();
