@@ -141,7 +141,7 @@ var app=document.getElementById('app'),tabs=document.getElementById('tabs'),MEM=
 var S={sex:'f',age:26,h:169,w:52,bf:21,act:2,goal:'lose',pace:1,method:'palm',ready:false};
 var D={p:0,c:0,f:0,v:0,w:0};
 try{var s=JSON.parse(localStorage.getItem('mf-norm')||'null');if(s)S=Object.assign(S,s,{});var d=JSON.parse(localStorage.getItem('mf-day')||'null');if(d)D=d}catch(e){}
-function save(){try{localStorage.setItem('mf-norm',JSON.stringify(S));localStorage.setItem('mf-day',JSON.stringify(D))}catch(e){}}
+function save(){S.ready=true;try{localStorage.setItem('mf-norm',JSON.stringify(S));localStorage.setItem('mf-day',JSON.stringify(D));var q=calc();localStorage.setItem('mf-res',JSON.stringify({k:Math.round(q.kcal),p:Math.round(q.prot),f:Math.round(q.fat),c:Math.round(q.carb)}))}catch(e){}}
 var ACT=[['Сидячая',1.2,'офис, мало шагов'],['Лёгкая',1.375,'1–3 тренировки'],['Средняя',1.55,'3–5 тренировок'],['Высокая',1.725,'6–7 тренировок'],['Очень высокая',1.9,'спорт + физ. работа']];
 var GOALS={lose:{n:'Похудение',paces:[['Мягко',-.05],['Оптимально',-.15],['Быстро',-.20]]},keep:{n:'Поддержание',paces:[['—',0]]},gain:{n:'Набор',paces:[['Микро',.05],['Оптимально',.10],['Быстро',.15]]}};
 var PALMS={lose:{p:5,f:4,c:4,v:5},keep:{p:5,f:5,c:6,v:4},gain:{p:6,f:5,c:8,v:4}};
@@ -238,7 +238,8 @@ function week(){
 }
 function show(t){tabs.querySelectorAll('button').forEach(function(b){b.setAttribute('aria-selected',b.dataset.t===t?'true':'false')});app.scrollTop=0;(t==='norm'?norm:t==='today'?today:week)()}
 tabs.querySelectorAll('button').forEach(function(b){b.onclick=function(){show(b.dataset.t)}});
-if(/today/.test(location.hash)){S.ready=true;D={p:3,c:2,f:3,v:2,w:5};show('today')}else if(/week/.test(location.hash)){show('week')}else show('norm');
+var TQ=(/[?&]t=(today|week)/.exec(location.search)||[])[1];/* cabinet buttons: her own day, not the demo numbers */
+ if(TQ){show(TQ)}else if(/today/.test(location.hash)){S.ready=true;D={p:3,c:2,f:3,v:2,w:5};show('today')}else if(/week/.test(location.hash)){show('week')}else show('norm');
 })();
 </script>
 <script>/* Member mode (?m=1, opened from the cabinet): no funnel bar or "next" button, a back link to the cabinet instead. */
