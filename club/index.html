@@ -103,7 +103,58 @@ ol,ul{margin:0;padding-left:22px;display:grid;gap:8px}
 .wcard.soon{opacity:.6}
 .ph0{width:96px;height:96px;border-radius:14px;background:linear-gradient(135deg,var(--hair),var(--bg))}
 @media (max-width:480px){.loop{grid-template-columns:minmax(0,1fr)}.loop video{max-width:220px}}
+
+/* ===== Design pass 12.11: Keeb Fit brand look — warm neutrals, rose accent, soft cards without borders, display type ===== */
+:root{--bg:#F4F1EE;--tile:#FFFFFF;--ink:#16141A;--muted:#77707A;--hair:#ECE6E2;--accent:#D6336C;--accent2:#FF7A9C;--soft:#FBE8EE;--good:#2E8B57;--goodbg:#E5F3EA;--bad:#C93C3C;
+--d:"Inter Tight",-apple-system,BlinkMacSystemFont,"SF Pro Display","Helvetica Neue",Arial,sans-serif;--sh:0 1px 2px rgba(22,20,26,.04),0 8px 24px -12px rgba(22,20,26,.12)}
+@media (prefers-color-scheme:dark){:root{--bg:#0C0B0D;--tile:#18161A;--ink:#F6F2F4;--muted:#A49CA6;--hair:#2A262C;--accent:#FF4F86;--accent2:#FF8FAE;--soft:#2A1520;--good:#5BC985;--goodbg:#112419;--sh:0 1px 0 rgba(255,255,255,.04) inset}}
+body{font-size:16px;line-height:1.5}
+h1,.wcard b,.done b,.hello h1,.tile>b,.inside b,.week a b{font-family:var(--d)}
+h1{font-weight:700;letter-spacing:-.035em;font-size:clamp(30px,8vw,42px)}
+h2{font:600 12px/1.2 var(--f);letter-spacing:.12em;margin:34px 0 12px;padding-left:4px;color:var(--muted)}
+.sub{font-size:16px;line-height:1.55}
+.tile,.li,.week a,.vt,.chl button,.err div,.wd,.ph figure{border:0;box-shadow:var(--sh);border-radius:22px}
+.tile{padding:18px}
+.tile>b{font-size:18px;letter-spacing:-.015em;display:block}
+.small{font-size:14px;line-height:1.5}
+.wcard{gap:16px;padding:12px;margin-top:10px}
+.wcard img,.ph0{width:88px;height:88px;border-radius:16px}
+.wcard b{font-size:19px;font-weight:700;letter-spacing:-.02em;margin:1px 0 2px}
+.wcard .small:first-child{font-size:11px;letter-spacing:.1em;text-transform:uppercase;font-weight:600}
+.li{padding:10px 12px;border-radius:18px}
+.btn{border-radius:999px;padding:15px 18px;font:600 16px var(--f);letter-spacing:-.01em;transition:transform .12s ease,opacity .12s}
+.btn:active{transform:scale(.98)}
+.btn.g{background:linear-gradient(135deg,var(--accent),var(--accent2));box-shadow:0 10px 24px -10px var(--accent)}
+.btn.s{background:var(--soft);color:var(--accent);border:0}
+.chip{border:0;background:var(--tile);box-shadow:var(--sh);border-radius:999px}
+.chip.a,.chips .chip.a{background:var(--accent);color:#fff}
+.bar{min-height:40px;font-size:14px}
+.bar b{font-family:var(--d);font-size:17px;letter-spacing:.02em}
+/* hero greeting */
+.hello{background:radial-gradient(120% 90% at 50% 0%,var(--soft),transparent 70%);border-radius:28px;padding:22px 8px 4px;margin-top:6px}
+.hello img{width:104px;height:104px;box-shadow:0 0 0 4px var(--tile),0 12px 28px -10px rgba(214,51,108,.55)}
+.hello .small{font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);font-weight:600}
+.hello~.sub.c{max-width:520px;margin-left:auto;margin-right:auto}
+/* week */
+.week{gap:10px}.week a{padding:14px 12px;border-radius:20px}.week a b{font-size:15px;color:var(--accent)}.week a span{font-size:13px;line-height:1.35;color:var(--ink)}
+.week a.d{background:var(--goodbg);box-shadow:none}
+/* tasks */
+.tn{background:var(--soft);color:var(--accent);width:30px;height:30px}.tn.ok{background:var(--good);color:#fff}
+.task .btn.s{display:inline-block;width:auto}
+/* inside list */
+.inside{gap:14px}.inside li{padding-left:16px;position:relative}.inside li:before{content:"";position:absolute;left:0;top:.55em;width:6px;height:6px;border-radius:50%;background:var(--accent)}
+.inside b{font-size:16px;letter-spacing:-.01em}
+/* forms */
+.bform input{border:0;background:var(--bg);border-radius:14px}
+/* tab bar: frosted glass */
+.tabbar{background:color-mix(in srgb,var(--tile) 78%,transparent);-webkit-backdrop-filter:saturate(1.6) blur(18px);backdrop-filter:saturate(1.6) blur(18px);border-top:1px solid var(--hair);padding-top:8px}
+.tabbar a{font-size:11px;gap:3px;font-weight:500}
+.tabbar a svg{width:24px;height:24px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.tabbar a.on{color:var(--accent);font-weight:600}
+.hint{border-radius:16px}
+details.tile summary{list-style:none;display:flex;justify-content:space-between;align-items:center}details.tile summary::after{content:"›";color:var(--muted);font-size:22px;transition:transform .2s}details.tile[open] summary::after{transform:rotate(90deg)}details.tile summary::-webkit-details-marker{display:none}
 </style>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;600;700&display=swap">
 </head>
 <body>
 <div class="in" id="app"></div>
@@ -183,7 +234,7 @@ function logPage(){stop();var L=logIds(),days={};
     rows.sort(function(a,b){return a[0]==='Дата'?-1:b[0]==='Дата'?1:a[0]<b[0]?-1:a[0]>b[0]?1:0});
     var csv='﻿'+rows.map(function(r){return r.map(function(c){return '"'+String(c).replace(/"/g,'""')+'"'}).join(';')}).join('\r\n');
     var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));a.download='keebfit_dnevnik_vesov.csv';document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);a.remove()},500)}}
-var BM=[['kg','Вес','кг'],['waist','Талия','см'],['hips','Бёдра','см'],['thigh','Бедро','см']];
+var BM=[['kg','Вес','кг'],['waist','Талия','см'],['hips','Обхват ягодиц','см'],['thigh','Обхват бедра','см']];
 function daysSince(d){var p=d.split('-');return Math.floor((new Date()-new Date(+p[0],p[1]-1,+p[2]))/864e5)}
 function bodyTile(){var B=ST.body||[],l=B[B.length-1],t,sub;
   if(!l){t='Сделай первые замеры';sub='2 минуты и сантиметровая лента. Через месяц будет с чем сравнить.'}
@@ -193,7 +244,7 @@ function csvDl(rows,name){var csv='﻿'+rows.map(function(r){return r.map(functi
   var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));a.download=name;document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);a.remove()},500)}
 function bodyPage(){stop();var B=ST.body||[],td=iso(new Date()),cur=B.length&&B[B.length-1].d===td?B[B.length-1]:{};
   var h='<div class="bar"><a href="javascript:history.back()">‹ Назад</a><span>Замеры</span></div><h1>Замеры тела</h1><p class="sub">Замеры делаются 1 раз в неделю, в один и тот же день. Анализируй результат по сантиметрам, а не по весам: вес может скакать каждый день, а замеры показывают реальные цифры.</p>';
-  h+='<details class="tile" style="margin-top:14px"><summary><b>Как мерить правильно</b></summary><ol style="margin-top:10px;padding-left:20px"><li>Делай замеры только утром, натощак, после туалета и до тренировки.</li><li>Лента должна прилегать к телу, но не врезаться и не пережимать кожу.</li><li>Встань ровно, не втягивай живот и не отклячивай ягодицы: нам нужны реальные цифры.</li><li><b>Талию</b> измеряй на уровне пупка.</li><li><b>Бёдра:</b> по самой выступающей точке ягодиц.</li><li><b>Бедро:</b> правая нога, по самой широкой части под ягодицей.</li></ol><p style="margin:12px 0 6px"><b>Сделай 4 фото себя сейчас</b>, лучше в белье или облегающей спортивной одежде:</p><ul><li>1 фото анфас;</li><li>2 фото в профиль, с разных сторон;</li><li>1 фото сзади.</li></ul><p class="small" style="margin:8px 0 0">Фото нужны для участия в конкурсе в нашем чате и чтобы ты видела свой личный результат. Снимай в одном месте и при одном свете.</p></details>';
+  h+='<details class="tile" style="margin-top:14px"><summary><b>Как мерить правильно</b></summary><ol style="margin-top:10px;padding-left:20px"><li>Делай замеры только утром, натощак, после туалета и до тренировки.</li><li>Лента должна прилегать к телу, но не врезаться и не пережимать кожу.</li><li>Встань ровно, не втягивай живот и не отклячивай ягодицы: нам нужны реальные цифры.</li><li><b>Талию</b> измеряй на уровне пупка.</li><li><b>Обхват ягодиц:</b> по самой выступающей точке ягодиц.</li><li><b>Обхват бедра:</b> правая нога, по самой широкой части под ягодицей.</li></ol><p style="margin:12px 0 6px"><b>Сделай 4 фото себя сейчас</b>, лучше в белье или облегающей спортивной одежде:</p><ul><li>1 фото анфас;</li><li>2 фото в профиль, с разных сторон;</li><li>1 фото сзади.</li></ul><p class="small" style="margin:8px 0 0">Фото нужны для участия в конкурсе в нашем чате и чтобы ты видела свой личный результат. Снимай в одном месте и при одном свете.</p></details>';
   h+='<p style="margin:16px 0 0">После того как сделала замеры, внеси их в эту таблицу и сохрани.</p>';
   h+='<div class="tile" style="margin-top:12px"><b>'+(cur.d?'Сегодняшние замеры':'Новые замеры · '+dfmt(td))+'</b><div class="bform">'+BM.map(function(m){return '<label><span>'+m[1]+'</span><input type="text" inputmode="decimal" autocomplete="off" id="b_'+m[0]+'" value="'+(cur[m[0]]!=null?kg(cur[m[0]]):'')+'" placeholder="'+m[2]+'"></label>'}).join('')+'</div><button class="btn g" id="bsave">Сохранить замеры</button><div class="small" id="bmsg" style="margin-top:6px"></div></div>';
   if(B.length){h+='<h2>Как меняется</h2>';BM.forEach(function(m){var v=B.filter(function(e){return e[m[0]]!=null});if(!v.length)return;var vals=v.map(function(e){return e[m[0]]}),f=vals[0],l=vals[vals.length-1],d=r1(l-f);
@@ -248,7 +299,8 @@ function setWeek(){var now=monday(new Date());if(!ST.start){ST.start=iso(now);sa
   if(ST.wk!==n){if(ST.wk){Object.keys(ST).forEach(function(k){if(ST[k]&&ST[k].done)ST[k].done=[]});ST.lightDone=false}ST.wk=n;save()}
   var R4=['w0','w1','w2','w3'],o=(n-1)*3;WEEK=[['Пн',R4[o%4]],['Ср',R4[(o+1)%4]],['Пт',R4[(o+2)%4]]]}
 setWeek();
-function tabs(cur){return '<nav class="tabbar">'+[['home','Сегодня','◉'],['train','Тренировки','▤'],['food','Питание','◔'],['chat','Чат','✉']].map(function(t){return '<a href="#'+t[0]+'"'+(t[0]===cur?' class="on"':'')+'><i>'+t[2]+'</i>'+t[1]+'</a>'}).join('')+'</nav>'}
+var TI={home:'<path d="M4 11.5 12 5l8 6.5V19a1 1 0 0 1-1 1h-4.5v-5h-5v5H5a1 1 0 0 1-1-1z"/>',train:'<path d="M3 10v4M6.5 7.5v9M17.5 7.5v9M21 10v4M6.5 12h11"/>',food:'<path d="M12 21a8 8 0 1 0 0-16 8 8 0 0 0 0 16z"/><path d="M12 5v7l5 3"/>',chat:'<path d="M5 18.5V7a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H8.5z"/>'};
+function tabs(cur){return '<nav class="tabbar">'+[['home','Сегодня'],['train','Тренировки'],['food','Питание'],['chat','Чат']].map(function(t){return '<a href="#'+t[0]+'"'+(t[0]===cur?' class="on"':'')+'><svg viewBox="0 0 24 24" aria-hidden="true">'+TI[t[0]]+'</svg>'+t[1]+'</a>'}).join('')+'</nav>'}
 function wdone(k){var w=W[k];return w.ids.filter(function(id){return ex(id).done.length>=nsets(id)}).length}
 function pcard(p){var href=p.ready==='gym'?'#w'+p.w:p.ready==='video'?'#light':'#p'+PROG.indexOf(p);var img=p.ready==='gym'?im(W[p.w].ids[0],'mid'):p.img||'';
   var st=p.ready==='gym'?(wdone(p.w)?'Сделано '+wdone(p.w)+' из '+W[p.w].ids.length:W[p.w].ids.length+' упражнений · '+W[p.w].t):p.ready==='video'?'Видео 37 мин':'Откроется скоро · подробнее ›';
