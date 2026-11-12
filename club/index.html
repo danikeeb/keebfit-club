@@ -160,8 +160,8 @@ details.tile summary{list-style:none;display:flex;justify-content:space-between;
 <div class="in" id="app"></div>
 <div class="modal" id="modal" hidden></div>
 <script src="../c/cards.js"></script>
-<script src="ks.js?v=33"></script>
-<script src="extra.js?v=5"></script>
+<script src="ks.js?v=34"></script>
+<script src="extra.js?v=6"></script>
 <script src="../trial/chapters.js?v=1"></script>
 <script>
 (function(){
@@ -280,6 +280,8 @@ function bindTiles(){app.querySelectorAll('.vt').forEach(function(b){b.onclick=f
 
 var PROG=[
  {k:'light',n:'Тренировка от отёков',where:'Дома · коврик',d:'Сделай её или часть упражнений с утра и избавься от отёков и лишней воды',ready:'video',vid:'light',img:'th/light.jpg'},
+ {k:'hdown',n:'Дом: низ с резинкой',where:'Дома · резинка',d:'Ягодицы и ноги. 9 упражнений, делаешь вместе со мной по таймеру',ready:'video',vid:'home_down',img:'th/home_down.jpg',min:20},
+ {k:'hup',n:'Дом: верх с эспандером',where:'Дома · эспандер',d:'Спина, плечи и руки. 11 упражнений вместе со мной по таймеру',ready:'video',vid:'home_up',img:'th/home_up.jpg',min:25},
  {k:'w0',n:'Big ass тренировка 1',where:'Зал',d:'Ягодичный мост, румынская тяга, разведение ног, гиперэкстензия',ready:'gym',w:0},
  {k:'w1',n:'Спина',where:'Зал',d:'Тяги, гравитрон, задняя дельта, гиперэкстензия',ready:'gym',w:1},
  {n:'Песочные часы',where:'Дома · резинка',d:'Ягодицы и ноги. Упругая попа и линия бедра'},
@@ -302,8 +304,8 @@ setWeek();
 var TI={home:'<path d="M4 11.5 12 5l8 6.5V19a1 1 0 0 1-1 1h-4.5v-5h-5v5H5a1 1 0 0 1-1-1z"/>',train:'<path d="M3 10v4M6.5 7.5v9M17.5 7.5v9M21 10v4M6.5 12h11"/>',food:'<path d="M12 21a8 8 0 1 0 0-16 8 8 0 0 0 0 16z"/><path d="M12 5v7l5 3"/>',chat:'<path d="M5 18.5V7a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H8.5z"/>'};
 function tabs(cur){return '<nav class="tabbar">'+[['home','Сегодня'],['train','Тренировки'],['food','Питание'],['chat','Чат']].map(function(t){return '<a href="#'+t[0]+'"'+(t[0]===cur?' class="on"':'')+'><svg viewBox="0 0 24 24" aria-hidden="true">'+TI[t[0]]+'</svg>'+t[1]+'</a>'}).join('')+'</nav>'}
 function wdone(k){var w=W[k];return w.ids.filter(function(id){return ex(id).done.length>=nsets(id)}).length}
-function pcard(p){var href=p.ready==='gym'?'#w'+p.w:p.ready==='video'?'#light':'#p'+PROG.indexOf(p);var img=p.ready==='gym'?im(W[p.w].ids[0],'mid'):p.img||'';
-  var st=p.ready==='gym'?(wdone(p.w)?'Сделано '+wdone(p.w)+' из '+W[p.w].ids.length:W[p.w].ids.length+' упражнений · '+W[p.w].t):p.ready==='video'?'Видео 37 мин':'Откроется скоро · подробнее ›';
+function pcard(p){var href=p.ready==='gym'?'#w'+p.w:p.ready==='video'?(p.vid==='light'?'#light':'#hv'+p.vid):'#p'+PROG.indexOf(p);var img=p.ready==='gym'?im(W[p.w].ids[0],'mid'):p.img||'';
+  var st=p.ready==='gym'?(wdone(p.w)?'Сделано '+wdone(p.w)+' из '+W[p.w].ids.length:W[p.w].ids.length+' упражнений · '+W[p.w].t):p.ready==='video'?'Видео '+(p.min||37)+' мин':'Откроется скоро · подробнее ›';
   return '<a href="'+href+'" class="tile wcard'+(p.ready?'':' soon')+'">'+(img?'<img src="'+img+'" alt="" onerror="this.style.visibility=\'hidden\'">':'<div class="ph0"></div>')+'<div><span class="small">'+p.where+'</span><b>'+p.n+'</b><span class="small">'+p.d+'</span><div class="small" style="margin-top:4px;color:'+(p.ready?'var(--accent)':'var(--muted)')+'">'+st+'</div></div></a>'}
 function pinfo(i){stop();var p=PROG[i],f=(window.PROG_INFO||{})[p.n]||{};
   app.innerHTML='<div class="bar"><a href="#train">‹ Тренировки</a><span>Скоро</span></div><h1>'+esc(p.n)+'</h1><p class="sub">'+esc(p.d)+'</p>'
@@ -392,6 +394,12 @@ function light(){stop();
   document.getElementById('ld').onclick=function(){ST.lightDone=true;save();light()};
   app.querySelectorAll('.chl button').forEach(function(b){b.onclick=function(){var f=document.getElementById('lif');if(!f)return;f.src=emb('light')+'?t='+b.dataset.s+'&autoplay=1';app.querySelectorAll('.chl button').forEach(function(x){x.classList.toggle('on',x===b)});f.scrollIntoView({behavior:'smooth',block:'center'})}});
 }
+function hvideo(v){stop();var p=PROG.find(function(x){return x.vid===v});if(!p)return train();
+  var h='<div class="bar"><a href="#train">‹ Тренировки</a><span>'+(p.min||'')+' мин</span></div><h1>'+esc(p.n)+'</h1><p class="sub">'+esc(p.d)+'. Поставь телефон и повторяй: я объясняю каждое упражнение, дальше минута работы по таймеру.</p>';
+  h+='<div class="player">'+(ks(v)?'<iframe src="'+emb(v)+'" allow="autoplay; fullscreen; picture-in-picture; encrypted-media" allowfullscreen></iframe>':'<p class="small" style="color:#aaa;padding:20px">Видео загружается в плеер, загляни чуть позже.</p>')+'</div>';
+  h+='<div class="chips"><span class="chip a">'+esc(p.where)+'</span><span class="chip">Можно на паузу</span></div>';
+  var dk='hv_'+v;h+='<button class="btn g" id="hd" style="margin-top:18px">'+(ST[dk]?'✓ Тренировка сделана':'Я закончила тренировку')+'</button>';
+  app.innerHTML=h+tabs('train');document.getElementById('hd').onclick=function(){ST[dk]=true;save();hvideo(v)}}
 function food(){stop();
   app.innerHTML='<div class="bar"><span>Питание</span></div><h1>Питание</h1><p class="sub"><b style="color:var(--ink)">Питание — это 80% результата.</b> Тело строится на кухне: от того, что, сколько и как ты ешь, будет зависеть твой результат.</p><p class="sub" style="margin-top:8px">Ниже я собрал основные правила, которые помогут держать рацион.</p>'
    +'<div class="tile" style="margin-top:16px"><b>Не забудь посчитать свою норму КБЖУ</b><p class="small" style="margin:4px 0 10px">Один раз посчитай, дальше отмечай еду ладонями или в граммах.</p><a class="btn g" href="../demo/pitanie.html?m=1&from=food" onclick="KF_NORM()">Посчитать КБЖУ</a></div>'
@@ -466,6 +474,7 @@ function route(){var h=location.hash.slice(1)||'home',m;
   else if(h==='log')logPage();
   else if(h==='body')bodyPage();
   else if(h==='rezhim')rezhim();
+  else if((m=/^hv(\w+)$/.exec(h)))hvideo(m[1]);
   else if(h==='train')train();else if(h==='light')light();else if(h==='food')food();else if(h==='chat')chat();
   else if(h==='welcome')welcome();
   else if(!ST.welcomed)welcome();
