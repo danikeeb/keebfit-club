@@ -69,10 +69,10 @@ window.KF_EXTRA=function(CARDS,META,W,PROG){
   NEW.forEach(function(c){c.lite=!c.pos;CARDS.push(c);META[c.id]=NMETA[c.id];if(KS[c.vid])KS[c.id]=KS[c.vid]});
   Object.keys(COPY).forEach(function(k){var o=COPY[k],c=CARDS.find(function(x){return x.id===o});if(!c)return;
     var n={};for(var p in c)n[p]=c[p];n.id=k;n.src=o;CARDS.push(n);META[k]=JSON.parse(JSON.stringify(META[o]));if(KS[o])KS[k]=KS[o]});
-  W.push({n:'Big ass тренировка 2',d:'Ягодицы и ноги, второй вариант',ids:['x14','x13','x07','x10','b1274','b1275'],t:'~50 мин'});
-  W.push({n:'Верх B',d:'Спина, грудь, плечи, руки',ids:['x15','x16','x01','x06','b1377','b1378','x17'],t:'~55 мин'});
-  PROG.splice(3,0,{k:'w2',n:'Big ass тренировка 2',where:'Зал',d:'Второй вариант: мост на скамье, сгибание и разгибание ног',ready:'gym',w:2},
-                  {k:'w3',n:'Сила: верх B',where:'Зал',d:'Второй вариант: хаммеры, гравитрон, жим в тренажёре',ready:'gym',w:3});
+  W.push({n:'Big ass тренировка 2',d:'Ноги и ягодицы, полегче',ids:['1278','1272','1275','x07'],t:'~40 мин'});
+  W.push({n:'Плечи',d:'Плечи, грудь и руки',ids:['1374','1377','1372','1391','x17'],t:'~45 мин'});
+  PROG.splice(3,0,{k:'w2',n:'Big ass тренировка 2',where:'Зал',d:'Плие-присед, обратные выпады, сведение и разгибание ног',ready:'gym',w:2},
+                  {k:'w3',n:'Плечи',where:'Зал',d:'Жимы, махи в стороны, трицепс',ready:'gym',w:3});
 };
 
 // Swaps without video yet: short how-to shown in the "Занято" window.

@@ -110,7 +110,7 @@ ol,ul{margin:0;padding-left:22px;display:grid;gap:8px}
 <div class="modal" id="modal" hidden></div>
 <script src="../c/cards.js"></script>
 <script src="ks.js?v=33"></script>
-<script src="extra.js?v=4"></script>
+<script src="extra.js?v=5"></script>
 <script src="../trial/chapters.js?v=1"></script>
 <script>
 (function(){
@@ -130,7 +130,8 @@ var META={
 '1378':{eq:'Скамья, гантели 2–4 кг',w:3,step:1,alt:[['Обратная «бабочка» в тренажёре'],['Разведение резинки']]},
 '1391':{eq:'Блок с прямой рукоятью',w:15,step:2.5,setup:['m04','m05','m03'],alt:[['Брусья в гравитроне','m17'],['Французский жим с гантелью']]},
 '1384':{eq:'Скамья для гиперэкстензии',w:0,step:0,setup:['m09'],alt:[['Гиперэкстензия на ягодицы','m10'],['«Птица-собака»']]}};
-var W=[{n:'Big ass тренировка 1',d:'Ягодицы и ноги',ids:['1278','1274','1273','1275','1277','1272'],t:'~50 мин'},{n:'Верх A',d:'Спина, плечи, руки',ids:['1385','1381','1372','1374','1377','1378','1391','1384'],t:'~55 мин'}];
+// Marketer's split (12.11): two glute days and upper body split into back and shoulders.
+var W=[{n:'Big ass тренировка 1',d:'Ягодицы и задняя поверхность бедра',ids:['1273','1277','1274','x10'],t:'~40 мин'},{n:'Спина',d:'Спина и осанка',ids:['1385','1381','x06','1378','1384'],t:'~45 мин'}];
 var HOW=['m02','m03','m04','m05'],LIB=['m01','m06','m17','m07','m13','m08','m09','m10','m11','m12','m14','m15','m16'];
 var BY={};CARDS.forEach(function(c){BY[c.id]=c});
 function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
@@ -228,8 +229,8 @@ function bindTiles(){app.querySelectorAll('.vt').forEach(function(b){b.onclick=f
 
 var PROG=[
  {k:'light',n:'Тренировка от отёков',where:'Дома · коврик',d:'Сделай её или часть упражнений с утра и избавься от отёков и лишней воды',ready:'video',vid:'light',img:'th/light.jpg'},
- {k:'w0',n:'Big ass тренировка 1',where:'Зал',d:'Ягодицы в тренажёрах, по шагам',ready:'gym',w:0},
- {k:'w1',n:'Сила: верх A',where:'Зал',d:'Спина, плечи и осанка в зале',ready:'gym',w:1},
+ {k:'w0',n:'Big ass тренировка 1',where:'Зал',d:'Ягодичный мост, румынская тяга, разведение ног, гиперэкстензия',ready:'gym',w:0},
+ {k:'w1',n:'Спина',where:'Зал',d:'Тяги, гравитрон, задняя дельта, гиперэкстензия',ready:'gym',w:1},
  {n:'Песочные часы',where:'Дома · резинка',d:'Ягодицы и ноги. Упругая попа и линия бедра'},
  {n:'Песочные часы 2.0',where:'Дома · резинка + гантель',d:'Сложнее, когда первая станет лёгкой'},
  {n:'Талия-струна',where:'Дома · коврик',d:'Живот и талия без бесконечных скручиваний'},
@@ -245,7 +246,7 @@ function setWeek(){var now=monday(new Date());if(!ST.start){ST.start=iso(now);sa
   var p=ST.start.split('-'),st=new Date(+p[0],p[1]-1,+p[2]),n=Math.max(1,Math.round((now-st)/864e5/7)+1);
   WK={n:n,cw:(n-1)%4+1,cy:Math.floor((n-1)/4)+1,ab:n%2?'A':'B'};
   if(ST.wk!==n){if(ST.wk){Object.keys(ST).forEach(function(k){if(ST[k]&&ST[k].done)ST[k].done=[]});ST.lightDone=false}ST.wk=n;save()}
-  WEEK=[['Пн',WK.ab==='A'?'w0':'w2'],['Ср','light'],['Пт',WK.ab==='A'?'w1':'w3']]}
+  var R4=['w0','w1','w2','w3'],o=(n-1)*3;WEEK=[['Пн',R4[o%4]],['Ср',R4[(o+1)%4]],['Пт',R4[(o+2)%4]]]}
 setWeek();
 function tabs(cur){return '<nav class="tabbar">'+[['home','Сегодня','◉'],['train','Тренировки','▤'],['food','Питание','◔'],['chat','Чат','✉']].map(function(t){return '<a href="#'+t[0]+'"'+(t[0]===cur?' class="on"':'')+'><i>'+t[2]+'</i>'+t[1]+'</a>'}).join('')+'</nav>'}
 function wdone(k){var w=W[k];return w.ids.filter(function(id){return ex(id).done.length>=nsets(id)}).length}
@@ -268,7 +269,7 @@ function welcome(){stop();setWeek();
   var h='<div class="hello"><img src="th/dani.jpg" alt="Даня"><div><span class="small">Привет! Это Даня 👋</span><h1>Ты в клубе Keeb&nbsp;Fit</h1></div></div>'
    +'<p class="sub" style="margin-top:10px">Ты уже сделала самое сложное: решила начать. Дальше я рядом, и каждый день будет понятно, что делать.</p>'
    +'<h2>Твой маршрут на 4 недели</h2><div class="week">'+WEEK.map(function(x){var q=PROG.find(function(y){return y.k===x[1]});return '<div class="wd"><b>'+x[0]+'</b><span>'+esc(q.n)+'</span><i>'+(q.ready==='gym'?'Зал':'Дома')+'</i></div>'}).join('')+'</div>'
-   +'<p class="small" style="margin:8px 0 0">3 тренировки в неделю. В зале варианты A и B чередуются по неделям, чтобы тело не привыкало.</p>'
+   +'<p class="small" style="margin:8px 0 0">3 тренировки в неделю. Низ и верх чередуются по кругу: Big ass 1, Спина, Big ass 2, Плечи.</p>'
    +'<h2>Что внутри</h2><div class="tile"><ul class="inside"><li><b>Тренировки</b><span>Дома и в зале по шагам: видео, подходы, таймер отдыха, замены, если тренажёр занят</span></li><li><b>Питание</b><span>Твоя норма калорий и БЖУ, ладони вместо весов, гиды на сложные случаи</span></li><li><b>Прогресс</b><span>Дневник весов и замеры: видно, как меняешься</span></li><li><b>Чат</b><span>Я и девочки, задание недели, разборы и эфиры</span></li></ul></div>'
    +'<h2>С чего начать сегодня</h2>'+steps.map(function(x,i){return '<a class="li wstep" href="'+x[0]+'"><i>'+(i+1)+'</i><div><b>'+x[1]+'</b><span class="small">'+x[2]+'</span></div></a>'}).join('')
    +'<button class="btn g" id="go" style="margin-top:22px">Поехали</button><p class="small" style="text-align:center;margin-top:10px">Этот экран всегда можно открыть снова с главной</p>';
@@ -282,7 +283,7 @@ function home(){stop();setWeek();var day=new Date().getDay(),wk=WK.cw,next=WEEK.
   var h='<div class="bar"><b style="color:var(--ink)">KEEB<span style="color:#D9365A">FIT</span></b><span class="small">'+(WK.cy>1?'Круг '+WK.cy+' · ':'')+'Неделя '+wk+' из 4</span></div>';
   h+='<div class="hello"><img src="th/dani.jpg" alt="Даня"><div><span class="small">Это Даня 👋</span><h1>Привет, красотка!</h1></div></div>';
   h+='<p class="sub c" style="margin-top:12px;text-align:center">Рад видеть тебя в Keeb Fit. Поздравляю! Ты сделала самое сложное: решила начать менять себя и свою жизнь. Теперь я рядом и буду помогать тебе на этом пути.</p><p class="sub c" style="margin-top:8px;text-align:center">Начнём с твоего плана и путеводителя по платформе.</p>';
-  h+='<h2>Твой маршрут на 4 недели</h2><div class="tile"><b>3 тренировки в неделю</b><p class="small" style="margin:6px 0 0">Низ, тренировка от отёков и верх. В зале варианты A и B чередуются по неделям: на этой неделе '+WK.ab+', на следующей '+(WK.ab==='A'?'B':'A')+'.</p><a class="small" href="#rezhim" style="display:inline-block;margin-top:8px;color:var(--accent);font-weight:600">Читать подробнее ›</a></div>';
+  h+='<h2>Твой маршрут на 4 недели</h2><div class="tile"><b>3 тренировки в неделю</b><p class="small" style="margin:6px 0 0">Низ и верх чередуются: одна неделя низ, верх, низ, следующая верх, низ, верх. Тренировку от отёков делай по утрам в любой день.</p><a class="small" href="#rezhim" style="display:inline-block;margin-top:8px;color:var(--accent);font-weight:600">Читать подробнее ›</a></div>';
   h+='<h2>Твоя следующая тренировка · '+next[0]+'</h2>'+pcard(p);
   h+='<h2>Расписание тренировок на ближайшую неделю</h2><div class="week">'+WEEK.map(function(x){var q=PROG.find(function(y){return y.k===x[1]}),dn=q.ready==='gym'&&wdone(q.w)===W[q.w].ids.length||(q.k==='light'&&ST.lightDone);return '<a href="'+(q.ready==='gym'?'#w'+q.w:'#light')+'" class="'+(dn?'d':'')+'"><b>'+x[0]+'</b><span>'+q.n+'</span><i>'+(dn?'✓':'')+'</i></a>'}).join('')+'</div>';
   var B=ST.body||[];
@@ -307,10 +308,13 @@ function home(){stop();setWeek();var day=new Date().getDay(),wk=WK.cw,next=WEEK.
 window.KF_NORM=function(){ST.normDone=1;save()};
 // "Твой режим тренировок": how to alternate the 3 weekly workouts.
 function rezhim(){stop();setWeek();
-  app.innerHTML='<div class="bar"><a href="#home">‹ Сегодня</a><span>Режим</span></div><h1>Твой режим тренировок</h1><p class="sub">3 тренировки в неделю, между ними день отдыха. Мышцы растут не на тренировке, а пока ты восстанавливаешься.</p>'
-   +'<h2>Неделя</h2><div class="tile"><ul class="inside"><li><b>Понедельник · Сила: низ</b><span>Ягодицы и ноги. Самая тяжёлая тренировка недели, ставим её на свежую голову.</span></li><li><b>Среда · Тренировка от отёков</b><span>Мобильность, растяжка и тонус. Снимает отёки и помогает ногам восстановиться после понедельника.</span></li><li><b>Пятница · Сила: верх</b><span>Спина, плечи и осанка.</span></li></ul></div>'
-   +'<h2>Варианты A и B</h2><div class="tile">В зале у низа и верха по два варианта. Чередуй их по неделям: неделя A, потом неделя B. Так мышцы получают новую нагрузку и не привыкают. Сейчас у тебя неделя '+WK.ab+'.</div>'
-   +'<h2>Если день сбился</h2><div class="tile"><ul><li>Дни можно сдвигать: вторник, четверг, суббота тоже подходят. Главное, чтобы между силовыми был день отдыха.</li><li>Не делай низ два дня подряд.</li><li>Пропустила тренировку? Просто сделай её на следующий день и иди дальше по плану. Догонять двумя тренировками за день не нужно.</li><li>Нет возможности дойти до зала? Возьми домашнюю тренировку на ту же часть тела.</li></ul></div>'
+  var nm4=function(k){return PROG.find(function(p){return p.k===k}).n};
+  app.innerHTML='<div class="bar"><a href="#home">‹ Сегодня</a><span>Режим</span></div><h1>Как комбинировать тренировки</h1><p class="sub">3 тренировки в неделю, между ними день отдыха. Мышцы растут не на тренировке, а пока ты восстанавливаешься.</p>'
+   +'<h2>Четыре тренировки в зале</h2><div class="tile"><ul class="inside"><li><b>Big ass тренировка 1</b><span>Ягодичный мост, румынская тяга, разведение ног, гиперэкстензия. Самая тяжёлая для ягодиц.</span></li><li><b>Big ass тренировка 2</b><span>Плие-присед, обратные выпады, сведение и разгибание ног. Полегче, больше на ноги.</span></li><li><b>Спина</b><span>Тяги, гравитрон, задняя дельта, гиперэкстензия. Ровная спина и осанка.</span></li><li><b>Плечи</b><span>Жимы, махи в стороны, трицепс. Красивые плечи и руки.</span></li></ul></div>'
+   +'<h2>Как чередовать</h2><div class="tile">Тренировки идут по кругу: <b>Big ass 1 → Спина → Big ass 2 → Плечи</b>, и снова сначала. В неделю делаешь 3 из них, поэтому одна неделя получается низ, верх, низ, а следующая верх, низ, верх.<div class="small" style="margin-top:10px">На этой неделе: '+WEEK.map(function(x){return x[0]+' · '+nm4(x[1])}).join(', ')+'.</div></div>'
+   +'<h2>Как выбрать, что тренировать сегодня</h2><div class="tile"><ul><li>Открой «Сегодня»: там уже стоит твоя следующая тренировка. Просто делай её.</li><li>Пропустила день? Не перескакивай, сделай ту, что пропустила, и иди дальше по кругу.</li><li>Болят ягодицы после низа? Сегодня верх, а низ через день.</li><li>Мало сил или времени? Сделай тренировку от отёков или её часть.</li></ul></div>'
+   +'<h2>Тренировка от отёков</h2><div class="tile">Её можно делать по утрам в любой день, в том числе между силовыми. Она снимает отёки и лишнюю воду и помогает ногам восстановиться.</div>'
+   +'<h2>Если день сбился</h2><div class="tile"><ul><li>Дни можно сдвигать: вторник, четверг, суббота тоже подходят. Главное, чтобы между силовыми был день отдыха.</li><li>Не делай две тренировки на ягодицы два дня подряд.</li><li>Догонять двумя тренировками за день не нужно.</li><li>Нет возможности дойти до зала? Возьми домашнюю тренировку на ту же часть тела.</li></ul></div>'
    +'<h2>В дни отдыха</h2><div class="tile">Гуляй: 8–10 тысяч шагов в день. Это лучшее кардио для фигуры, и оно не мешает восстановлению.</div>'
    +'<a class="btn g" style="margin-top:22px" href="#train">К тренировкам</a>'+tabs('home');window.scrollTo(0,0)}
 function train(){stop();
