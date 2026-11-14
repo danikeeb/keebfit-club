@@ -430,12 +430,14 @@ body.post .bf{display:none!important}
     <div class="progs" id="progs">
       <div class="pg" data-n="Песочные часы"><small>Дома · резинка</small><h3>Песочные часы</h3><p>Ягодицы и ноги. Упругая попа и линия бедра</p><a class="proofchip" href="#results">Дора: талия −5 см, бёдра −4 см за 2,5 месяца →</a></div>
       <div class="pg" data-n="Песочные часы 2.0"><small>Дома · резинка + гантель</small><h3>Песочные часы 2.0</h3><p>Сложнее, когда первая станет лёгкой</p></div>
-      <div class="pg" data-n="Талия-струна"><small>Дома · коврик</small><h3>Талия-струна</h3><p>Живот и талия без бесконечных скручиваний</p></div>
+      <div class="pg" data-n="Осиная талия"><small>Дома · коврик</small><h3>Осиная талия</h3><p>Живот и талия без бесконечных скручиваний</p></div>
       <div class="pg" data-n="Осанка балерины"><small>Дома · гантели</small><h3>Осанка балерины</h3><p>Руки, спина, плечи. Ровная спина и руки без стеснения</p></div>
       <div class="pg" data-n="Целая я"><small>Дома · коврик</small><h3>Целая я</h3><p>Всё тело за одну тренировку</p></div>
-      <div class="pg" data-n="Лёгкость"><small>Дома · коврик</small><h3>Лёгкость</h3><p>Утро без отёков. Мобильность и тонус на весь день</p></div>
-      <div class="pg gym" data-n="Сила: низ"><small>Зал</small><h3>Сила: низ</h3><p>Ягодицы в тренажёрах, по шагам</p></div>
-      <div class="pg gym" data-n="Сила: верх"><small>Зал</small><h3>Сила: верх</h3><p>Спина, плечи и осанка в зале</p></div>
+      <div class="pg" data-n="Антиотёчная тренировка"><small>Дома · коврик</small><h3>Анти&shy;отёчная</h3><p>Тренировка на утро: убирает отёки, даёт мобильность и тонус на весь день</p></div>
+      <div class="pg gym" data-n="Big ass"><small>Зал</small><h3>Big ass 1</h3><p>Ягодичный мост, румынская тяга, разведение, гиперэкстензия</p></div>
+      <div class="pg gym" data-n="Big ass"><small>Зал</small><h3>Big ass 2</h3><p>Плие, обратные выпады, сведение и разгибание ног</p></div>
+      <div class="pg gym" data-n="Спина и плечи"><small>Зал</small><h3>Спина</h3><p>Тяги и гравитрон: ровная спина и осанка</p></div>
+      <div class="pg gym" data-n="Спина и плечи"><small>Зал</small><h3>Плечи</h3><p>Жимы и махи: красивые плечи и руки</p></div>
     </div>
     <div class="duo" style="margin-top:22px">
       <div><ul><li>Одно видео: ставишь телефон и повторяешь, я объясняю каждое упражнение</li><li>«3, 2, 1», таймер и подсказка, что дальше, прямо на экране</li><li>Маршрут на 4 недели: не нужно думать, что делать сегодня</li><li>В зале по шагам: гифка, настройка тренажёра, таймер отдыха</li><li>Тренажёр занят или болит колено — у каждого упражнения есть замена</li></ul></div>
@@ -466,9 +468,9 @@ body.post .bf{display:none!important}
 <section class="ps" style="background:var(--paper2);border-block:3px solid var(--ink)"><div class="in">
   <h2 class="D h2">Что будет <span class="berry">после оплаты</span></h2>
   <div class="steps">
-    <div class="st"><b>Оплачиваешь</b><span>Картой или СБП, за минуту</span></div>
-    <div class="st"><b>Бот пишет тебе</b><span>Привет от меня и доступ к тренировкам</span></div>
-    <div class="st"><b>Начинаешь</b><span>Твой маршрут и закрытый чат со мной</span></div>
+    <div class="st"><b>Оплачиваешь</b><span>Оплачиваешь клуб картой или СБП за минуту</span></div>
+    <div class="st"><b>Бот пишет тебе</b><span>Бот присылает тебе ссылку на вступление в чат и приложение</span></div>
+    <div class="st"><b>Начинаешь</b><span>Ты начинаешь свой маршрут тренировок и задаёшь вопросы в общем чате</span></div>
   </div>
 </div></section>
 
@@ -499,7 +501,7 @@ body.post .bf{display:none!important}
   var p=window.KF&&KF.plan;
   // fallback: the quiz passes the plan in the link (#route-…) in case browser storage is unavailable here
   var h=location.hash.slice(1);
-  if(!p&&/^route-/.test(h)){var x=h.split('-'),PR=['Песочные часы','Песочные часы 2.0','Талия-струна','Осанка балерины','Целая я','Лёгкость','Сила: низ','Сила: верх'],OB={f:'food',s:'system',m:'motiv',t:'tired',a:'alone',h:'how'};
+  if(!p&&/^route-/.test(h)){var x=h.split('-'),PR=['Песочные часы','Песочные часы 2.0','Осиная талия','Осанка балерины','Целая я','Антиотёчная тренировка','Big ass','Спина и плечи'],OB={f:'food',s:'system',m:'motiv',t:'tired',a:'alone',h:'how'};
     p={prog:PR[+x[1]]||PR[0],kcal:+x[2],prot:+x[3],place:{h:'home',g:'gym',b:'both'}[x[4]]||'home',time:x[5],kg:+x[6],weeks:+x[7]?[+x[7],+x[8]]:null,obst:x[9]==='x'?[]:x[9].split('').map(function(c){return OB[c]}).filter(Boolean),name:''};}
   // before the quiz the page is one screen; her saved plan opens the rest
   document.body.classList.add(p?'post':'pre');

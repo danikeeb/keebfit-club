@@ -182,9 +182,9 @@ function when(weeks){var d=new Date(Date.now()+weeks*7*864e5),day=d.getDate();re
 function range(){var kg=Math.max(1,A.w-A.target);return {kg:kg,a:Math.ceil(kg),b:Math.ceil(kg/0.5)}}
 function program(){
  var f=A.focus||[],gym=A.place==='gym';
- if(has('sympt','swell')&&(A.goal==='tone'||A.goal==='start'))return ['Лёгкость','Утро без отёков: мобильность и тонус на весь день'];
- if(gym)return f.indexOf('arms')>=0&&f.indexOf('glutes')<0?['Сила: верх','Спина, плечи и осанка в зале, по шагам']:['Сила: низ','Ягодицы в тренажёрах, по шагам'];
- if(f.length===1&&f[0]==='belly')return ['Талия-струна','Живот и талия без бесконечных скручиваний'];
+ if(has('sympt','swell')&&(A.goal==='tone'||A.goal==='start'))return ['Антиотёчная тренировка','Утро без отёков: мобильность и тонус на весь день'];
+ if(gym)return f.indexOf('arms')>=0&&f.indexOf('glutes')<0?['Спина и плечи','Спина, плечи и осанка в зале, по шагам']:['Big ass','Ягодицы в тренажёрах, по шагам'];
+ if(f.length===1&&f[0]==='belly')return ['Осиная талия','Живот и талия без бесконечных скручиваний'];
  if(f.length===1&&f[0]==='arms')return ['Осанка балерины','Руки, спина, плечи и ровная спина'];
  if(f.indexOf('glutes')>=0&&f.length<=2)return ['Песочные часы','Ягодицы и ноги: упругая попа и линия бедра'];
  return ['Целая я','Всё тело за одну тренировку'];
@@ -321,7 +321,7 @@ function showResult(){
    +(helps.length?'<div class="row"><span class="l">Что поможет именно тебе</span><div class="help">'+helps.map(function(o){return '<div><b>'+HELP[o][0]+'</b>'+HELP[o][1]+'</div>'}).join('')+'</div></div>':'')
    +'<div class="row"><span class="l">Дальше</span><b>Программа «'+esc(p.prog)+'» — одна из 8 программ клуба KEEB FIT. Внутри я веду тебя по ней 4 недели: план на каждый день, техника, питание и я в чате.</b></div>'
   +'</div>';
- var PR=['Песочные часы','Песочные часы 2.0','Талия-струна','Осанка балерины','Целая я','Лёгкость','Сила: низ','Сила: верх'],OB={food:'f',system:'s',motiv:'m',tired:'t',alone:'a',how:'h'};
+ var PR=['Песочные часы','Песочные часы 2.0','Осиная талия','Осанка балерины','Целая я','Антиотёчная тренировка','Big ass','Спина и плечи'],OB={food:'f',system:'s',motiv:'m',tired:'t',alone:'a',how:'h'};
  var rc=['route',Math.max(0,PR.indexOf(p.prog)),p.kcal,p.prot,{home:'h',gym:'g',both:'b'}[p.place]||'h',p.time||'30',p.kg||0,p.weeks?p.weeks[0]:0,p.weeks?p.weeks[1]:0,(p.obst||[]).map(function(o){return OB[o]||''}).join('')||'x'].join('-');
  foot.innerHTML='<a class="go" href="index.html#'+rc+'">Дальше: как я тебя поведу →</a>'
   +(KF.tg?'<p class="sub" style="text-align:center;margin-top:10px">✓ План уже отправлен тебе в Telegram</p>':'<a class="alt" href="'+KF.bot('plan')+'" target="_blank" rel="noopener">Сохранить результат в Telegram</a>')
