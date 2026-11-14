@@ -280,7 +280,7 @@ function vtile(k){return '<button class="vt" data-k="'+k+'"><img src="th/'+k+'.j
 function bindTiles(){app.querySelectorAll('.vt').forEach(function(b){b.onclick=function(){play(b.dataset.k,b.querySelector('span').textContent)}})}
 
 var PROG=[
- {k:'light',n:'Антиотёчная тренировка',where:'Дома · коврик',d:'Сделай её или часть упражнений с утра и избавься от отёков и лишней воды',ready:'video',vid:'light',img:'th/light.jpg'},
+ {k:'light',n:'Антиотёчная тренировка',where:'Дома · коврик',d:'Сделай её или часть упражнений с утра и избавься от отёков и лишней воды',ready:'video',vid:'light',img:'th/light.jpg',min:27},
  {k:'hdown',n:'Дом: низ с резинкой',where:'Дома · резинка',d:'Ягодицы и ноги. 9 упражнений, делаешь вместе со мной по таймеру',ready:'video',vid:'home_down',img:'th/home_down.jpg',min:20},
  {k:'hup',n:'Дом: верх с эспандером',where:'Дома · эспандер',d:'Спина, плечи и руки. 11 упражнений вместе со мной по таймеру',ready:'video',vid:'home_up',img:'th/home_up.jpg',min:25},
  {k:'w0',n:'Big ass тренировка 1',where:'Зал',d:'Ягодичный мост, румынская тяга, разведение ног, гиперэкстензия',ready:'gym',w:0},
