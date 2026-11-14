@@ -160,9 +160,10 @@ details.tile summary{list-style:none;display:flex;justify-content:space-between;
 <div class="in" id="app"></div>
 <div class="modal" id="modal" hidden></div>
 <script src="../c/cards.js"></script>
-<script src="ks.js?v=35"></script>
+<script src="ks.js?v=36"></script>
 <script src="extra.js?v=7"></script>
 <script src="../trial/chapters.js?v=1"></script>
+<script src="light_ch.js?v=1"></script>
 <script>
 (function(){
 var C='../c/',app=document.getElementById('app'),modal=document.getElementById('modal');
@@ -385,10 +386,10 @@ function train(){stop();
   document.getElementById('rs').onclick=function(){if(!confirm('Стереть веса, дневник, замеры и начать маршрут заново?'))return;ST={};save();setWeek();train()};
 }
 function light(){stop();
-  var h='<div class="bar"><a href="#train">‹ Тренировки</a><span>37 мин</span></div><h1>Антиотёчная тренировка</h1><p class="sub">Утро без отёков. Поставь телефон и повторяй: я объясняю каждое упражнение, дальше «3, 2, 1» и таймер.</p>';
+  var h='<div class="bar"><a href="#train">‹ Тренировки</a><span>27 мин</span></div><h1>Антиотёчная тренировка</h1><p class="sub">Утро без отёков. Поставь телефон и повторяй: я объясняю каждое упражнение, дальше «3, 2, 1» и таймер.</p>';
   h+='<div class="player">'+(ks('light')?'<iframe id="lif" src="'+emb('light')+'" allow="autoplay; fullscreen; picture-in-picture; encrypted-media" allowfullscreen></iframe>':'<p class="small" style="color:#aaa;padding:20px">Видео загружается в плеер. Пока можно открыть <a href="../trial.html">версию с сайта</a>.</p>')+'</div>';
   h+='<div class="chips"><span class="chip a">23 упражнения</span><span class="chip">Коврик</span><span class="chip">Можно на паузу</span></div>';
-  var CH=window.TRIAL_CH||[];if(CH.length&&ks('light'))h+='<h2>Части тренировки</h2><p class="small" style="margin:-4px 0 8px">Нажми на часть, и видео перемотается к этому упражнению.</p><div class="chl">'+CH.map(function(c,i){var d=Math.round(c.d);return '<button data-s="'+Math.floor(c.s)+'"><i>'+(i+1)+'</i><span>'+esc(c.t)+'</span><small>'+Math.floor(d/60)+':'+('0'+d%60).slice(-2)+'</small></button>'}).join('')+'</div>';
+  var CH=window.LIGHT_CH||[];if(CH.length&&ks('light'))h+='<h2>Части тренировки</h2><p class="small" style="margin:-4px 0 8px">Нажми на часть, и видео перемотается к этому упражнению.</p><div class="chl">'+CH.map(function(c,i){var d=Math.round(c.d);return '<button data-s="'+Math.floor(c.s)+'"><i>'+(i+1)+'</i><span>'+esc(c.t)+'</span><small>'+Math.floor(d/60)+':'+('0'+d%60).slice(-2)+'</small></button>'}).join('')+'</div>';
   h+='<button class="btn g" id="ld" style="margin-top:18px">'+(ST.lightDone?'✓ Тренировка сделана':'Я закончила тренировку')+'</button>';
   app.innerHTML=h+tabs('train');
   document.getElementById('ld').onclick=function(){ST.lightDone=true;save();light()};
