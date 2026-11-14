@@ -20,6 +20,15 @@ body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);f
 p{margin:0}
 .btn{display:inline-flex;align-items:center;justify-content:center;font-family:var(--display);text-transform:uppercase;font-size:18px;color:var(--ink);background:var(--white);border:3px solid var(--ink);border-radius:18px;padding:14px 24px;text-decoration:none;box-shadow:6px 6px 0 var(--ink);transition:transform .15s,box-shadow .15s;cursor:pointer;text-align:center}
 .btn:hover{transform:translate(3px,3px);box-shadow:3px 3px 0 var(--ink)}
+.tryzal{display:flex;align-items:center;gap:16px;margin-top:22px;padding:16px 18px;background:var(--berry);color:#fff;border:3px solid var(--ink);border-radius:20px;box-shadow:6px 6px 0 var(--ink);text-decoration:none;transition:transform .15s,box-shadow .15s;animation:tzpulse 2.4s ease-in-out infinite}
+.tryzal:hover{transform:translate(3px,3px);box-shadow:3px 3px 0 var(--ink)}
+.tz-ic{flex:none;width:48px;height:48px;border-radius:50%;background:#fff;color:var(--berry);display:grid;place-items:center;font-size:20px;border:3px solid var(--ink)}
+.tz-tx{display:grid;gap:4px;flex:1;min-width:0}.tz-tx b{font-family:var(--display);text-transform:uppercase;font-size:17px;line-height:1.15;letter-spacing:.01em}.tz-tx small{font-size:14px;line-height:1.35;opacity:.95}
+.tz-go{flex:none;background:#fff;color:var(--ink);font-family:var(--display);text-transform:uppercase;font-size:14px;padding:10px 14px;border:2px solid var(--ink);border-radius:12px;white-space:nowrap}
+@keyframes tzpulse{0%,100%{box-shadow:6px 6px 0 var(--ink)}50%{box-shadow:6px 6px 0 var(--ink),0 0 0 8px rgba(226,56,95,.22)}}
+@media (max-width:640px){.tryzal{flex-wrap:wrap;padding:14px}.tz-ic{width:40px;height:40px;font-size:16px}.tz-go{width:100%;text-align:center}}
+@media (prefers-reduced-motion:reduce){.tryzal{animation:none}}
+
 .btn.red{background:var(--berry);color:var(--white)}
 .btn:focus-visible,summary:focus-visible,.tab:focus-visible{outline:3px solid var(--berry);outline-offset:4px}
 .tag{display:inline-block;font-weight:800;font-size:12px;letter-spacing:.08em;text-transform:uppercase;border:2px solid var(--ink);border-radius:99px;padding:5px 12px;background:var(--white)}
@@ -422,7 +431,7 @@ body.post .bf{display:none!important}
       <div class="pg gym" data-n="Сила: верх"><small>Зал</small><h3>Сила: верх</h3><p>Спина, плечи и осанка в зале</p></div>
     </div>
     <div class="duo" style="margin-top:22px">
-      <div><ul><li>Одно видео: ставишь телефон и повторяешь, я объясняю каждое упражнение</li><li>«3, 2, 1», таймер и подсказка, что дальше, прямо на экране</li><li>Маршрут на 4 недели: не нужно думать, что делать сегодня</li><li>В зале по шагам: гифка, настройка тренажёра, таймер отдыха</li><li>Тренажёр занят или болит колено — у каждого упражнения есть замена</li></ul><a class="try" href="demo/zal.html">Попробовать режим «Зал» →</a></div>
+      <div><ul><li>Одно видео: ставишь телефон и повторяешь, я объясняю каждое упражнение</li><li>«3, 2, 1», таймер и подсказка, что дальше, прямо на экране</li><li>Маршрут на 4 недели: не нужно думать, что делать сегодня</li><li>В зале по шагам: гифка, настройка тренажёра, таймер отдыха</li><li>Тренажёр занят или болит колено — у каждого упражнения есть замена</li></ul><a class="tryzal" href="demo/zal.html"><span class="tz-ic">▶</span><span class="tz-tx"><b>Попробуй режим «Зал» прямо сейчас</b><small>Открой одну тренировку как внутри клуба: видео упражнения, настройка тренажёра, таймер подходов. Бесплатно, без регистрации.</small></span><span class="tz-go">Открыть →</span></a></div>
       <img src="img/zal_ex.jpg" alt="Режим зал">
     </div>
   </div>
